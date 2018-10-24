@@ -1,0 +1,878 @@
+/* styles.css -- EtherEx frontend
+ *
+ * Copyright (c) 2014 EtherEx
+ *
+ * This software may be modified and distributed under the terms
+ * of the MIT license.  See the LICENSE file for details.
+ */
+
+@text-light: rgb(163, 163, 163);
+@light: rgb(193, 193, 193);
+@lighter: rgb(230, 230, 230);
+@lightest: rgb(250, 250, 250);
+@orange: rgb(242, 76, 24);
+@purple: rgb(99, 102, 141);
+@purple-dark: rgb(94, 97, 136);
+@purple-light: rgb(104, 107, 146);
+@primary-blue: rgb(22, 27, 48);
+@dark-blue: rgb(19, 21, 37);
+
+html, body, #app {
+  height: 100%;
+  min-height: 100%;
+}
+
+a {
+  color: @orange;
+
+  &:hover,
+  &:focus {
+    color: darken(@orange, 15%);
+    text-decoration: none;
+  }
+}
+
+.p {
+  margin-bottom: 10.5px;
+}
+
+.full-height {
+  height: 100%;
+  min-height: 100%;
+}
+
+.flex-height {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  min-height: 100%;
+  width: 100%;
+}
+
+#logo > a > span {
+  background: url(assets/Demark-logo.png) no-repeat center;
+  background-size: 120px;
+  display: block;
+  height: 100px;
+  width: 100%;
+  margin: 0;
+}
+
+#top-bar {
+  background-color: #fff;
+  border-bottom: 1px rgb(246, 246, 246) solid;
+  height: 100px;
+}
+
+.theme-darkly #top-bar {
+  background-color: #222;
+}
+
+.theme-superhero #top-bar {
+  background-color: #2b3e50;
+}
+
+.sub-bar {
+  padding-top: 30px;
+  text-align: right;
+
+  h4 {
+    display: inline-block;
+    color: @orange;
+  }
+}
+
+.top-bar-text {
+  line-height: 100px;
+
+  i {
+    display: inline !important;
+  }
+
+  .btn:hover {
+    color: rgb(19, 21, 37);
+  }
+}
+
+.theme-darkly #top-bar .nav a,
+.theme-superhero #top-bar .nav a {
+  color: #fff;
+}
+
+.top-btn {
+  margin-right: 10px;
+  margin-top: 28px;
+
+  &.pull-right {
+    margin-right: 0;
+  }
+
+  button {
+    border: 0;
+  }
+}
+
+.top-btn-sm {
+  position: absolute;
+  right: 2px;
+  top: 2px;
+
+  .pull-right {
+    margin-right: 10px;
+  }
+
+  .pull-right:first-child {
+    margin-right: 0;
+  }
+}
+
+.top-btn-xs {
+  margin-top: 3px;
+}
+
+.top-link {
+  margin-top: 40px;
+
+  a {
+    color: rgb(48, 43, 98);
+  }
+
+  a:hover,
+  a:focus,
+  a.active {
+    color: @orange;
+    text-decoration: none;
+  }
+}
+
+#side-nav {
+  background-color: @primary-blue;
+  margin-bottom: 0;
+  padding-bottom: 30px;
+
+  li:first-child > a {
+    padding: 0;
+  }
+
+  .navbar-nav,
+  .nav-stacked > li {
+    display: block;
+    float: none;
+    list-style: none;
+  }
+
+  i {
+    display: inline-block;
+    width: 2em;
+  }
+
+  a {
+    padding-left: 30px;
+  }
+
+  &.navbar-default .navbar-nav > .active > a,
+  &.navbar-default .navbar-nav > .active > a:hover,
+  &.navbar-default .navbar-nav > .active > a:focus,
+  &.navbar-default .navbar-nav > li > a.active,
+  .nav > li > a:hover,
+  .nav > li > a:focus {
+    background: transparent;
+    color: #fff;
+  }
+
+  .nav > li:first-child {
+    margin-bottom: 30px;
+  }
+}
+
+#side-bar {
+  background-color: @dark-blue;
+
+  .network {
+    background-color: rgb(19, 21, 37);
+    border-color: rgb(19, 21, 37);
+    color: rgb(190, 203, 213);
+  }
+
+  .network .panel-heading {
+    background-color: rgb(19, 21, 37);
+    border-color: rgb(19, 21, 37);
+    color: rgb(190, 203, 213);
+    text-transform: uppercase;
+  }
+
+  .network .panel-body {
+    padding-top: 0;
+  }
+
+  .network-label {
+    color: rgb(100, 107, 129);
+  }
+}
+
+#content:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+  left: 0;
+  background-color: @lightest;
+  width: 83.33333333%;
+}
+
+.theme-darkly #content:before {
+  background-color: #464545;
+}
+
+.theme-superhero #content:before {
+  background-color: #4e5d6c;
+}
+
+.inner-content {
+  padding-top: 30px;
+  padding-bottom: 30px;
+
+  .container {
+    margin-bottom: 30px;
+    width: 100%;
+  }
+}
+
+h4.page-title {
+  margin: 0 0 30px;
+}
+
+.navbar-collapse {
+  overflow: hidden;
+}
+
+.text-light {
+  color: @text-light;
+}
+
+.text-orange {
+  color: @orange;
+}
+
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 5.5em;
+}
+
+.text-overflow {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  width: 100%;
+  white-space: nowrap !important;
+}
+
+.btn-primary {
+  background-color: @purple;
+  border-color: @purple;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: @purple-dark;
+  border-color: @purple-dark;
+}
+
+.btn-balance {
+  border: 0;
+  padding-left: 15px;
+  padding-right: 15px;
+  text-align: left;
+}
+
+.chatbox {
+  bottom: -20px;
+  right: 1px;
+  position: fixed;
+  text-align: left;
+  z-index: 999;
+}
+
+.chatbox-messages {
+  height: 200px;
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
+.chatbox .form-group {
+  margin-bottom: 0;
+}
+
+.alert h3 {
+  margin-top: 5px;
+}
+
+.range-select {
+  margin-top: 2px;
+}
+
+.range-scroller {
+
+  button,
+  button:hover,
+  button:focus {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    color: @primary-blue;
+  }
+}
+
+.trade-form.panel-default,
+.trade-form .panel,
+.trade-form .panel-heading {
+  background-color: #fff;
+  border-color: #fff;
+  padding-top: 10px;
+}
+
+.trade-form .col-md-6:first-child {
+  border-right: 1px solid @lighter;
+  margin-right: -1px;
+}
+
+.input-group .form-control {
+  border-right: 0;
+}
+
+textarea,
+input[type="text"],
+input[type="email"],
+input[type="search"],
+input[type="password"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+input[type="range"] {
+  background-color: transparent;
+
+  &:focus {
+    box-shadow: none;
+    outline: none;
+  }
+  &::-webkit-slider-runnable-track {
+    -webkit-appearance: none;
+    background: @lighter;
+  }
+  &::-moz-range-track {
+    border: none;
+    background: @lighter;
+  }
+}
+
+/*
+.input-group-addon {
+  color: rgb(150, 150, 150);
+  background-color: transparent;
+  border: 2px solid #dce4ec;
+  border-left: 0;
+  position: relative;
+}
+
+.input-group-addon:before {
+  background-color: @lighter;
+  content: '';
+  height: 15px;
+  left: 0;
+  position: absolute;
+  top: 13px;
+  width: 1px;
+}
+*/
+
+.trade-list {
+  background-color: #fff;
+}
+
+.trade-list h4 {
+  margin-top: 15px;
+}
+
+table .btn-group a:not(.btn) {
+  text-decoration: none;
+}
+
+thead > tr,
+.underline {
+  border-bottom: 1px solid @lighter;
+}
+
+.account-row {
+  padding: 10px 0;
+}
+
+th {
+  color: @light;
+  font-weight: normal;
+}
+
+th.trade-op,
+td.trade-op {
+  width: 1.5em;
+
+  a:hover,
+  a:focus {
+    color: @primary-blue;
+  }
+}
+
+tr.trade-new td {
+  background-color: #e74c3c !important;
+}
+tr.trade-new:hover td {
+  background-color: #d62c1a !important;
+}
+
+tr.trade-pending td {
+  background-color: #f39c12 !important;
+}
+tr.trade-pending:hover td {
+  background-color: #c87f0a !important;
+}
+
+tr.trade-filling td {
+  background-color: @purple !important; /* #3498db !important; */
+  color: #fff;
+}
+tr.trade-filling:hover td {
+  background-color: @purple-light !important; /* #217dbb !important; */
+  color: #fff;
+}
+
+tr.trade-success td {
+  background-color: #00bc8c !important;
+  color: #fff;
+}
+tr.trade-success:hover td {
+  background-color: #008966 !important;
+  color: #fff;
+}
+
+tr.disabled td {
+  opacity: 0.5;
+}
+
+@media (max-width: 1199px) {
+  #side-nav a {
+    padding-left: 0;
+  }
+
+  .top-bar-text {
+    line-height: 50px;
+  }
+}
+
+
+@media (max-width: 1023px) {
+  .flex-height > div:first-child {
+    min-width: 140px;
+  }
+  .flex-height > div:last-child {
+    width: 100%;
+  }
+
+  #side-nav a {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+@media (max-width: 991px) {
+  .sub-bar {
+    background-color: #fff;
+  }
+
+  .sub-bar .col-md-12 {
+    float: left;
+    text-align: center;
+    width: 33.33333333%;
+  }
+
+  #content:before {
+    width: 100% !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .flex-height > div:first-child {
+    min-width: 44px;
+  }
+
+  #logo > a > span {
+    background-size: 60px;
+  }
+
+  #side-nav {
+    .navbar-nav {
+      margin-top: 0;
+    }
+    a {
+      text-align: center;
+    }
+  }
+
+  .navbar-toggle {
+    display: block;
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+    width: 43px;
+  }
+}
+
+
+/* Bootstrap overrides */
+.theme-flatly,
+.theme-flatly .text-primary,
+.theme-flatly legend,
+.theme-flatly output,
+.theme-flatly .form-control,
+.theme-flatly .btn-primary .badge,
+.theme-flatly .input-group-addon,
+.theme-flatly .nav-tabs > li.active > a,
+.theme-flatly .nav-tabs > li.active > a:hover,
+.theme-flatly .nav-tabs > li.active > a:focus,
+.theme-flatly .nav-pills > li > a,
+.theme-flatly .list-group-item.active > .badge,
+.theme-flatly .nav-pills > .active > a > .badge,
+.theme-flatly .thumbnail .caption,
+.theme-flatly .panel-default > .panel-heading,
+.theme-flatly .panel-primary > .panel-heading .badge,
+.theme-flatly .navbar-default .badge,
+.theme-flatly .text-primary,
+.theme-flatly .text-primary:hover,
+.theme-flatly .panel-default .close,
+.theme-flatly .modal .close,
+.theme-flatly .popover {
+  color: @primary-blue;
+}
+
+.theme-flatly .form-control:focus {
+  color: @orange;
+}
+
+.theme-flatly .bg-primary,
+.theme-flatly .dropdown-menu > li > a:hover,
+.theme-flatly .dropdown-menu > li > a:focus,
+.theme-flatly .dropdown-menu > .active > a,
+.theme-flatly .dropdown-menu > .active > a:hover,
+.theme-flatly .dropdown-menu > .active > a:focus,
+.theme-flatly .nav-pills > li.active > a,
+.theme-flatly .nav-pills > li.active > a:hover,
+.theme-flatly .nav-pills > li.active > a:focus,
+.theme-flatly .nav-pills > li > a.active,
+.theme-flatly .nav-pills > li > a.active:hover,
+.theme-flatly .nav-pills > li > a.active:focus,
+.theme-flatly .navbar-default,
+.theme-flatly .label-primary,
+.theme-flatly .badge,
+.theme-flatly .progress-bar,
+.theme-flatly .panel-default > .panel-heading .badge {
+  background-color: @primary-blue;
+  color: #fff;
+}
+
+.theme-flatly .panel-primary > .panel-heading,
+.theme-flatly .list-group-item.active,
+.theme-flatly .list-group-item.active:hover,
+.theme-flatly .list-group-item.active:focus {
+  background-color: @primary-blue;
+  border-color: @primary-blue;
+}
+
+.theme-flatly .panel-primary {
+  border-color: @primary-blue;
+}
+
+.theme-flatly .panel-primary > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: @primary-blue;
+}
+
+.theme-flatly .panel-primary > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: @primary-blue;
+}
+
+.theme-darkly a,
+.navbar-default .navbar-nav > li > a {
+  color: #ccc; /*#0ce3ac;*/
+}
+
+@media (min-width: 768px) {
+  .navbar-nav > li > a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }
+}
+
+.theme-darkly a:hover,
+.theme-darkly a:focus,
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: #fff; /*#0ce3ac;*/
+  text-decoration: none;
+}
+
+.panel-title a:hover,
+.panel-title a:focus {
+  color: inherit;
+  text-decoration: none;
+}
+
+.navbar-default .navbar-brand:hover,
+.navbar-default .navbar-brand:focus {
+  color: #eee; /*#00bc8c*/
+}
+
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus {
+  color: #ddd; /*#00bc8c*/
+}
+
+.theme-flatly .navbar-default .navbar-toggle {
+  color: #fff;
+}
+
+.theme-flatly .nav-pills > li > a:hover,
+.theme-flatly .nav-pills > li > a:focus {
+  color: inherit;
+}
+
+.theme-flatly .nav-pills > li.active > a,
+.theme-flatly .nav-pills > li.active > a:hover,
+.theme-flatly .nav-pills > li.active > a:focus {
+  color: #fff;
+}
+
+@media (max-width: 767px) {
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover,
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+    color: #ddd; /*#00bc8c*/
+  }
+}
+
+.navbar-default .navbar-link:hover {
+  color: #ddd; /*#00bc8c*/
+}
+
+.navbar-default .btn-link:hover,
+.navbar-default .btn-link:focus {
+  color: #ddd; /*#00bc8c*/
+}
+
+
+/* Trade animations */
+.trades-appear {
+  opacity: 0.01;
+  transition: opacity .5s ease-in;
+}
+.trades-appear.trades-appear-active {
+  opacity: 1;
+}
+
+.trades-enter {
+  opacity: 0.01;
+  transition: opacity .5s ease-in;
+}
+.trades-enter.trades-enter-active {
+  opacity: 1;
+}
+
+.trades-leave {
+  opacity: 1;
+  transition: opacity .5s ease-in;
+}
+.trades-leave.trades-leave-active {
+  opacity: 0.01;
+}
+
+
+/* Chart */
+.axis path,
+.axis line {
+    fill: none;
+    stroke: #ccc;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    fill: #888;
+}
+
+text.symbol,
+g.symbol {
+    fill: #BBBBBB;
+}
+
+path {
+    fill: none;
+    stroke-width: 1;
+}
+
+path.candle {
+    stroke: #000000;
+}
+
+path.candle.body {
+    stroke-width: 0;
+}
+
+path.candle.up {
+    fill: #18BC9C;
+    stroke: #18BC9C;
+}
+
+path.candle.down {
+    fill: #E74C3C;
+    stroke: #E74C3C;
+}
+
+.closeAnnotation {
+  font-size: 15px;
+  opacity: 1;
+}
+
+.closeAnnotation.up path {
+  fill: #18BC9C;
+}
+
+.closeAnnotation.down path {
+  fill: #E74C3C;
+}
+
+.closeAnnotation.down text {
+  fill: #fff;
+  stroke: #fff;
+  stroke-width: 0;
+}
+
+path.volume {
+    fill: #DDDDDD;
+}
+
+.indicator-plot path.line {
+    fill: none;
+    stroke-width: 1;
+}
+
+.ma-0 path.line {
+    stroke: #1f77b4;
+}
+
+.ma-1 path.line {
+    stroke: #aec7e8;
+}
+
+.ma-2 path.line {
+    stroke: #ff7f0e;
+}
+
+path.macd {
+    stroke: #DDAA44;
+}
+
+path.signal {
+    stroke: #FF9999;
+}
+
+path.zero {
+    stroke: #BBBBBB;
+    stroke-dasharray: 0;
+    stroke-opacity: 0.5;
+}
+
+path.difference {
+    fill: #BBBBBB;
+    opacity: 0.5;
+}
+
+path.rsi {
+    stroke: lightblue;
+}
+
+path.overbought, path.oversold {
+    stroke: #FF9999;
+    stroke-dasharray: 5, 5;
+}
+
+path.middle, path.zero {
+    stroke: #BBBBBB;
+    stroke-dasharray: 5, 5;
+}
+
+.analysis path, .analysis circle {
+    stroke: #888;
+    stroke-width: 0.8;
+}
+
+.trendline circle {
+    stroke-width: 0;
+    display: none;
+}
+
+.mouseover .trendline path {
+    stroke-width: 1.2;
+}
+
+.mouseover .trendline circle {
+    stroke-width: 1;
+    display: inline;
+}
+
+.dragging .trendline path, .dragging .trendline circle {
+    stroke: @orange;
+}
+
+.interaction path, .interaction circle {
+    pointer-events: all;
+}
+
+.interaction .body {
+    cursor: move;
+}
+
+.trendlines .interaction .start, .trendlines .interaction .end {
+    cursor: nwse-resize;
+}
+
+.supstance path {
+    stroke-dasharray: 2, 2;
+}
+
+.theme-flatly .supstance path {
+  stroke: @primary-blue;
+}
+
+.supstances .interaction path {
+  pointer-events: all;
+  cursor: ns-resize;
+}
+
+.mouseover .supstance path {
+    stroke-width: 1.5;
+}
+
+.dragging .supstance path {
+    stroke: @orange;
+}
+
+.crosshair {
+    cursor: crosshair;
+}
+
+.crosshair path.wire {
+    stroke: #DDDDDD;
+    stroke-dasharray: 1, 1;
+}
+
+.crosshair .axisannotation path {
+    fill: #DDDDDD;
+}
