@@ -1,7 +1,7 @@
 {
-  "name": "EtherEx",
+  "name": "Demark",
   "version": "0.9.11",
-  "description": "EtherEx frontend",
+  "description": "Demark frontend",
   "main": "app/app.jsx",
   "scripts": {
     "build": "grunt build",
@@ -18,15 +18,15 @@
   },
   "keywords": [
     "Ethereum",
-    "EtherEx"
+    "Demark"
   ],
-  "author": "caktux <caktux@gmail.com>",
+  "author": "Ha Truong and Demark team",
   "license": "MIT",
   "private": true,
   "bugs": {
     "url": "https://github.com/etherex/etherex/issues"
   },
-  "homepage": "https://github.com/etherex/etherex",
+  "homepage": "https://demark-app.herokuapp.com/",
   "devDependencies": {
     "babel-core": "^6.7.6",
     "babel-loader": "^6.2.4",

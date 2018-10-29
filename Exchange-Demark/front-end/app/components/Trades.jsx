@@ -8,9 +8,21 @@ let Trades = React.createClass({
     return (
       <div className="row">
         {!this.props.market.error &&
-          <TradeForm flux={this.props.flux} market={this.props.market} trades={this.props.trades} user={this.props.user} />}
+          <TradeForm 
+            flux={this.props.flux} 
+            market={this.props.market} 
+            trades={this.props.trades} 
+            user={this.props.user} 
+          />
+        }
         {!this.props.market.error &&
-          <TradeList flux={this.props.flux} market={this.props.market} trades={this.props.trades} user={this.props.user} toggleGraph={this.onToggleGraph} />}
+          <TradeList 
+            flux={this.props.flux} 
+            market={this.props.market} 
+            trades={this.props.trades} 
+            user={this.props.user} 
+            toggleGraph={this.onToggleGraph} />
+        }
       </div>
     );
   }

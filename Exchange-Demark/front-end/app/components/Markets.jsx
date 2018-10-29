@@ -3,7 +3,6 @@ import React from 'react';
 import RangeSelect from './RangeSelect';
 import GraphPrice from './GraphPrice';
 import MarketList from './MarketList';
-import SubNavBar from './SubNavBar';
 
 let Markets = React.createClass({
   getInitialState() {
