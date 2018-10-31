@@ -2,7 +2,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {ProgressBar} from 'react-bootstrap';
 
-import AlertDismissable from './AlertDismissable';
+import AlertDismissable from '../AlertDismissable';
 import MarketTable from './MarketTable';
 
 let MarketList = React.createClass({

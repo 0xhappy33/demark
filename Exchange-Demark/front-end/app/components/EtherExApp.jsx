@@ -11,7 +11,7 @@ import NavBar from './NavBar';
 import UserLink from './UserLink';
 import Balance from './Balance';
 import BalanceSub from './BalanceSub';
-import MarketSelect from './MarketSelect';
+// import MarketSelect from './MarketSelect';
 import LastPrice from './LastPrice';
 import RangeSelect from './RangeSelect';
 import GraphPrice from './GraphPrice';
@@ -167,12 +167,12 @@ let EtherExApp = React.createClass({
                         </div>
                       </div>
                       <div className="col-xs-2 col-md-2">
-                        <div className="row">
+                        {/* <div className="row">
                           { !this.state.user.error &&
                             <div className="top-btn pull-right">
                               <MarketSelect flux={this.state.flux} market={this.state.market} user={this.state.user} />
                             </div> }
-                        </div>
+                        </div> */}
                       </div>
                       <div className="col-xs-3 col-md-2">
                         <div className="top-link text-right text-overflow">
@@ -191,7 +191,7 @@ let EtherExApp = React.createClass({
                           { this.state.config.demoMode &&
                             <div className="pull-right">
                               <Button bsStyle="warning" bsSize="xsmall" onClick={this.disableDemoMode}>
-                                DEMO
+                                Rinkeby Test Network
                               </Button>
                             </div> }
                         </div>

@@ -57,14 +57,14 @@ module.exports = {
                       other {is fetching blocks from # peers}}.`,
       "force": "Load anyway",
       "failed": {
-        "header": "EtherEx failed to load",
-        "explain": "There was a problem loading EtherEx.",
-        "assistance": "Visit #etherex on IRC for assitance."
+        "header": "Demark failed to load",
+        "explain": "There was a problem loading Demark.",
+        "assistance": "Visit #Demark on IRC for assitance."
       },
       "connect": {
         "failed": "Ethereum not found",
-        "explain": `EtherEx requires an Ethereum client to be running and current.
-                    EtherEx could not detect a client running which probably means
+        "explain": `Demark requires an Ethereum client to be running and current.
+                    Demark could not detect a client running which probably means
                     it's not installed, running or is misconfigured.`,
         "assistance": `Get help installing and configuring Ethereum`
       },
@@ -166,7 +166,7 @@ module.exports = {
     },
     "config": {
       "title": "Configuration",
-      "current": "EtherEx address",
+      "current": "Demark address",
       "new": "New address",
       "blockfee": "BTC relay block fee",
       "blockfeehelp": "Amount of wei you would charge to other users for the BTC block headers you would successfully store to btcrelay.",

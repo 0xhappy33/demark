@@ -5,7 +5,7 @@ import {Table} from 'react-bootstrap';
 
 import MarketRow from './MarketRow';
 
-let fixtures = require("../js/fixtures");
+let fixtures = require("../../js/fixtures");
 
 let MarketTable = injectIntl(React.createClass({
   getInitialState: function() {
