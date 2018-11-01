@@ -116,6 +116,7 @@ module.exports = {
       "trades": "Trades",
       "markets": "Markets",
       "wallet": "Wallet",
+      "request": "Request Token",
       "tools": "Tools",
       "help": "Help"
     },

@@ -1,0 +1,60 @@
+<div className="row">
+                <div className="col-md-8">
+                    <Form horizontal>
+                            <FormGroup controlId="formControlName">
+                                <Col componentClass={ControlLabel} sm={2}>
+                                    Name
+                                </Col>
+                                <Col sm={10}>
+                                    <FormControl type="text"/>
+                                </Col>
+                            </FormGroup>
+                            <FormGroup controlId="formControlSymbol">
+                                <Col componentClass={ControlLabel} sm={2}>
+                                    Symbol
+                                </Col>
+                                <Col sm={10}>
+                                    <FormControl type="text"/>
+                                </Col>
+                            </FormGroup>
+                            <FormGroup controlId="formControlRating">
+                                <Col componentClass={ControlLabel} sm={2}>
+                                    Rating
+                                </Col>
+                                <Col sm={10}>
+                                    <FormControl type="text"/>
+                                </Col>
+                            </FormGroup>
+                            <FormGroup controlId="formControlDecimals">
+                                <Col componentClass={ControlLabel} sm={2}>
+                                    Decimals
+                                </Col>
+                                <Col sm={10}>
+                                    <FormControl type="text"/>
+                                </Col>
+                            </FormGroup>
+                            <FormGroup controlId="formControlCashier">
+                                <Col componentClass={ControlLabel} sm={2}>
+                                    Cashier
+                                </Col>
+                                <Col sm={10}>
+                                    <FormControl type="text"/>
+                                </Col>
+                            </FormGroup>
+                            <FormGroup controlId="formControlDescription">
+                                <Col componentClass={ControlLabel} sm={2}>
+                                    Description
+                                </Col>
+                                <Col sm={10}>
+                                    <FormControl type="text"/>
+                                </Col>
+                            </FormGroup>
+                            <FormGroup>
+                                <Col smOffset={2} sm={10}>
+                                    <Button type="submit">Request Submit Token</Button>
+                                </Col>
+                            </FormGroup>
+                        </Form>
+                </div>
+                <div className="col-md-4"></div>
+            </div>

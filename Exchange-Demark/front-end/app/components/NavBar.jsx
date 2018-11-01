@@ -30,9 +30,9 @@ let NavBar = injectIntl(React.createClass({
             </Link>
           </li>
           <li>
-            <Link to="/btc/buy" activeClassName="active">
+            <Link to="/request" activeClassName="active">
               <i className="glyphicon glyphicon-import"></i>{' '}
-              <span className="hidden-xs">Submit Token</span>
+              <span className="hidden-xs"><FormattedMessage id="nav.request" /></span>
             </Link>
           </li>
           <li>

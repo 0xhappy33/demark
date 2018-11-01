@@ -1,7 +1,7 @@
 import React from 'react';
 
 // import RangeSelect from './RangeSelect';
-import GraphPrice from './GraphPrice';
+// import GraphPrice from './GraphPrice';
 // import MarketList from './MarketList';
 import Market from './market/Market';
 
