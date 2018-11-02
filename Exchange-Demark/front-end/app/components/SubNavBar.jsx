@@ -8,6 +8,11 @@ let SubNavBar = React.createClass({
     return (
       <Nav bsStyle="pills" className="navbar" role="navigation" aria-label="Secondary" justified>
         <li>
+          <Link to="/markets/token" activeClassName="active">
+            <i className="icon-chart-pie"></i> <FormattedMessage id='sections.sub' />
+          </Link>
+        </li>
+        <li>
           <Link to="/markets/subs" activeClassName="active">
             <i className="icon-chart-pie"></i> <FormattedMessage id='sections.sub' />
           </Link>

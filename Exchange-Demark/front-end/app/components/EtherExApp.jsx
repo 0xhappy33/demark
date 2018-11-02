@@ -71,8 +71,6 @@ let EtherExApp = React.createClass({
     // Load custom styles and overrides
     require("../css/styles.less");
 
-    // Load custom in main and overrides
-    require("../css/main.less");
   },
 
   componentDidMount() {

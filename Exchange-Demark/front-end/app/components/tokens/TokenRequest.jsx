@@ -1,12 +1,12 @@
 import React from 'react';
 
-// import {
-//     Form, Col, ControlLabel,
-//     FormGroup, FormControl
-// } from 'react-bootstrap';
-
-
 let TokenRequest = React.createClass({
+
+    componentWillMount() {
+        // Load custom in main and overrides
+        require("../../css/main.less");
+    },
+
     render() {
         return (
             <div className="form-request">
