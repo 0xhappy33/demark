@@ -113,11 +113,11 @@ module.exports = {
     "nav": {
       "toggle": "Toggle navigation",
       "categories": "Categories",
-      "trades": "Trades",
-      "markets": "Markets",
+      "trades": "Trade",
+      "markets": "Market",
       "wallet": "Wallet",
       "request": "Request Token",
-      "tools": "Tools",
+      "tools": "Tool",
       "help": "Help"
     },
     "sections": {
@@ -210,8 +210,8 @@ module.exports = {
       "empty": "Dont' be cheap to yourself..."
     },
     "send": {
-      "send": "Send",
-      "currency": "Send {currency}"
+      "send": "Fund",
+      "currency": "Transfer {currency}"
     },
     "market": {
       "favorite": "Favorite",
@@ -252,6 +252,14 @@ module.exports = {
       "details": "Details",
       "hash": "Hash",
       "id": "Trade ID"
+    },
+    "txs_events": {
+      "block": "Block #",
+      "from": "From",
+      "to": "To",
+      "exchange": "Exchange",
+      "amount": "Amount",
+      "datetime": "Date / Time"
     },
     "user": {
       "account": "My Account",

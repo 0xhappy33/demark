@@ -27,7 +27,6 @@ let Market = React.createClass({
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    
                                         <tr>
                                             <td className="style-row">1</td>
                                             <td className="style-row color-token-name">DTU Token</td>

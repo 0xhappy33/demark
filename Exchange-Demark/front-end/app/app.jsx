@@ -4,14 +4,13 @@ import ReactDOM from 'react-dom';
 import {Router, Route, IndexRoute, useRouterHistory } from 'react-router';
 import { createHashHistory } from 'history';
 
-import EtherExApp from './components/EtherExApp';
+import DemarkApp from './components/DemarkApp';
 
-import Trades from './components/Trades';
 import Markets from './components/Markets';
+import Trades from './components/Trades';
 import UserDetails from './components/UserDetails';
 import Wallet from './components/Wallet';
 import TokenRequest from './components/tokens/TokenRequest';
-import TokenDetail from './components/tokens/TokenDetail';
 import Tools from './components/Tools';
 import Help from './components/Help';
 import Placeholder from './components/Placeholder';
@@ -75,10 +74,10 @@ const appHistory = useRouterHistory(createHashHistory)({ queryKey: false })
 
 let routes = (
   <Router history={appHistory} createElement={createFluxComponent}>
-    <Route path="/" component={EtherExApp}>
-      <IndexRoute component={Markets} />
-      <Route path="trades" component={Trades} />
+    <Route path="/" component={DemarkApp}>
+      <IndexRoute component={Trades} />
       <Route path="markets" component={Markets} />
+      <Route path="trades" component={Trades} />
       <Route path="markets/token" component={Markets} />
       <Route path="markets/subs" component={Markets} />
       <Route path="markets/xchain" component={Markets} />
@@ -92,7 +91,6 @@ let routes = (
       <Route path="btc/tickets/:ticketId" component={Tickets} /> */}
       <Route path="wallet" component={Wallet} />
       <Route path="request" component={TokenRequest} />
-      <Route path="tokenx" component={TokenDetail} />
       <Route path="tools" component={Tools} />
       <Route path="help" component={Help} />
       <Route path="user" component={UserDetails} />

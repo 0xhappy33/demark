@@ -11,7 +11,7 @@ import NavBar from './NavBar';
 import UserLink from './UserLink';
 import Balance from './Balance';
 import BalanceSub from './BalanceSub';
-// import MarketSelect from './MarketSelect';
+import MarketSelect from './market/MarketSelect';
 import LastPrice from './LastPrice';
 import RangeSelect from './RangeSelect';
 import GraphPrice from './GraphPrice';
@@ -47,7 +47,7 @@ let intlData = require('../js/intlData');
 let messages = flatten(intlData.messages);
 
 
-let EtherExApp = React.createClass({
+let DemarkApp = React.createClass({
   mixins: [StoreWatchMixin("config", "network", "UserStore", "MarketStore", "TradeStore", "TicketStore")],
 
   getInitialState() {
@@ -168,12 +168,12 @@ let EtherExApp = React.createClass({
                         </div>
                       </div>
                       <div className="col-xs-2 col-md-2">
-                        {/* <div className="row">
+                        <div className="row">
                           { !this.state.user.error &&
                             <div className="top-btn pull-right">
                               <MarketSelect flux={this.state.flux} market={this.state.market} user={this.state.user} />
                             </div> }
-                        </div> */}
+                        </div>
                       </div>
                       <div className="col-xs-3 col-md-2">
                         <div className="top-link text-right text-overflow">
@@ -257,4 +257,4 @@ let EtherExApp = React.createClass({
   }
 });
 
-module.exports = EtherExApp;
+module.exports = DemarkApp;

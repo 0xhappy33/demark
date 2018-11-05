@@ -173,7 +173,7 @@ let SubRegister = injectIntl(React.createClass({
         <Input type="text" ref="code"
           label={this.props.intl.formatMessage({id: 'sub.code'})}
           pattern="[A-Z]{3,4}"
-          placeholder="ETX"
+          placeholder="DTUK"
           value={ this.state.code || "" }
           onChange={this.handleChange} />
 

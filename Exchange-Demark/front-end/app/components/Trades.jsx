@@ -1,7 +1,7 @@
 import React from 'react';
 
 import TradeForm from './TradeForm';
-import TradeList from './TradeList';
+// import TradeList from './TradeList';
 
 let Trades = React.createClass({
   render: function() {
@@ -15,14 +15,14 @@ let Trades = React.createClass({
             user={this.props.user} 
           />
         }
-        {!this.props.market.error &&
+        {/* {!this.props.market.error &&
           <TradeList 
             flux={this.props.flux} 
             market={this.props.market} 
             trades={this.props.trades} 
             user={this.props.user} 
             toggleGraph={this.onToggleGraph} />
-        }
+        } */}
       </div>
     );
   }

@@ -83,7 +83,7 @@ let Wallet = injectIntl(React.createClass({
       </div>
     );
   },
-  sendEther() {
+  send() {
     return (
       <div className="panel panel-default">
         <div className="panel-heading">
@@ -117,8 +117,8 @@ let Wallet = injectIntl(React.createClass({
             <Tab eventKey={3} title={ this.props.intl.formatMessage({id: 'send.currency'}, {currency: this.props.market.market.name}) }>
               { this.transfer() }
             </Tab>
-            <Tab eventKey={4} title={ this.props.intl.formatMessage({id: 'send.currency'}, {currency: "ETH"}) }>
-              { this.sendEther() }
+            <Tab eventKey={4} title={ this.props.intl.formatMessage({id: 'send.send'}, {currency: "ETH"}) }>
+              { this.send() }
             </Tab>
           </Tabs>
         </div>
@@ -126,13 +126,13 @@ let Wallet = injectIntl(React.createClass({
           { this.deposit() }
           { this.withdraw() }
           { this.transfer() }
-          { this.sendEther() }
+          { this.send() }
         </div>
 
         <div className="container-fluid">
           <div className="row">
             {(!this.props.market.market.txs.error) &&
-              <TxsList title="Transactions" flux={this.props.flux} market={this.props.market}
+              <TxsList title="Transactions history" flux={this.props.flux} market={this.props.market}
                 txs={this.props.market.market.txs} user={this.props.user} />}
           </div>
         </div>
