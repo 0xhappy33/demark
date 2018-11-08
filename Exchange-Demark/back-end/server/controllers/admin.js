@@ -66,6 +66,7 @@ module.exports = {
         let _rating;
         let _cashier;
         let _address;
+        let _description;
         let reqID = req.params.id;
 
         await Contract.findById(reqID, (err, contract) => {
@@ -75,6 +76,7 @@ module.exports = {
             _symbol = contract.symbol;
             _rating = contract.rating;
             _cashier = contract.cashier;
+            _description = contract.description;
             _approve = contract.approve;
             // console.log(contract);     
         })
@@ -83,7 +85,7 @@ module.exports = {
         }
         else {
             let dtutokenContract = await web3.eth.contract(JSON.parse(contractCompile.interface));
-            _address = await deployContract(dtutokenContract, _name, _decimal, _symbol, _rating, _cashier);
+            _address = await deployContract(dtutokenContract, _name, _decimal, _symbol, _rating, _cashier,_description);
 
             Contract.findByIdAndUpdate(reqID, { $set: { approve: true, address: _address } }, (err, contract) => {
                 if (err) return next(err);

@@ -9,7 +9,8 @@ module.exports = {
                 decimal: req.body.decimal,
                 symbol: req.body.symbol,
                 rating: req.body.rating,
-                cashier: req.body.cashier
+                cashier: req.body.cashier,
+                description : req.body.description
             }
         );
     

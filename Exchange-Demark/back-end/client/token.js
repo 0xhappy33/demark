@@ -14,7 +14,7 @@ async function viewToken() {
     let _rating = parseInt(await dtuInstance.getRating());
     let _cashier = await dtuInstance.getCashier();
     let _totalSupply = await parseInt(dtuInstance.getTotalSuppy());
-
+    let _description = await dtuInstance.getDescription();
     let _bonus = await parseInt(dtuInstance.getBonus());
     let _balance = await parseInt(dtuInstance.getBalance(web3.eth.accounts[0]));
     //set value to some lable 
