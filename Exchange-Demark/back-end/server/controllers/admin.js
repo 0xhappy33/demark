@@ -1,7 +1,8 @@
 const contractCompile = require('../contracts/contractCompile.js');
 const HDWalletProvider = require('truffle-hdwallet-provider')
 const Web3 = require('web3');
-const seeds = "bulb light hero agree drip nephew garbage loud plastic exist day peace";
+//push your seed phases here
+const seeds = "";
 const rinkerby = "https://rinkeby.infura.io/";
 const Contract = require('../models/contract_model');
 
@@ -19,7 +20,7 @@ const getAccount = () => {
         });
     });
 }
-const deployContract = (_tkContract, _name, _decimal, _symbol, _rating, _cashier) => {
+const deployContract = (_tkContract, _name, _decimal, _symbol, _rating, _cashier,_description) => {
     return new Promise(async (resolve, reject) => {
         _tkContract.new(
             _name,
@@ -27,6 +28,7 @@ const deployContract = (_tkContract, _name, _decimal, _symbol, _rating, _cashier
             _symbol,
             _rating,
             _cashier,
+            _description,
             {
                 from: await getAccount(),
                 data: `0x${contractCompile.bytecode}`,
