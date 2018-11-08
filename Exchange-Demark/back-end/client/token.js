@@ -4,25 +4,14 @@ let dtuInstance;
 const myAPI = 'NQNPZCN9E9X3BX5WEGISP84158T55AMW21';
 let _topic;
 
-//click to view a specific token
-async function viewToken() {
+//click to view a specific token from market
+async function viewTokenFromMarket() {
     // let _tokenAddress = value of some textbox;
     dtuInstance = new DTU(_tokenAddress);
-    let _name = await dtuInstance.getName();
-    let _symbol = await dtuInstance.getSymbol();
-    let _decimals = parseInt(await dtuInstance.getDecimals());
-    let _rating = parseInt(await dtuInstance.getRating());
-    let _cashier = await dtuInstance.getCashier();
-    let _totalSupply = await parseInt(dtuInstance.getTotalSuppy());
-    let _description = await dtuInstance.getDescription();
-    let _bonus = await parseInt(dtuInstance.getBonus());
-    let _balance = await parseInt(dtuInstance.getBalance(web3.eth.accounts[0]));
-    //set value to some lable 
-        //lable name .val() =  _name;
-        //lable _symbol .val() _symbol;
-        //...
-    //
-
+}
+//click to view a specific token from comboBox
+async function viewTokenFromComboBox(_tokenAddress) {
+    dtuInstance = new DTU(_tokenAddress);
 }
 
 //click button deposit to this token
@@ -72,9 +61,15 @@ async function reward() {
     // do something after get reward
 }
 
-async function viewEvents(){
-    //this topic depend on which events user choose to view, default topicBuyToken
-    // _topic = sha3.topicBuyToken();
-
-    //send request to etherscan api and get corresponding response 
+function selectBuyToken(){
+    return SHA3.topicBuyToken();
+}
+function selectDeposit(){
+    return SHA3.topicDeposit();
+}
+function selectFundTransfer(){
+    return SHA3.topicFundTransfer();
+}
+function selectTransfer(){
+    return SHA3.topicTransfer();
 }
