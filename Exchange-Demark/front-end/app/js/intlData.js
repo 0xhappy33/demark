@@ -116,6 +116,7 @@ module.exports = {
       "trades": "Trade",
       "markets": "Market",
       "wallet": "Wallet",
+      "account": "Account",
       "request": "Request Token",
       "tools": "Tool",
       "help": "Help"
@@ -210,7 +211,9 @@ module.exports = {
       "empty": "Dont' be cheap to yourself..."
     },
     "send": {
-      "send": "Fund",
+      "send": "Buy",
+      "reward": "Reward",
+      "fund": "Buy",
       "currency": "Transfer {currency}"
     },
     "market": {

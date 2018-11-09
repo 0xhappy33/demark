@@ -10,10 +10,10 @@ let Market = React.createClass({
 
     render () {
         return (
-            <div className="market-table">
+            <div className="market-table panel panel-default">
                 <div className="container-fluid">
-                    <div className="row">
-                        <h3>Token and ICO database</h3>
+                    <div className="row panel-heading">
+                        <h1 className="panel-title">Token and ICO database</h1>
                         {/* {!this.props.market.error && ( */}
                             <hr/>
                             <Table striped condensed hover>

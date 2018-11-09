@@ -2,7 +2,7 @@
 // var TestUtils = React.addons.TestUtils;
 // var expect = require('expect');
 
-describe('EtherEx', function () {
+describe('DemarkEx', function () {
   it('renders without problems', function (done) {
     require('../app');
     done();

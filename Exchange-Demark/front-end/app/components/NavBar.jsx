@@ -3,7 +3,9 @@ import {Link} from 'react-router';
 import {injectIntl, FormattedMessage} from 'react-intl';
 import {Nav, Navbar} from 'react-bootstrap';
 
+
 let NavBar = injectIntl(React.createClass({
+
   render() {
     return (
       <Navbar id="side-nav" role="navigation" aria-label="Primary" fluid>
@@ -24,14 +26,14 @@ let NavBar = injectIntl(React.createClass({
             </Link>
           </li>
           <li>
-            <Link to="/wallet" activeClassName="active">
-              <i className="icon-wallet"></i>{' '}
-              <span className="hidden-xs"><FormattedMessage id="nav.wallet" /></span>
+            <Link to="/user" activeClassName="active">
+              <i className="icon-user"></i>{' '}
+              <span className="hidden-xs"><FormattedMessage id="nav.account" /></span>
             </Link>
           </li>
           <li>
             <Link to="/request" activeClassName="active">
-              <i className="glyphicon glyphicon-import"></i>{' '}
+              <i className="icon-diamond"></i>{' '}
               <span className="hidden-xs"><FormattedMessage id="nav.request" /></span>
             </Link>
           </li>

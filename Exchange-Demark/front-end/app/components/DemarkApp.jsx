@@ -5,6 +5,9 @@ import {IntlProvider, FormattedMessage} from 'react-intl';
 import {OverlayTrigger, Popover, Button} from 'react-bootstrap';
 import flatten from 'flat';
 
+import Progress from "react-progress-2";
+// import _ from "react-progress-2";
+
 import Favicon from './Favicon';
 import LoadingModal from './LoadingModal';
 import NavBar from './NavBar';
@@ -54,7 +57,8 @@ let DemarkApp = React.createClass({
     return {
       showGraph: false,
       theme: 'flatly',
-      category: false
+      category: false,
+      loading: true
     };
   },
 
@@ -71,9 +75,12 @@ let DemarkApp = React.createClass({
     // Load custom styles and overrides
     require("../css/styles.less");
 
+    // require("../../node_modules/react-progress-2/lib/main");
+
   },
 
   componentDidMount() {
+    setTimeout(() => this.setState({ loading: false }), 1500);
     this.props.flux.actions.config.initializeState();
   },
 
@@ -114,6 +121,10 @@ let DemarkApp = React.createClass({
   },
 
   render() {
+    const { loading } = this.state;
+    if(loading) {
+      return null
+    }
     return (
       <IntlProvider locale={i18n.locales[0]} messages={messages} formats={intlData.formats}>
         <div id="wrap" className={"theme-" + this.state.theme + " full-height"}>

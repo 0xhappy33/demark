@@ -135,7 +135,7 @@ let SubSend = injectIntl(React.createClass({
 
         <div className="form-group">
           <Button className={"btn-block" + (this.state.newSend ? " btn-primary" : "")} type="submit" key="send">
-            <FormattedMessage id='send.send' />
+            <FormattedMessage id='send.fund' />
           </Button>
         </div>
 
