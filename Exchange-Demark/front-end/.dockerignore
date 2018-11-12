@@ -1,0 +1,18 @@
+# Git
+.git
+.gitignore
+
+# Build step outputs
+build
+
+# Docker configuration
+Dockerfile
+docker-compose.yml
+
+# NPM dependencies
+node_modules
+
+# Other
+.eslintingore
+.eslintrc
+logging.conf

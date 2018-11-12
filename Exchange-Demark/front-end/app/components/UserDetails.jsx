@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
-
+import { FormattedMessage } from 'react-intl';
 import UserBalances from './UserBalances';
 import UserAddress from './UserAddress';
 import TradeList from './TradeList';
@@ -19,10 +18,10 @@ let UserDetails = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.user.user.id) {
-      var own = {tradeBuys: [], tradeSells: []};
+      var own = { tradeBuys: [], tradeSells: [] };
       if (this.isYours(nextProps)) {
-        own.tradeBuys = _.filter(nextProps.trades.tradeBuys, {'owner': nextProps.user.user.id});
-        own.tradeSells = _.filter(nextProps.trades.tradeSells, {'owner': nextProps.user.user.id});
+        own.tradeBuys = _.filter(nextProps.trades.tradeBuys, { 'owner': nextProps.user.user.id });
+        own.tradeSells = _.filter(nextProps.trades.tradeSells, { 'owner': nextProps.user.user.id });
         own.title = <FormattedMessage id='form.yours' />;
       }
       this.setState({
@@ -51,7 +50,7 @@ let UserDetails = React.createClass({
           <h4 className="page-title">
             <FormattedMessage id='user.account' />
           </h4>
-          { this.state.own ?
+          {this.state.own ?
             <div className="row">
               <div className="col-md-5">
                 <UserBalances flux={this.props.flux} user={this.props.user.user} market={this.props.market.market} />
@@ -60,10 +59,10 @@ let UserDetails = React.createClass({
                 <UserAddress flux={this.props.flux} user={this.props.user.user} market={this.props.market.market} trades={this.state.own} />
               </div>
             </div> :
-            <h5><FormattedMessage id='user.not_found' /></h5> }
+            <h5><FormattedMessage id='user.not_found' /></h5>}
         </div>
-        { this.state.own &&
-          <TradeList flux={this.props.flux} market={this.props.market} trades={this.state.own} user={this.props.user} listOwn={true} /> }
+        {this.state.own &&
+          <TradeList flux={this.props.flux} market={this.props.market} trades={this.state.own} user={this.props.user} listOwn={true} />}
       </div>
     );
   }
