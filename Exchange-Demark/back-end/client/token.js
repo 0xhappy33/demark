@@ -17,13 +17,15 @@ async function viewTokenFromComboBox(_tokenAddress) {
 //click button deposit to this token
 async function deposit() {
     //let _amount = amount in some textbox
-    await dtuInstance.deposit(_amount);
+    //let _eth = _eth in some textbox
+    await dtuInstance.deposit(_amount,_eth);
     // do something after deposit
 }
 //click button buyToken
 async function buyToken() {
     //let _amount = amount in some textbox
-    await dtuInstance.buyToken(_amount);
+    //let _eth = _eth in some textbox
+    await dtuInstance.buyToken(_amount,_eth);
     //lable balance increase after buyToken,
     let _balance = await parseInt(dtuInstance.getBalance(web3.eth.accounts[0]));
     //lable totalSupply increase after buyToken,
