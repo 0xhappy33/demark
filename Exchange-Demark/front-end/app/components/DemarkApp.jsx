@@ -152,9 +152,9 @@ let DemarkApp = React.createClass({
                           {this.state.user.error}
                         </div>
                       </div> }
-                    <div className="visible-lg">
+                    {/* <div className="visible-lg">
                       <Network flux={this.state.flux} />
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 <div className="col-md-10" id="content">
