@@ -128,6 +128,7 @@ const _getBalance = async (_instance,_address) => {
     });
 }
 
+
 class DTUContract {
     constructor(_address) {
         this.address = _address;
