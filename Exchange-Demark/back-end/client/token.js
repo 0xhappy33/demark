@@ -74,8 +74,5 @@ function selectFundTransfer(){
 }
 function selectTransfer(){
     return SHA3.topicTransfer();
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> c93d7c678d3f22fa969c7a1a3045d6ea14bdb531
+
