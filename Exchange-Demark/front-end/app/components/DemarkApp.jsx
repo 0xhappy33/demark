@@ -5,7 +5,7 @@ import {IntlProvider, FormattedMessage} from 'react-intl';
 import {OverlayTrigger, Popover, Button} from 'react-bootstrap';
 import flatten from 'flat';
 
-import Progress from "react-progress-2";
+// import Progress from "react-progress-2";
 // import _ from "react-progress-2";
 
 import Favicon from './Favicon';
@@ -18,7 +18,8 @@ import MarketSelect from './market/MarketSelect';
 import LastPrice from './LastPrice';
 import RangeSelect from './RangeSelect';
 import GraphPrice from './GraphPrice';
-import Network from './Network';
+// import Network from './Network';
+import Web3 from 'web3';
 
 let fixtures = require('../js/fixtures');
 
@@ -49,20 +50,24 @@ if (window.Intl) {
 let intlData = require('../js/intlData');
 let messages = flatten(intlData.messages);
 
+// let accountx = '';
 
 let DemarkApp = React.createClass({
-  mixins: [StoreWatchMixin("config", "network", "UserStore", "MarketStore", "TradeStore", "TicketStore")],
+  mixins:[StoreWatchMixin("config", "network", "UserStore", "MarketStore", "TradeStore", "TicketStore")],
 
   getInitialState() {
     return {
       showGraph: false,
       theme: 'flatly',
       category: false,
-      loading: true
+      loading: true,
+      account: ''
+      // handleSetState: null
     };
   },
-
+  
   componentWillMount() {
+   
     // Load theme preference
     var theme = localStorage.theme;
     if (!_.includes(['darkly', 'flatly', 'superhero'], theme))
@@ -76,12 +81,37 @@ let DemarkApp = React.createClass({
     require("../css/styles.less");
 
     // require("../../node_modules/react-progress-2/lib/main");
-
+    
   },
 
   componentDidMount() {
     setTimeout(() => this.setState({ loading: false }), 1500);
     this.props.flux.actions.config.initializeState();
+    
+    window.addEventListener('load', function () {
+      if (typeof web3 !== 'undefined') {        
+          window.web3 = new Web3(window.web3.currentProvider)
+  
+          if (window.web3.currentProvider.isMetaMask === true) {
+              window.web3.eth.getAccounts((error, accounts) => {
+                  if (accounts.length == 0) {
+                    // this.console.log("Don't find out any account");
+                  }
+                  else {
+                    // state.account = accounts[0];
+                    // this.console.log(accounts[0]);
+                    // this.console.log(this.state.account);
+                    this.console.log("Just find out an account");
+                    this.handleSetState(accounts[0]);                    
+                  }
+              });
+          } else {
+              // Another web3 provider
+          }
+      } else {
+          // No web 3 provider
+      }    
+    });
   },
 
   componentWillReceiveProps(nextProps) {
@@ -91,6 +121,13 @@ let DemarkApp = React.createClass({
         category: category
       });
     }
+    // window.addEventListener('load', this.initWeb3);
+  },
+
+  handleSetState: function(newAccount) {
+    this.setState({
+      account: newAccount
+    });
   },
 
   getStateFromFlux() {
@@ -267,5 +304,6 @@ let DemarkApp = React.createClass({
     );
   }
 });
+
 
 module.exports = DemarkApp;

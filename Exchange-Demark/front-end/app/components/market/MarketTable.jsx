@@ -72,7 +72,7 @@ let MarketTable = injectIntl(React.createClass({
         <h4>{this.props.title}</h4>
         <Table condensed hover responsive striped>
           <thead>
-            <tr>
+            <tr style="cursor:  pointer;">
               <th className="text-center">
                 <FormattedMessage id='market.favorite' />
               </th>
