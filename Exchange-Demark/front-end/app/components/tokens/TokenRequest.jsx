@@ -1,12 +1,76 @@
 import React from 'react';
+//import DtbsConn from '../../actions/DtbsConn';
+//import connectFB from './connectFB';
+import firebase from 'firebase';
 
 let TokenRequest = React.createClass({
-
+    
     componentWillMount() {
         // Load custom in main and overrides
         require("../../css/main.less");
+        firebase.initializeApp({          
+            apiKey: "AIzaSyDrssCstHJYF07bIF1DeIzYZN9SdCgA85U",
+            authDomain: "demark-dtbs.firebaseapp.com",
+            databaseURL: "https://demark-dtbs.firebaseio.com",
+            projectId: "demark-dtbs",
+            storageBucket: "demark-dtbs.appspot.com",
+            messagingSenderId: "518328352226"             
+        });
     },
+    // reload_page()
+    // {
+    //     window.location.reload();
+    // },
+    
+    requestToken(){
+        //let fb = new DtbsConn;
+        var id = firebase.database().ref().child('token').push().key;
+        //let fb = new connectFB();
 
+        var name = document.getElementById('name').value;
+        var symbol = document.getElementById('symbol').value;
+        var rating = document.getElementById('rating').value;
+        var decimals = document.getElementById('decimals').value;
+        var cashier = document.getElementById('cashier').value;
+        var description = document.getElementById('description').value;
+        
+        if(name==''||symbol ==''||rating==''||decimals==''||cashier==''||description=='')
+        {
+            alert('NULL');
+        }
+        else
+        {
+            var data ={
+                name:name,
+                symbol:symbol,
+                rating:rating,
+                decimals:decimals,
+                cashier:cashier,
+                description:description,
+                address:'0x0',
+                approve: false
+            }
+        
+            var updates={};
+            updates['/tokens/' + id]=data;
+            firebase.database().ref().update(updates);
+            // let dbcon = this.db.database().ref('/test');
+            // dbcon.push({
+            //     name:name
+            // })
+            alert('token is requested');
+            console.log(data);
+            this.refs.name.value="";
+            this.refs.symbol.value="";
+            this.refs.rating.value="";
+            this.refs.decimals.value="";
+            this.refs.cashier.value="";
+            this.refs.description.value="";
+        }
+        
+        
+    },
+    
     render() {
         return (
             <div className="form-request panel panel-default">
@@ -24,7 +88,7 @@ let TokenRequest = React.createClass({
                                     <label><b>Name</b></label>
                                 </div>
                                 <div className="col-sm-4">
-                                    <input type="text" placeholder="Name" name="name" className="form-request-input" /> <br /> <br />
+                                    <input type="text" placeholder="Name" name="name" className="form-request-input" id="name" ref="name"/> <br /> <br />
                                 </div>
                             </div>
                             <div className="row">
@@ -32,7 +96,7 @@ let TokenRequest = React.createClass({
                                     <label><b>Symbol</b></label>
                                 </div>
                                 <div className="col-sm-4">
-                                    <input type="text" placeholder="Symbol" name="symbol" className="form-request-input" /> <br /> <br />
+                                    <input type="text" placeholder="Symbol" name="symbol" className="form-request-input" id="symbol" ref="symbol"/> <br /> <br />
                                 </div>
                             </div>
                             <div className="row">
@@ -40,7 +104,7 @@ let TokenRequest = React.createClass({
                                     <label><b>Rating</b></label>
                                 </div>
                                 <div className="col-sm-4">
-                                    <input type="text" placeholder="Rating" name="rating" className="form-request-input" /> <br /> <br />
+                                    <input type="text" placeholder="Rating" name="rating" className="form-request-input" id="rating" ref="rating"/> <br /> <br />
                                 </div>
                             </div>
                             <div className="row">
@@ -48,7 +112,7 @@ let TokenRequest = React.createClass({
                                     <label><b>Decimals</b></label>
                                 </div>
                                 <div className="col-sm-4">
-                                    <input type="text" placeholder="Decimals" name="decimals" className="form-request-input" /> <br /> <br />
+                                    <input type="text" placeholder="Decimals" name="decimals" className="form-request-input" id="decimals" ref="decimals"/> <br /> <br />
                                 </div>
                             </div>
                             <div className="row">
@@ -56,7 +120,7 @@ let TokenRequest = React.createClass({
                                     <label><b>Cashier</b></label>
                                 </div>
                                 <div className="col-sm-4">
-                                    <input type="text" placeholder="Cashier" name="cashier" className="form-request-input" /> <br /> <br />
+                                    <input type="text" placeholder="Cashier" name="cashier" className="form-request-input" id="cashier" ref="cashier"/> <br /> <br />
                                 </div>
                             </div>
                             <div className="row">
@@ -64,14 +128,14 @@ let TokenRequest = React.createClass({
                                     <label><b>Description</b></label>
                                 </div>
                                 <div className="col-sm-4">
-                                    <textarea type="text" placeholder="" className="form-request-input" /> <br /> <br />
+                                    <textarea type="text" placeholder="Description" className="form-request-input" id="description" ref="description"/> <br /> <br />
                                 </div>
                             </div>
                             <div className="row">
                                 <div className="col-sm-2">
                                 </div>
                                 <div className="col-sm-4">
-                                    <button type="submit" className="button-request">Request submit token</button>
+                                    <button type="submit" className="button-request" onClick={this.requestToken}>Request submit token</button>
                                 </div>
                             </div>
                         </div>
@@ -94,9 +158,10 @@ let TokenRequest = React.createClass({
                     </div>
                 </div>
             </div>
-
+            
         );
     }
+    
 });
 
 module.exports = TokenRequest;

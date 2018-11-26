@@ -17,6 +17,25 @@ let tokenPage  = require('./routes/token_route');
 //Import the mongoose module
 let mongoose = require('mongoose');
 
+//import firebase
+//import * as admin from 'firebase-admin';
+
+var admin = require("firebase-admin");
+
+var serviceAccount = require("Exchange-Demark/back-end/server/test-50a0b-firebase-adminsdk-q4w7l-41ff2ef762.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://test-50a0b.firebaseio.com"
+});
+//////////////////////
+
+//open port
+let port = 1234;
+app.listen(port, () => {
+    console.log('serveris up and running on 1234') ;
+});
+
 let app = express();
 
 // view engine setup
