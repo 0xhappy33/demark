@@ -20,6 +20,7 @@ import RangeSelect from './RangeSelect';
 import GraphPrice from './GraphPrice';
 import Network from './Network';
 
+
 let fixtures = require('../js/fixtures');
 
 // Load Intl data
@@ -48,7 +49,6 @@ if (window.Intl) {
 
 let intlData = require('../js/intlData');
 let messages = flatten(intlData.messages);
-
 
 let DemarkApp = React.createClass({
   mixins: [StoreWatchMixin("config", "network", "UserStore", "MarketStore", "TradeStore", "TicketStore")],
@@ -152,9 +152,9 @@ let DemarkApp = React.createClass({
                           {this.state.user.error}
                         </div>
                       </div> }
-                    <div className="visible-lg">
+                    {/* <div className="visible-lg">
                       <Network flux={this.state.flux} />
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 <div className="col-md-10" id="content">
@@ -188,7 +188,7 @@ let DemarkApp = React.createClass({
                       </div>
                       <div className="col-xs-3 col-md-2">
                         <div className="top-link text-right text-overflow">
-                          <UserLink address={ this.state.user.user.id } showIcon={true} />
+                          <UserLink address={ "123" } showIcon={true} />
                         </div>
                         <div className="top-btn-sm">
                           { (this.state.config.network != 1 && !this.state.config.demoMode) &&

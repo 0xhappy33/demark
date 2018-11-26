@@ -15,7 +15,8 @@
     <link href="../../dist/css/style.min.css" rel="stylesheet">
     <link rel= "stylesheet" href="../../src/fontawesome/css/fontawesome.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+    <!-- <script src="https://www.gstatic.com/firebasejs/${JSCORE_VERSION}/firebase.js"></script> -->
 </head>
 
 <body>
@@ -90,12 +91,6 @@
                                 <span class="hide-menu">Dashboard</span>
                             </a>
                         </li>
-                        <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="profile.html" aria-expanded="false">
-                                <i class="far fa-user"></i>
-                                <span class="hide-menu">Profile</span>
-                            </a>
-                        </li>
                          <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="submit-token.html" aria-expanded="false">
                                 <i class="fas fa-upload"></i>
@@ -131,38 +126,30 @@
                             <form class="form-horizontal m-t-30">
                                 <div class="form-group">
                                     <label for="name">Name</label>
-                                    <input type="text" name="name" class="form-control" placeholder="">
+                                    <input type="text" name="name" class="form-control" placeholder="" id="contractName">
                                 </div>
                                 <div class="form-group">
                                     <label>Symbol</label>
-                                    <input type="text" class="form-control" placeholder="DTUK">
+                                    <input type="text" class="form-control" placeholder="DTUK" id="contractSymbol">
                                 </div>
                                 <div class="form-group">
                                     <label>Decimals</label>
-                                    <input type="text" class="form-control" placeholder="">
+                                    <input type="text" class="form-control" placeholder="" id="contractDecimals">
                                 </div>
                                 <div class="form-group">
                                     <label>Rating</label>
-                                    <input type="text" class="form-control" placeholder="">
-                                </div>
-                                <div class="form-group">
-                                    <label>Total supply</label>
-                                    <input type="text" class="form-control" placeholder="">
-                                </div>
-                                <div class="form-group">
-                                    <label>Creator</label>
-                                    <input type="text" class="form-control" placeholder="">
+                                    <input type="text" class="form-control" placeholder="" id="contractRating">
                                 </div>
                                 <div class="form-group">
                                     <label>Cashier</label>
-                                    <input type="text" class="form-control" placeholder="">
+                                    <input type="text" class="form-control" placeholder="" id="contractCashier">
                                 </div>
                                 <div class="form-group">
                                     <label>Description</label>
-                                    <textarea class="form-control" rows="5"></textarea>
+                                    <textarea class="form-control" rows="5" id="contractDescription"></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <button type="submit" class="btn btn-success">Submit token</button>
+                                    <button type="submit" class="btn btn-success" onclick="clickSubmit()">Submit token</button>
                                 </div>
                                 
                                 <!-- <div class="form-group">
@@ -204,6 +191,8 @@
     <script src="../../dist/js/sidebarmenu.js"></script>
     <!--Custom JavaScript -->
     <script src="../../dist/js/custom.min.js"></script>
+    <!--submit Token  -->
+    <script src="../../js/submit-token.js"></script>
 </body>
 
 </html>

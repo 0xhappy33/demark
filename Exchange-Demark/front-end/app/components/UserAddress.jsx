@@ -51,11 +51,11 @@ let UserAddress = injectIntl(React.createClass({
                   ""}
               </DropdownButton>
             </Input>
-            <Input wrapperClassName="col-sm-9 col-sm-offset-3">
+            {/* <Input wrapperClassName="col-sm-9 col-sm-offset-3">
               <div style={{marginLeft: -5}}>
                 <QRCode text={this.props.user.id} />
               </div>
-            </Input>
+            </Input> */}
             <FormControls.Static label={<FormattedMessage id='user.trades' />}
               labelClassName='col-sm-3' wrapperClassName='col-sm-9'>
                 { this.props.trades ?

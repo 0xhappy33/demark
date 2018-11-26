@@ -52,12 +52,12 @@ let UserDetails = React.createClass({
           </h4>
           {this.state.own ?
             <div className="row">
-              <div className="col-md-5">
+              <div className="col-md-12">
                 <UserBalances flux={this.props.flux} user={this.props.user.user} market={this.props.market.market} />
               </div>
-              <div className="col-md-7">
+              {/* <div className="col-md-7">
                 <UserAddress flux={this.props.flux} user={this.props.user.user} market={this.props.market.market} trades={this.state.own} />
-              </div>
+              </div> */}
             </div> :
             <h5><FormattedMessage id='user.not_found' /></h5>}
         </div>
