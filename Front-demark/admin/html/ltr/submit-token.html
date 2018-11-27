@@ -34,7 +34,7 @@
     <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
     <script src="http://code.dappbench.com/browser-solc.min.js" type="text/javascript"></script>
     <!-- <script src="https://www.gstatic.com/firebasejs/${JSCORE_VERSION}/firebase.js"></script> -->
-    
+
 
     <script src="http://code.dappbench.com/browser-solc.min.js" type="text/javascript"></script>
 </head>
@@ -172,9 +172,10 @@
                                     <label>Description</label>
                                     <textarea class="form-control" rows="5" id="contractDescription"></textarea>
                                 </div>
-                                <div class="form-group">
-                                    <button type="submit" class="btn btn-success" onclick="clickSubmit();">Submit token</button>
+                                <div>
+                                    <input type="button" class="btn btn-success" onclick="clickSubmit()" value="Submit Token"/>
                                 </div>
+
                                 <!-- gia vo add them button -->
                                 <div>
                                     <input type="button" value="Save" onclick="save_tokens();" />

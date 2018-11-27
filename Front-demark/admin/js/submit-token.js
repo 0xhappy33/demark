@@ -84,7 +84,7 @@ window.onload = async function () {
 function save_tokens() {
     var uid = '-LSId1KwOtg4jftMxKZE';
     var data = {
-        name: "updates",
+        name: "updates23456",
         symbol: "asd",
         rating: "_contractRating",
         decimals: "_contractDecimals",
@@ -107,6 +107,8 @@ async function clickSubmit() {
     let _contractCashier = $('#contractCashier').val();
     let _contractDescription = $('#contractDescription').val();
 
+    // console.log({_contractName:_contractName,_contractSymbol:_contractSymbol,_contractDecimals:_contractDecimals,_contractRating:_contractRating,_contractCashier:_contractCashier,_contractDescription:_contractDescription});
+    
     let contract = web3.eth.contract(JSON.parse(abi));
 
 
@@ -125,24 +127,22 @@ async function clickSubmit() {
 
             if (res.address) {
                 console.log(res.address);
-                var uid = firebase.database().ref().child('tokens').push().key;
+                var uid = '-LSId1KwOtg4jftMxKZE';
+                // var uid = firebase.database().ref().child('tokens').push().key;
                 var data = {
-                    name: "vl",
-                    symbol: "asd",
-                    rating: "_contractRating",
-                    decimals: "_contractDecimals",
-                    cashier: "_contractCashier",
-                    description: "description",
-                    //address: res.address,
+                    name: _contractName,
+                    symbol: _contractSymbol,
+                    rating: _contractRating,
+                    decimals: _contractDecimals,
+                    cashier: _contractCashier,
+                    description: _contractDescription,
+                    address: res.address,
                     approve: true
                 }
                 var updates = {};
                 updates['/tokens/' + uid] = data;
                 firebase.database().ref().update(updates);
                 alert('test');
-
-
-
 
             }
         });
