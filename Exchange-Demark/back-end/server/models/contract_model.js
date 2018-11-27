@@ -7,6 +7,7 @@ var ContractSchema = new Schema({
     symbol: String,
     rating: Number,
     cashier: String,
+    description : String,
     address: {type : String,default : '0x0'},
     approve: {type : Boolean,default : false}
 });

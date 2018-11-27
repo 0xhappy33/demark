@@ -1,7 +1,8 @@
 const contractCompile = require('../contracts/contractCompile.js');
 const HDWalletProvider = require('truffle-hdwallet-provider')
 const Web3 = require('web3');
-const seeds = "bulb light hero agree drip nephew garbage loud plastic exist day peace";
+//push your seed phases here
+const seeds = "";
 const rinkerby = "https://rinkeby.infura.io/";
 const Contract = require('../models/contract_model');
 

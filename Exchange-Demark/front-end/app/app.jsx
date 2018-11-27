@@ -37,6 +37,10 @@ import TradeActions from './actions/TradeActions';
 import MarketActions from './actions/MarketActions';
 import TicketActions from './actions/btcswap/TicketActions';
 
+//import firebase to project
+//import DtbsConn from './actions/DtbsConn';
+
+
 // Load fonts and icons
 require("./css/fonts.css");
 require("./css/icons.css");
@@ -58,6 +62,7 @@ let actions = {
   market: new MarketActions(),
   trade: new TradeActions(),
   ticket: new TicketActions()
+  //firebase: new FirebaseConn() // add firebase connect to actions
 };
 
 let flux = new Fluxxor.Flux(stores, actions);
