@@ -1,5 +1,3 @@
-import firebase from 'firebase';
-
 
 let abi;
 let byteCode;
@@ -47,11 +45,58 @@ window.onload = async function () {
     }
     currentAccount = await getAccounts();
     console.log(currentAccount);
-    
-    let fileContract = await getData('../contracts/DTUToken.sol');
+
+    let fileContract = await getData('../../contracts/DTUToken.sol');
     let contractCompile = await dataInstance(fileContract);
-    abi = contractCompile.contracts[':Ballot'].interface;
-    byteCode = contractCompile.contracts[':Ballot'].bytecode;
+    abi = contractCompile.contracts[':DTUToken'].interface;
+    byteCode = contractCompile.contracts[':DTUToken'].bytecode;
+    // var config = {
+    //     apiKey: "AIzaSyDvukwTRa5kbRxZENjd5J46_PwALpcryUo",
+    //     authDomain: "test-50a0b.firebaseapp.com",
+    //     databaseURL: "https://test-50a0b.firebaseio.com",
+    //     projectId: "test-50a0b",
+    //     storageBucket: "test-50a0b.appspot.com",
+    //     messagingSenderId: "1002346447366"
+    // };
+    // firebase.initializeApp(config);
+    var databaseRef = firebase.database().ref();
+    var tokensRef = databaseRef.child('/tokens/{id}');
+    var temp;
+    tokensRef.on("child_added", snap => {
+        temp = snap.val();
+    });
+    console.log(tokensRef.key);
+    console.log(firebase.database().ref().child('tokens').push().key);
+     
+    // databaseRef.once('value', function (snapshot) {
+    //     snapshot.forEach(function(childSnapshot) {
+    //         var childKey = childSnapshot.key;
+    //         var childData = childSnapshot.val();
+    //         console.log(childKey);
+    //         console.log(childData);
+    //     });
+    //     var datatemp = snapshot.val();
+    //     console.log(datatemp.name);
+
+    // });
+}
+// ra function moi de vai l
+function save_tokens() {
+    var uid = '-LSId1KwOtg4jftMxKZE';
+    var data = {
+        name: "updates",
+        symbol: "asd",
+        rating: "_contractRating",
+        decimals: "_contractDecimals",
+        cashier: "_contractCashier",
+        description: "description",
+        //address: res.address,
+        approve: true
+    }
+    var updates = {};
+    updates['/tokens/'+uid] = data;
+    firebase.database().ref().update(updates);
+    alert('test');
 }
 
 async function clickSubmit() {
@@ -63,6 +108,7 @@ async function clickSubmit() {
     let _contractDescription = $('#contractDescription').val();
 
     let contract = web3.eth.contract(JSON.parse(abi));
+
 
     contract.new(
         _contractName,
@@ -78,25 +124,26 @@ async function clickSubmit() {
         }, async (err, res) => {
 
             if (res.address) {
-                var data ={
-                    name:_contractName,
-                    symbol:_contractSymbol,
-                    rating:_contractRating,
-                    decimals:_contractDecimals,
-                    cashier:_contractCashier,
-                    description:description,
-                    address:res.address,
+                console.log(res.address);
+                var uid = firebase.database().ref().child('tokens').push().key;
+                var data = {
+                    name: "vl",
+                    symbol: "asd",
+                    rating: "_contractRating",
+                    decimals: "_contractDecimals",
+                    cashier: "_contractCashier",
+                    description: "description",
+                    //address: res.address,
                     approve: true
                 }
-                firebase.initializeApp({          
-                    apiKey: "AIzaSyDrssCstHJYF07bIF1DeIzYZN9SdCgA85U",
-                    authDomain: "demark-dtbs.firebaseapp.com",
-                    databaseURL: "https://demark-dtbs.firebaseio.com",
-                    projectId: "demark-dtbs",
-                    storageBucket: "demark-dtbs.appspot.com",
-                    messagingSenderId: "518328352226"             
-                });
-                
+                var updates = {};
+                updates['/tokens/' + uid] = data;
+                firebase.database().ref().update(updates);
+                alert('test');
+
+
+
+
             }
         });
 
