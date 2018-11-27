@@ -26,6 +26,15 @@ function getData(path) {
         }, 'text');
     })
 }
+
+const getAccounts = async () => {
+    return new Promise((resolve, reject) => {
+        web3.eth.getAccounts((err, res) => {
+            resolve(res[0]);
+        });
+    })
+
+}
 window.onload = async function () {
     if (typeof web3 !== 'undefined') {
         web3 = new Web3(web3.currentProvider);
