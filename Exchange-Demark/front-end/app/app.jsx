@@ -39,11 +39,22 @@ import TicketActions from './actions/btcswap/TicketActions';
 
 //import firebase to project
 //import DtbsConn from './actions/DtbsConn';
-
+import firebase from 'firebase';
+//const firebase = require('firebase');
 
 // Load fonts and icons
 require("./css/fonts.css");
 require("./css/icons.css");
+var config = {
+  apiKey: "AIzaSyDrssCstHJYF07bIF1DeIzYZN9SdCgA85U",
+  authDomain: "demark-dtbs.firebaseapp.com",
+  databaseURL: "https://demark-dtbs.firebaseio.com",
+  projectId:   "demark-dtbs",
+  storageBucket: "demark-dtbs.appspot.com",
+  messagingSenderId: "518328352226"
+};
+firebase.initializeApp(config);
+
 
 
 let stores = {
