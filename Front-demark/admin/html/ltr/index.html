@@ -8,6 +8,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    <!--initialize firebase -->
+    <script src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyDrssCstHJYF07bIF1DeIzYZN9SdCgA85U",
+            authDomain: "demark-dtbs.firebaseapp.com",
+            databaseURL: "https://demark-dtbs.firebaseio.com",
+            projectId: "demark-dtbs",
+            storageBucket: "demark-dtbs.appspot.com",
+            messagingSenderId: "518328352226"
+        };
+        firebase.initializeApp(config);
+    </script>
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="../../assets/images/favicon.png">
     <title>Demark Admin</title>
@@ -17,6 +31,8 @@
     <link href="../../dist/css/style.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
         crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+    <script src="http://code.dappbench.com/browser-solc.min.js" type="text/javascript"></script>
 </head>
 
 <body>
@@ -123,7 +139,7 @@
                                 <h4 class="card-title">List tokens</h4>
                             </div>
                             <div class="table-responsive">
-                                <table class="table table-hover">
+                                <table id="tbl_tokens" class="table table-hover">
                                     <thead>
                                         <tr>
                                             <th class="border-top-0">ID TOKEN</th>
@@ -145,7 +161,8 @@
                                             <td class="txt-oflo">0</td>
                                             <td class="txt-oflo">0xA75B2d7b277919c224B198743C88EfE608BA8c1e</td>
                                             <td><span class="txt-oflo">A token for tuition fees at Duy Tan university</span></td>
-                                            <td><input type="button" class="btn btn-success" onclick="clickDeploy()" value="Deploy Token"/></td>
+                                            <td><input type="button" class="btn btn-success" onclick="clickDeploy()"
+                                                    value="Deploy Token" /></td>
                                         </tr>
 
                                     </tbody>
@@ -175,6 +192,39 @@
                     <script src="../../assets/libs/chartist/dist/chartist.min.js"></script>
                     <script src="../../assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
                     <script src="../../dist/js/pages/dashboards/dashboard1.js"></script>
+                    <script>
+                        var databaseRef = firebase.database().ref('tokens/');
+                        var tblTokens = document.getElementById('tbl_tokens');
+                        var index = 1;
+                        databaseRef.once('value', function (snapshot) {
+                            snapshot.forEach(function (childSnapshot) {
+                                var childKey = childSnapshot.key;
+                                var childData = childSnapshot.val();
+
+                                var row = tblTokens.insertRow(index);
+                                var cellId = row.insertCell(0);
+                                var cellName = row.insertCell(1);
+                                var cellSymbol = row.insertCell(2);
+                                var cellRating = row.insertCell(3);
+                                var cellDecimals = row.insertCell(4);
+                                
+                                var cellAddress = row.insertCell(5);
+                                var cellDescription = row.insertCell(6);
+
+                                cellId.appendChild(document.createTextNode(childKey));
+                                cellName.appendChild(document.createTextNode(childData.name));
+                                cellSymbol.appendChild(document.createTextNode(childData.symbol));
+                                cellRating.appendChild(document.createTextNode(childData.rating));
+                                cellDecimals.appendChild(document.createTextNode(childData.decimals));
+                                cellAddress.appendChild(document.createTextNode(childData.address));
+                                cellDescription.appendChild(document.createTextNode(childData.description));
+
+                                index++;
+                            });
+
+                        });
+
+                    </script>
 </body>
 
 </html>
