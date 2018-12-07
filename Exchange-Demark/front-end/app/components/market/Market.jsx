@@ -1,12 +1,50 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
+import firebase from 'firebase';
 
 let Market = React.createClass({
-
+    
     componentWillMount() {
         // Load custom in main and overrides
         require("../../css/main.less");
+        // firebase.initializeApp({          
+        //     apiKey: "AIzaSyDrssCstHJYF07bIF1DeIzYZN9SdCgA85U",
+        //     authDomain: "demark-dtbs.firebaseapp.com",
+        //     databaseURL: "https://demark-dtbs.firebaseio.com",
+        //     projectId: "demark-dtbs",
+        //     messagingSenderId: "518328352226"             
+        // });
+        
     },
+
+    readFromDtbsToTable(){
+        console.log("nghien oc cho");
+        var index =1;
+        var databaseRef = firebase.database().ref("/tokens");
+        databaseRef.once('value', function(snapshot){
+            snapshot.forEach(function (childSnapshot){
+                var childKey = childSnapshot.key;
+                var childData = childSnapshot.val();
+
+                var row = document.getElementById('tbl_tokens_list');
+                var cellId = row.insertCell(0);
+                var cellName = row.insertCell(1);
+                var cellSymbol = row.insertCell(2);
+                var cellAddress = row.insertCell(3);
+                var cellDescription = row.insertCell(4);
+
+                cellId.appendChild(document.createTextNode(childKey));
+                cellName.appendChild(document.createTextNode(childData.name));
+                cellSymbol.appendChild(document.createTextNode(childData.symbol));
+                cellAddress.appendChild(document.createTextNode(childData.address));
+                cellDescription.appendChild(document.createTextNode(childData.description));
+                
+                index++;
+
+            });
+        });
+    },
+
 
     render () {
         return (
@@ -16,7 +54,7 @@ let Market = React.createClass({
                         <h1 className="panel-title">Token and ICO database</h1>
                         {/* {!this.props.market.error && ( */}
                             <hr/>
-                            <Table striped condensed hover>
+                            <Table id="tbl_tokens_list" striped condensed hover>
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -43,6 +81,9 @@ let Market = React.createClass({
                                         <td className="style-row">Tokens for tuition fees at Technology DN universtiy</td>
                                     </tr>
                                 </tbody>
+                                <div>
+                                    
+                                </div>
                             </Table>
                         {/* )} */}
                     </div>

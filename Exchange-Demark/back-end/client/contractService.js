@@ -65,6 +65,14 @@ const _getDescription = async (_instance) => {
         });
     });
 }
+const _getDescription = async (_instance) => {
+    return new Promise((resolve, reject) => {
+        _instance.description.call((err, data) => {
+            if (err) resolve(err);
+            resolve(data);
+        });
+    });
+}
 const _getName = async (_instance) => {
     return new Promise((resolve, reject) => {
         _instance.name.call((err, data) => {
@@ -175,6 +183,9 @@ class DTUContract {
     }
     deposit(_amount,_eth) {
         _deposit(this.instance,_amount,_eth);
+    }
+    getDescription() {
+        return _getDescription(this.instance);
     }
     getDescription() {
         return _getDescription(this.instance);

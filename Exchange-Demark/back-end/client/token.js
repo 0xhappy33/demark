@@ -75,3 +75,4 @@ function selectFundTransfer(){
 function selectTransfer(){
     return SHA3.topicTransfer();
 }
+

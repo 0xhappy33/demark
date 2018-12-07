@@ -80,24 +80,24 @@ window.onload = async function () {
 
     // });
 }
-// ra function moi de vai l
-function save_tokens() {
-    var uid = '-LSId1KwOtg4jftMxKZE';
-    var data = {
-        name: "updates23456",
-        symbol: "asd",
-        rating: "_contractRating",
-        decimals: "_contractDecimals",
-        cashier: "_contractCashier",
-        description: "description",
-        //address: res.address,
-        approve: true
-    }
-    var updates = {};
-    updates['/tokens/'+uid] = data;
-    firebase.database().ref().update(updates);
-    alert('test');
-}
+// test request token
+// function save_tokens() {
+//     var uid = '-LSId1KwOtg4jftMxKZE';
+//     var data = {
+//         name: "updates23456",
+//         symbol: "asd",
+//         rating: "_contractRating",
+//         decimals: "_contractDecimals",
+//         cashier: "_contractCashier",
+//         description: "description",
+//         //address: res.address,
+//         approve: true
+//     }
+//     var updates = {};
+//     updates['/tokens/'+uid] = data;
+//     firebase.database().ref().update(updates);
+//     alert('test');
+// }
 
 async function clickSubmit() {
     let _contractName = $('#contractName').val();
