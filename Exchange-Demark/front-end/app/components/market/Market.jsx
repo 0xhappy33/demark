@@ -14,7 +14,7 @@ let Market = React.createClass({
         //     projectId: "demark-dtbs",
         //     messagingSenderId: "518328352226"             
         // });
-
+        this.readFromDtbsToTable();
     },
 
     readFromDtbsToTable() {
@@ -26,21 +26,24 @@ let Market = React.createClass({
             snapshot.forEach(function (childSnapshot) {
                 var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
+                if (childData.approve == true) {
+                    var row = tblTokensList.insertRow(index);
+                    var cellId = row.insertCell(0);
+                    var cellName = row.insertCell(1);
+                    var cellSymbol = row.insertCell(2);
+                    var cellAddress = row.insertCell(3);
+                    var cellDescription = row.insertCell(4);
 
-                var row = tblTokensList.insertRow(index);
-                var cellId = row.insertCell(0);
-                var cellName = row.insertCell(1);
-                var cellSymbol = row.insertCell(2);
-                var cellAddress = row.insertCell(3);
-                var cellDescription = row.insertCell(4);
-
-                cellId.appendChild(document.createTextNode(childKey));
-                cellName.appendChild(document.createTextNode(childData.name));
-                cellSymbol.appendChild(document.createTextNode(childData.symbol));
-                cellAddress.appendChild(document.createTextNode(childData.address));
-                cellDescription.appendChild(document.createTextNode(childData.description));
-
+                    cellId.appendChild(document.createTextNode(childKey));
+                    cellName.appendChild(document.createTextNode(childData.name));
+                    cellSymbol.appendChild(document.createTextNode(childData.symbol));
+                    cellAddress.appendChild(document.createTextNode(childData.address));
+                    cellDescription.appendChild(document.createTextNode(childData.description));
+                
                 index++;
+                }
+                
+
 
             });
         });
