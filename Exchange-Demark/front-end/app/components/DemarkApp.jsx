@@ -5,6 +5,8 @@ import {IntlProvider, FormattedMessage} from 'react-intl';
 import {OverlayTrigger, Popover, Button} from 'react-bootstrap';
 import flatten from 'flat';
 
+
+import 'babel-polyfill';
 // import Progress from "react-progress-2";
 // import _ from "react-progress-2";
 
@@ -19,8 +21,11 @@ import LastPrice from './LastPrice';
 import RangeSelect from './RangeSelect';
 import GraphPrice from './GraphPrice';
 // import Network from './Network';
+// import web3 from '../clients/web3';
+
 import Web3 from 'web3';
 
+// import ContractToken from "../clients/factory";
 
 let fixtures = require('../js/fixtures');
 
@@ -51,8 +56,19 @@ if (window.Intl) {
 let intlData = require('../js/intlData');
 let messages = flatten(intlData.messages);
 
+// let accountx = '';
+import web3 from '../clients/web3';
+
 let DemarkApp = React.createClass({
   mixins:[StoreWatchMixin("config", "network", "UserStore", "MarketStore", "TradeStore", "TicketStore")],
+
+  // constructor(props) {
+  //   super(props);
+
+  //   this.state = {
+  //     account: null
+  //   }
+  // },
 
   getInitialState() {
     return {
@@ -61,11 +77,10 @@ let DemarkApp = React.createClass({
       category: false,
       loading: true,
       account: ''
-      // handleSetState: null
     };
   },
   
-  componentWillMount() {
+  async componentWillMount() {
    
     // Load theme preference
     var theme = localStorage.theme;
@@ -79,38 +94,34 @@ let DemarkApp = React.createClass({
     // Load custom styles and overrides
     require("../css/styles.less");
 
-    // require("../../node_modules/react-progress-2/lib/main");
-    
+    require("../../node_modules/react-progress-2/lib/main");
+
+    // try {
+    //   const accounts = await web3.eth.getAccounts();
+    //   this.setState({
+    //     account: accounts[0]
+    //   });
+    //   console.log(this.state.account);
+    // } catch(err) {
+    //   console.log(err);
+    // }
   },
 
-  componentDidMount() {
+  async componentDidMount() {
     setTimeout(() => this.setState({ loading: false }), 1500);
     this.props.flux.actions.config.initializeState();
-    
-    window.addEventListener('load', function () {
-      if (typeof web3 !== 'undefined') {        
-          window.web3 = new Web3(window.web3.currentProvider)
-  
-          if (window.web3.currentProvider.isMetaMask === true) {
-              window.web3.eth.getAccounts((error, accounts) => {
-                  if (accounts.length == 0) {
-                    // this.console.log("Don't find out any account");
-                  }
-                  else {
-                    // state.account = accounts[0];
-                    // this.console.log(accounts[0]);
-                    // this.console.log(this.state.account);
-                    this.console.log("Just find out an account");
-                    this.handleSetState(accounts[0]);                    
-                  }
-              });
-          } else {
-              // Another web3 provider
-          }
-      } else {
-          // No web 3 provider
-      }    
-    });
+
+    if (window.web3 && window.web3.currentProvider.isMetaMask) {
+        window.web3.eth.getAccounts((error, accounts) => {
+          console.log("Log ******************" + accounts[0]);
+          // Do whatever you need to.
+          this.setState({ account : accounts[0]});
+
+      });
+    } else {
+      console.log('MetaMask account not detected :(');
+    }
+       
   },
 
   componentWillReceiveProps(nextProps) {
@@ -120,13 +131,6 @@ let DemarkApp = React.createClass({
         category: category
       });
     }
-    // window.addEventListener('load', this.initWeb3);
-  },
-
-  handleSetState: function(newAccount) {
-    this.setState({
-      account: newAccount
-    });
   },
 
   getStateFromFlux() {
@@ -224,7 +228,7 @@ let DemarkApp = React.createClass({
                       </div>
                       <div className="col-xs-3 col-md-2">
                         <div className="top-link text-right text-overflow">
-                          <UserLink address={ "123" } showIcon={true} />
+                          <UserLink address={ this.state.account } showIcon={true} />
                         </div>
                         <div className="top-btn-sm">
                           { (this.state.config.network != 1 && !this.state.config.demoMode) &&

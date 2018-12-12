@@ -61,6 +61,7 @@ window.onload = async function () {
 }
 
 
+
 async function clickSubmit() {
     let _contractName = $('#contractName').val();
     let _contractSymbol = $('#contractSymbol').val();

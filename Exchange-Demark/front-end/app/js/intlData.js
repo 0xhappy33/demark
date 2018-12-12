@@ -211,7 +211,8 @@ module.exports = {
       "empty": "Dont' be cheap to yourself..."
     },
     "send": {
-      "send": "Buy",
+      "send": "Transfer",
+      "withdraw": "Withdraw",
       "reward": "Reward",
       "fund": "Buy",
       "currency": "Transfer {currency}"

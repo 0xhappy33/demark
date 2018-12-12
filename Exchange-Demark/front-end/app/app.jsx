@@ -17,12 +17,6 @@ import Placeholder from './components/Placeholder';
 import TokenDetail from './components/tokens/TokenDetail';
 import MarketTest from './components/market/MarketTest';
 
-// import Tickets from './components/btcswap/Tickets';
-// import CreateTicket from './components/btcswap/CreateTicket';
-// import ReserveTicket from './components/btcswap/ReserveTicket';
-// import ClaimTicket from './components/btcswap/ClaimTicket';
-// import BtcHelp from './components/btcswap/Help';
-
 import ConfigStore from './stores/ConfigStore';
 import NetworkStore from './stores/NetworkStore';
 import UserStore from './stores/UserStore';
@@ -37,14 +31,22 @@ import TradeActions from './actions/TradeActions';
 import MarketActions from './actions/MarketActions';
 import TicketActions from './actions/btcswap/TicketActions';
 
-//import firebase to project
-//import DtbsConn from './actions/DtbsConn';
+import firebase from 'firebase';
 
 
 // Load fonts and icons
 require("./css/fonts.css");
 require("./css/icons.css");
 
+const config = {
+  apiKey: "AIzaSyDrssCstHJYF07bIF1DeIzYZN9SdCgA85U",
+  authDomain: "demark-dtbs.firebaseapp.com",
+  databaseURL: "https://demark-dtbs.firebaseio.com",
+  projectId:   "demark-dtbs",
+  storageBucket: "demark-dtbs.appspot.com",
+  messagingSenderId: "518328352226"
+};
+firebase.initializeApp(config);
 
 let stores = {
   config: new ConfigStore(),
@@ -78,12 +80,12 @@ flux.setDispatchInterceptor(function(action, dispatch) {
 });
 
 // Opt-out of fugly _k in query string
-const appHistory = useRouterHistory(createHashHistory)({ queryKey: false })
+let appHistory = useRouterHistory(createHashHistory)({ queryKey: false })
 
 let routes = (
   <Router history={appHistory} createElement={createFluxComponent}>
     <Route path="/" component={DemarkApp}>
-      <IndexRoute component={Trades} />
+      <IndexRoute component={Markets} />
       <Route path="markets" component={Markets} />
       <Route path="trades" component={Trades} />
       <Route path="markets/token" component={Markets} />
