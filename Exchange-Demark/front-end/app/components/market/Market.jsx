@@ -3,7 +3,7 @@ import { Table } from 'react-bootstrap';
 import firebase from 'firebase';
 
 let Market = React.createClass({
-
+    
     componentWillMount() {
         // Load custom in main and overrides
         require("../../css/main.less");
@@ -14,11 +14,21 @@ let Market = React.createClass({
         //     projectId: "demark-dtbs",
         //     messagingSenderId: "518328352226"             
         // });
-        this.readFromDtbsToTable();
+        this.readFromDtbsToTable = this.readFromDtbsToTable.bind(this);
+        // this.readFromDtbsToTable();
+        // window.addEventListener('load',this.readFromDtbsToTable);
+
     },
 
+    // componentDidMount()
+    // {
+    //     window.addEventListener('onbeforeunload',() =>{
+    //         this.setState({readFromDtbsToTable});
+    //     });
+    // },
+
     readFromDtbsToTable() {
-        console.log("nghien oc cho");
+        
         var index = 1;
         var tblTokensList = document.getElementById('tbl_tokens_list');
         var databaseRef = firebase.database().ref("/tokens");
@@ -40,10 +50,8 @@ let Market = React.createClass({
                     cellAddress.appendChild(document.createTextNode(childData.address));
                     cellDescription.appendChild(document.createTextNode(childData.description));
                 
-                index++;
+                    index++;
                 }
-                
-
 
             });
         });
