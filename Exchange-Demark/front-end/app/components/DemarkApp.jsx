@@ -5,10 +5,7 @@ import {IntlProvider, FormattedMessage} from 'react-intl';
 import {OverlayTrigger, Popover, Button} from 'react-bootstrap';
 import flatten from 'flat';
 
-
 import 'babel-polyfill';
-// import Progress from "react-progress-2";
-// import _ from "react-progress-2";
 
 import Favicon from './Favicon';
 import LoadingModal from './LoadingModal';
@@ -20,12 +17,6 @@ import MarketSelect from './market/MarketSelect';
 import LastPrice from './LastPrice';
 import RangeSelect from './RangeSelect';
 import GraphPrice from './GraphPrice';
-// import Network from './Network';
-// import web3 from '../clients/web3';
-
-import Web3 from 'web3';
-
-// import ContractToken from "../clients/factory";
 
 let fixtures = require('../js/fixtures');
 
@@ -56,19 +47,14 @@ if (window.Intl) {
 let intlData = require('../js/intlData');
 let messages = flatten(intlData.messages);
 
-// let accountx = '';
-import web3 from '../clients/web3';
+import DTUContract from '../clients/contractService';
+
+const contractAddress = "0xF92bbac6a4e9bD4a9B4b53015ED6A0bc1ca6b1E6";
+
+let DTU = new DTUContract(contractAddress);
 
 let DemarkApp = React.createClass({
   mixins:[StoreWatchMixin("config", "network", "UserStore", "MarketStore", "TradeStore", "TicketStore")],
-
-  // constructor(props) {
-  //   super(props);
-
-  //   this.state = {
-  //     account: null
-  //   }
-  // },
 
   getInitialState() {
     return {
@@ -80,7 +66,7 @@ let DemarkApp = React.createClass({
     };
   },
   
-  async componentWillMount() {
+  componentWillMount() {
    
     // Load theme preference
     var theme = localStorage.theme;
@@ -96,15 +82,6 @@ let DemarkApp = React.createClass({
 
     require("../../node_modules/react-progress-2/lib/main");
 
-    // try {
-    //   const accounts = await web3.eth.getAccounts();
-    //   this.setState({
-    //     account: accounts[0]
-    //   });
-    //   console.log(this.state.account);
-    // } catch(err) {
-    //   console.log(err);
-    // }
   },
 
   async componentDidMount() {
@@ -113,15 +90,11 @@ let DemarkApp = React.createClass({
 
     if (window.web3 && window.web3.currentProvider.isMetaMask) {
         window.web3.eth.getAccounts((error, accounts) => {
-          console.log("Log ******************" + accounts[0]);
-          // Do whatever you need to.
           this.setState({ account : accounts[0]});
-
       });
     } else {
       console.log('MetaMask account not detected :(');
     }
-       
   },
 
   componentWillReceiveProps(nextProps) {

@@ -5,7 +5,7 @@ import { Tabs, Tab } from 'react-bootstrap';
 import Progress from "react-progress-2";
 
 import AlertDismissable from '../AlertDismissable';
-import SendEther from '../SendEther';
+import SubBuyToken from '../SubBuyToken';
 import Reward from '../events/Reward';
 import SubSend from '../SubSend';    
 import SubDeposit from '../SubDeposit';
@@ -102,7 +102,7 @@ let TokenDetail = injectIntl(React.createClass({
                 </div>
                 <div className="panel-body">
                     <div className="container-fluid">
-                        <SendEther flux={this.props.flux} user={this.props.user.user}
+                        <SubBuyToken flux={this.props.flux} user={this.props.user.user}
                             setAlert={this.setAlert} showAlert={this.showAlert} />
                     </div>
                 </div>

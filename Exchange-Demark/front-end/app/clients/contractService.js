@@ -1,37 +1,423 @@
+import web3 from './web3';
+const DTUAbi = [{
+    "constant": true,
+    "inputs": [],
+    "name": "creator",
+    "outputs": [{
+        "name": "",
+        "type": "address"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [],
+    "name": "name",
+    "outputs": [{
+        "name": "",
+        "type": "string"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": false,
+    "inputs": [{
+        "name": "_spender",
+        "type": "address"
+    }, {
+        "name": "_value",
+        "type": "uint256"
+    }],
+    "name": "approve",
+    "outputs": [{
+        "name": "success",
+        "type": "bool"
+    }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [],
+    "name": "totalSupply",
+    "outputs": [{
+        "name": "",
+        "type": "uint256"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [],
+    "name": "getState",
+    "outputs": [{
+        "name": "",
+        "type": "uint256"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": false,
+    "inputs": [],
+    "name": "reward",
+    "outputs": [{
+        "name": "",
+        "type": "bool"
+    }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [{
+        "name": "",
+        "type": "address"
+    }],
+    "name": "isRegister",
+    "outputs": [{
+        "name": "",
+        "type": "bool"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": false,
+    "inputs": [{
+        "name": "_from",
+        "type": "address"
+    }, {
+        "name": "_to",
+        "type": "address"
+    }, {
+        "name": "_value",
+        "type": "uint256"
+    }],
+    "name": "transferFrom",
+    "outputs": [{
+        "name": "success",
+        "type": "bool"
+    }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [{
+        "name": "",
+        "type": "uint256"
+    }],
+    "name": "bonus",
+    "outputs": [{
+        "name": "",
+        "type": "uint256"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": false,
+    "inputs": [{
+        "name": "_amount",
+        "type": "uint256"
+    }],
+    "name": "buyToken",
+    "outputs": [{
+        "name": "",
+        "type": "bool"
+    }],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [],
+    "name": "decimals",
+    "outputs": [{
+        "name": "",
+        "type": "uint256"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": false,
+    "inputs": [{
+        "name": "_amount",
+        "type": "uint256"
+    }],
+    "name": "burn",
+    "outputs": [{
+        "name": "",
+        "type": "bool"
+    }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [{
+        "name": "_owner",
+        "type": "address"
+    }],
+    "name": "balanceOf",
+    "outputs": [{
+        "name": "balance",
+        "type": "uint256"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [],
+    "name": "rating",
+    "outputs": [{
+        "name": "",
+        "type": "uint256"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [],
+    "name": "symbol",
+    "outputs": [{
+        "name": "",
+        "type": "string"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": false,
+    "inputs": [{
+        "name": "_to",
+        "type": "address"
+    }, {
+        "name": "_value",
+        "type": "uint256"
+    }],
+    "name": "transfer",
+    "outputs": [{
+        "name": "success",
+        "type": "bool"
+    }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [{
+        "name": "",
+        "type": "address"
+    }],
+    "name": "totalBonus",
+    "outputs": [{
+        "name": "",
+        "type": "uint256"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [{
+        "name": "",
+        "type": "address"
+    }],
+    "name": "timeRegister",
+    "outputs": [{
+        "name": "",
+        "type": "uint256"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": false,
+    "inputs": [],
+    "name": "deposit",
+    "outputs": [{
+        "name": "",
+        "type": "bool"
+    }],
+    "payable": true,
+    "stateMutability": "payable",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [{
+        "name": "_owner",
+        "type": "address"
+    }, {
+        "name": "_spender",
+        "type": "address"
+    }],
+    "name": "allowance",
+    "outputs": [{
+        "name": "remaining",
+        "type": "uint256"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "constant": true,
+    "inputs": [],
+    "name": "cashier",
+    "outputs": [{
+        "name": "",
+        "type": "address"
+    }],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+}, {
+    "inputs": [{
+        "name": "_name",
+        "type": "string"
+    }, {
+        "name": "_decimals",
+        "type": "uint256"
+    }, {
+        "name": "_symbol",
+        "type": "string"
+    }, {
+        "name": "_unitCan",
+        "type": "uint256"
+    }, {
+        "name": "_cashier",
+        "type": "address"
+    }],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+}, {
+    "anonymous": false,
+    "inputs": [{
+        "indexed": true,
+        "name": "_from",
+        "type": "address"
+    }, {
+        "indexed": true,
+        "name": "_valueSend",
+        "type": "uint256"
+    }, {
+        "indexed": true,
+        "name": "_exchange",
+        "type": "uint256"
+    }],
+    "name": "BuyToken",
+    "type": "event"
+}, {
+    "anonymous": false,
+    "inputs": [{
+        "indexed": true,
+        "name": "_to",
+        "type": "address"
+    }, {
+        "indexed": true,
+        "name": "_valueSend",
+        "type": "uint256"
+    }],
+    "name": "FundTransfer",
+    "type": "event"
+}, {
+    "anonymous": false,
+    "inputs": [{
+        "indexed": true,
+        "name": "_from",
+        "type": "address"
+    }, {
+        "indexed": true,
+        "name": "_valueSend",
+        "type": "uint256"
+    }],
+    "name": "Deposit",
+    "type": "event"
+}, {
+    "anonymous": false,
+    "inputs": [{
+        "indexed": true,
+        "name": "",
+        "type": "address"
+    }, {
+        "indexed": true,
+        "name": "",
+        "type": "address"
+    }, {
+        "indexed": true,
+        "name": "",
+        "type": "uint256"
+    }],
+    "name": "Transfer",
+    "type": "event"
+}, {
+    "anonymous": false,
+    "inputs": [{
+        "indexed": true,
+        "name": "",
+        "type": "address"
+    }, {
+        "indexed": true,
+        "name": "",
+        "type": "address"
+    }, {
+        "indexed": true,
+        "name": "",
+        "type": "uint256"
+    }],
+    "name": "Approval",
+    "type": "event"
+}];
 
-const DTUAbi = [ { "constant": true, "inputs": [], "name": "creator", "outputs": [ { "name": "", "type": "address" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "name", "outputs": [ { "name": "", "type": "string" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_spender", "type": "address" }, { "name": "_value", "type": "uint256" } ], "name": "approve", "outputs": [ { "name": "success", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "totalSupply", "outputs": [ { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "getState", "outputs": [ { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [], "name": "reward", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "address" } ], "name": "isRegister", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_from", "type": "address" }, { "name": "_to", "type": "address" }, { "name": "_value", "type": "uint256" } ], "name": "transferFrom", "outputs": [ { "name": "success", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "uint256" } ], "name": "bonus", "outputs": [ { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_amount", "type": "uint256" } ], "name": "buyToken", "outputs": [ { "name": "", "type": "bool" } ], "payable": true, "stateMutability": "payable", "type": "function" }, { "constant": true, "inputs": [], "name": "decimals", "outputs": [ { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_amount", "type": "uint256" } ], "name": "burn", "outputs": [ { "name": "", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [ { "name": "_owner", "type": "address" } ], "name": "balanceOf", "outputs": [ { "name": "balance", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "rating", "outputs": [ { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "symbol", "outputs": [ { "name": "", "type": "string" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [ { "name": "_to", "type": "address" }, { "name": "_value", "type": "uint256" } ], "name": "transfer", "outputs": [ { "name": "success", "type": "bool" } ], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "address" } ], "name": "totalBonus", "outputs": [ { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [ { "name": "", "type": "address" } ], "name": "timeRegister", "outputs": [ { "name": "", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [], "name": "deposit", "outputs": [ { "name": "", "type": "bool" } ], "payable": true, "stateMutability": "payable", "type": "function" }, { "constant": true, "inputs": [ { "name": "_owner", "type": "address" }, { "name": "_spender", "type": "address" } ], "name": "allowance", "outputs": [ { "name": "remaining", "type": "uint256" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "cashier", "outputs": [ { "name": "", "type": "address" } ], "payable": false, "stateMutability": "view", "type": "function" }, { "inputs": [ { "name": "_name", "type": "string" }, { "name": "_decimals", "type": "uint256" }, { "name": "_symbol", "type": "string" }, { "name": "_unitCan", "type": "uint256" }, { "name": "_cashier", "type": "address" } ], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [ { "indexed": true, "name": "_from", "type": "address" }, { "indexed": true, "name": "_valueSend", "type": "uint256" }, { "indexed": true, "name": "_exchange", "type": "uint256" } ], "name": "BuyToken", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": true, "name": "_to", "type": "address" }, { "indexed": true, "name": "_valueSend", "type": "uint256" } ], "name": "FundTransfer", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": true, "name": "_from", "type": "address" }, { "indexed": true, "name": "_valueSend", "type": "uint256" } ], "name": "Deposit", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": true, "name": "", "type": "address" }, { "indexed": true, "name": "", "type": "address" }, { "indexed": true, "name": "", "type": "uint256" } ], "name": "Transfer", "type": "event" }, { "anonymous": false, "inputs": [ { "indexed": true, "name": "", "type": "address" }, { "indexed": true, "name": "", "type": "address" }, { "indexed": true, "name": "", "type": "uint256" } ], "name": "Approval", "type": "event" } ];
-//
+
 //buy token from contract
-const _buyToken = async (_instance, _amount) => {
+const _buyToken = async (_instance, _currentAcc, _amount,_value) => {
     return new Promise((resolve, reject) => {
-        _instance.buyToken.sendTransaction(_amount, (err, data) => {
+        _instance.buyToken.sendTransaction(_amount, {
+            from : _currentAcc,
+            value : _value * 1000000000000000000
+        }, (err, data) => {
             if (err) resolve(err);
             resolve(data);
         });
     });
 }
 //send token to a specific address
-const _sendToken = async (_instance,_to, _amount) => {
+const _sendToken = async (_instance, _currentAcc, _to, _amount) => {
     return new Promise((resolve, reject) => {
-        _instance.transfer.sendTransaction(_to,_amount, (err, data) => {
+        _instance.transfer.sendTransaction(_to, _amount, {
+            from: _currentAcc
+        }, (err, data) => {
             if (err) resolve(err);
             resolve(data);
         });
     });
 }
 //burn token , get eth back
-const _burn = async (_instance, _amount) => {
+const _burn = async (_instance, _currentAcc, _amount) => {
     return new Promise((resolve, reject) => {
-        _instance.burn.sendTransaction(_amount, (err, data) => {
+        _instance.burn.sendTransaction(_amount, {
+            from: _currentAcc
+        }, (err, data) => {
             if (err) resolve(err);
             resolve(data);
         });
     });
 }
 //get bonus reward 
-const _reward = async (_instance) => {
+const _reward = async (_instance, _currentAcc) => {
     return new Promise((resolve, reject) => {
-        _instance.reward.sendTransaction((err, data) => {
+        _instance.reward.sendTransaction({
+            from: _currentAcc
+        }, (err, data) => {
             if (err) resolve(err);
             resolve(data);
         });
@@ -46,15 +432,29 @@ const _getState = async (_instance) => {
         });
     });
 }
+
 //deposit eth to contract
-const _deposit = async (_instance,_amount) => {
-    return new Promise((resolve, reject) => {
-        _instance.deposit.sendTransaction(_amount,(err, data) => {
+const _deposit = async (_instance, _currentAcc, _amount) => {
+    return new Promise((resolve, reject) => { 
+        _instance.deposit.sendTransaction({
+            from : _currentAcc,
+            value : _amount * 1000000000000000000
+        }, (err, data) => {
             if (err) resolve(err);
             resolve(data);
         });
     });
 }
+
+const getMetaAccounts = async () => {
+    return new Promise((resolve, reject) => {
+        web3.eth.getAccounts((err, accounts) => {
+            if (err) resolve(err);
+            resolve(accounts[0]);
+        })
+    });
+}
+
 const _getName = async (_instance) => {
     return new Promise((resolve, reject) => {
         _instance.name.call((err, data) => {
@@ -83,7 +483,7 @@ const _getRating = async (_instance) => {
     return new Promise((resolve, reject) => {
         _instance.rating.call((err, data) => {
             if (err) resolve(err);
-            resolve(data);
+            resolve(data.c[0]);
         });
     });
 }
@@ -119,9 +519,9 @@ const _getBonus = async (_instance) => {
         });
     });
 }
-const _getBalance = async (_instance,_address) => {
+const _getBalance = async (_instance, _address) => {
     return new Promise((resolve, reject) => {
-        _instance.balanceOf.call(_address,(err, data) => {
+        _instance.balanceOf.call(_address, (err, data) => {
             if (err) resolve(err);
             resolve(data);
         });
@@ -132,7 +532,7 @@ const _getBalance = async (_instance,_address) => {
 class DTUContract {
     constructor(_address) {
         this.address = _address;
-        this.instance = web3.eth.contract(DTUAbi.at(_address));
+        this.instance = web3.eth.contract(DTUAbi).at(_address);
     }
     getAddress() {
         return this.address;
@@ -140,23 +540,23 @@ class DTUContract {
     getInstance() {
         return this.instance;
     }
-    buyToken(_amount) {
-        _buyToken(this.instance, _amount);
+    buyToken(_currentAcc,_amount, _value) {
+        _buyToken(this.instance, _currentAcc, _amount,_value);
     }
-    sendToken(_to,_amount){
-        _sendToken(this.instance,_to,_amount);
+    sendToken(_currentAcc, _to, _amount) {
+        _sendToken(this.instance, _currentAcc, _to, _amount);
     }
-    burn(_amount) {
-        _burn(this.instance, _amount);
+    burn(_currentAcc, _amount) {
+        _burn(this.instance, _currentAcc, _amount);
     }
-    reward() {
-        _reward(this.instance);
+    reward(_currentAcc) {
+        _reward(this.instance, _currentAcc);
     }
     getState() {
         return _getState(this.instance);
     }
-    deposit(_amount) {
-        _deposit(this.instance,_amount);
+    deposit(_currentAcc, _amount) {
+        _deposit(this.instance, _currentAcc, _amount);
     }
     getName() {
         return _getName(this.instance);
@@ -183,8 +583,11 @@ class DTUContract {
         return _getBonus(this.instance);
     }
     getBalance(_address) {
-        return _getBalance(this.instance,_address);
+        return _getBalance(this.instance, _address);
     }
-
+    getAccount() {
+        return getMetaAccounts();
+    }
 }
+
 module.exports = DTUContract;
