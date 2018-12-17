@@ -28,7 +28,6 @@ class Market extends React.Component{
     }
 
     readFromDtbsToTable() {
-        console.log("wtf???");
         var index = 1;
         var tblTokensList = document.getElementById("tbl_tokens_list");
         var databaseRef = firebase.database().ref("/tokens");
