@@ -50,6 +50,7 @@ class Market extends React.Component{
                     cellDescription.appendChild(document.createTextNode(childData.description));
                 
                     index++;
+                    
                 }
 
             });

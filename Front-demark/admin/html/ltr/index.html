@@ -153,17 +153,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td class="font-medium">MCMDJWOJGPI</td>
-                                            <td class="font-medium">DTUK</td>
-                                            <td><span class="label label-success label-rounded">DTUK</span> </td>
-                                            <td class="txt-oflo">100</td>
-                                            <td class="txt-oflo">0</td>
-                                            <td class="txt-oflo">0xA75B2d7b277919c224B198743C88EfE608BA8c1e</td>
-                                            <td><span class="txt-oflo">A token for tuition fees at Duy Tan university</span></td>
-                                            <td><input type="button" class="btn btn-success" onclick="clickDeploy()"
-                                                    value="Deploy Token" /></td>
-                                        </tr>
+                                        
 
                                     </tbody>
                                 </table>
@@ -194,35 +184,17 @@
                     <script src="../../dist/js/pages/dashboards/dashboard1.js"></script>
                     <script>
                         var databaseRef = firebase.database().ref('tokens/');
-                        var tblTokens = document.getElementById('tbl_tokens');
-                        var index = 1;
+                        // var tblTokens = document.getElementById('tbl_tokens');
+                        //var index = 1;
                         databaseRef.once('value', function (snapshot) {
                             snapshot.forEach(function (childSnapshot) {
                                 var childKey = childSnapshot.key;
                                 var childData = childSnapshot.val();
                                 if (childData.approve == false) {
-                                    var row = tblTokens.insertRow(index);
-                                    var cellId = row.insertCell(0);
-                                    var cellName = row.insertCell(1);
-                                    var cellSymbol = row.insertCell(2);
-                                    var cellRating = row.insertCell(3);
-                                    var cellDecimals = row.insertCell(4);
-
-                                    var cellAddress = row.insertCell(5);
-                                    var cellDescription = row.insertCell(6);
-
-                                    cellId.appendChild(document.createTextNode(childKey));
-                                    cellName.appendChild(document.createTextNode(childData.name));
-                                    cellSymbol.appendChild(document.createTextNode(childData.symbol));
-                                    cellRating.appendChild(document.createTextNode(childData.rating));
-                                    cellDecimals.appendChild(document.createTextNode(childData.decimals));
-                                    cellAddress.appendChild(document.createTextNode(childData.address));
-                                    cellDescription.appendChild(document.createTextNode(childData.description));
-
-                                    index++;
+                                    $('#tbl_tokens tbody').append(<tr><td class="font-medium">${childData.name}</td><td><span class="label label-success label-rounded">${childData.symbol}</span> </td><td class="txt-oflo">${childData.rating}</td><td class="txt-oflo">${childData.decimals}</td><td class="txt-oflo">${childData.cashier}</td><td><span class="txt-oflo">${childData.description}</span></td><td><input type="button" class="btn btn-success" onclick="clickDeploy()"value="Deploy" /></td></tr>);
                                 }
                             });
-
+                       
                         });
 
                     </script>
