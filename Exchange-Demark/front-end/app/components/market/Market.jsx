@@ -97,9 +97,7 @@ class Market extends React.Component{
                         {/* )} */}
                     </div>
                 </div>
-                <div>
-                    <button type="submit" onClick={this.readFromDtbsToTable}>test </button>
-                </div>
+                
             </div>
 
         );
