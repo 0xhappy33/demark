@@ -2,67 +2,75 @@ import React from 'react';
 import { Table } from 'react-bootstrap';
 import firebase from 'firebase';
 
-import axios from 'axios';
 
-const tokenAPI = `http://api.ethplorer.io/getAddressInfo/0x32Be343B94f860124dC4fEe278FDCBD38C102D88?apiKey=freekey`;
+// import axios from 'axios';
+
+// const tokenAPI = `http://api.ethplorer.io/getAddressInfo/0x32Be343B94f860124dC4fEe278FDCBD38C102D88?apiKey=freekey`;
 
 class Market extends React.Component{
 
     constructor(props) {
         super(props);
 
-        // this.handleClick = this.handleClickRow.bind(this);
+        this.readFromDtbsToTable = this.readFromDtbsToTable.bind(this);
 
         this.state = {
             tokens: [],
             toTokenDetail: false
         };
     }
-    
+
     componentWillMount() {
         // Load custom in main and overrides
         require("../../css/main.less"); 
         
-        axios.get(tokenAPI)
-        .then(res => {
-            // const persons = res.data;
-            const tokens = res.data.tokens;
-            this.setState({
-                // persons: persons,
-                tokens
-            });
-            // console.log(this.state.tokens);
-        })
+        // axios.get(tokenAPI)
+        // .then(res => {
+        //     // const persons = res.data;
+        //     const tokens = res.data.tokens;
+        //     this.setState({
+        //         tokens
+        //     });
+        // })
     }
 
-    readFromDtbsToTable(){
-        var index =1;
+
+    componentDidMount()
+    {
+        // window.addEventListener('load',this.readFromDtbsToTable);
+        this.readFromDtbsToTable();
+    }
+
+    readFromDtbsToTable() {
+        var index = 1;
+        var tblTokensList = document.getElementById("tbl_tokens_list");
         var databaseRef = firebase.database().ref("/tokens");
-        databaseRef.once('value', function(snapshot){
-            snapshot.forEach(function (childSnapshot){
+        databaseRef.once('value', function (snapshot) {
+            snapshot.forEach(function (childSnapshot) {
                 var childKey = childSnapshot.key;
                 var childData = childSnapshot.val();
+                if (childData.approve == true) {
+                    var row = tblTokensList.insertRow(index);
+                    var cellId = row.insertCell(0);
+                    var cellName = row.insertCell(1);
+                    var cellSymbol = row.insertCell(2);
+                    var cellAddress = row.insertCell(3);
+                    var cellDescription = row.insertCell(4);
 
-                var row = document.getElementById('tbl_tokens_list');
-                var cellId = row.insertCell(0);
-                var cellName = row.insertCell(1);
-                var cellSymbol = row.insertCell(2);
-                var cellAddress = row.insertCell(3);
-                var cellDescription = row.insertCell(4);
-
-                cellId.appendChild(document.createTextNode(childKey));
-                cellName.appendChild(document.createTextNode(childData.name));
-                cellSymbol.appendChild(document.createTextNode(childData.symbol));
-                cellAddress.appendChild(document.createTextNode(childData.address));
-                cellDescription.appendChild(document.createTextNode(childData.description));
+                    cellId.appendChild(document.createTextNode(childKey));
+                    cellName.appendChild(document.createTextNode(childData.name));
+                    cellSymbol.appendChild(document.createTextNode(childData.symbol));
+                    cellAddress.appendChild(document.createTextNode(childData.address));
+                    cellDescription.appendChild(document.createTextNode(childData.description));
                 
-                index++;
+                    index++;
+                }
 
             });
         });
     }
 
-    render () {
+    render() {
         return (
             <div className="market-table panel panel-default">
                 <div className="container-fluid">
@@ -70,7 +78,7 @@ class Market extends React.Component{
                         <h1 className="panel-title">Token and ICO database</h1>
                         {/* {!this.props.market.error && ( */}
                         <hr />
-                        <Table striped condensed hover>
+                        <Table id="tbl_tokens_list">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -81,6 +89,7 @@ class Market extends React.Component{
                                 </tr>
                             </thead>
                             <tbody>
+{/* <<<<<<< HEAD
                                 {this.state.tokens.map((token, index) => {
                                     return (
                                         <tr style={{ cursor: 'pointer' }} >
@@ -93,11 +102,29 @@ class Market extends React.Component{
                                     );
                                 })}
                             </tbody>
+======= */}
+                                <tr>
+                                    <td className="style-row">1</td>
+                                    <td className="style-row color-token-name">DTU Token</td>
+                                    <td className="style-row">DTUK</td>
+                                    <td className="style-row">0xE41d2489571d322189246DaFA5ebDe1F4699F498</td>
+                                    <td className="style-row">Tokens for tuition fees at Duy Tan universtiy</td>
+                                </tr>
+
+                                <tr>
+                                    <td className="style-row">2</td>
+                                    <td className="style-row color-token-name">BKD Token</td>
+                                    <td className="style-row">BKDT</td>
+                                    <td className="style-row">0xE41d2489571d322189246DaFA5ebDe1F4699F498</td>
+                                    <td className="style-row">Tokens for tuition fees at Technology DN universtiy</td>
+                                </tr>
+                            </tbody>
                         </Table>
                         {/* )} */}
                     </div>
                 </div>
             </div>
+
         );
     }
 }
