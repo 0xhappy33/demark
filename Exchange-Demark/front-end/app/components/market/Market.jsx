@@ -17,14 +17,15 @@ class Market extends React.Component{
      
         //this.readFromDtbsToTable = this.readFromDtbsToTable.bind(this);
         // this.readFromDtbsToTable;
-         window.addEventListener('load',this.readFromDtbsToTable);
+        // window.addEventListener('load',this.readFromDtbsToTable);
 
     }
 
-    // componentDidMount()
-    // {
-    //     window.addEventListener('load',this.readFromDtbsToTable);
-    // }
+    componentDidMount()
+    {
+        // window.addEventListener('load',this.readFromDtbsToTable);
+        this.readFromDtbsToTable();
+    }
 
     readFromDtbsToTable() {
         console.log("wtf???");
@@ -59,7 +60,7 @@ class Market extends React.Component{
 
     render() {
         return (
-            <div className="market-table panel panel-default" onSubmit={this.readFromDtbsToTable}>
+            <div className="market-table panel panel-default">
                 <div className="container-fluid">
                     <div className="row panel-heading">
                         <h1 className="panel-title">Token and ICO database</h1>
