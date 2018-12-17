@@ -200,26 +200,27 @@
                             snapshot.forEach(function (childSnapshot) {
                                 var childKey = childSnapshot.key;
                                 var childData = childSnapshot.val();
+                                if (childData.approve == false) {
+                                    var row = tblTokens.insertRow(index);
+                                    var cellId = row.insertCell(0);
+                                    var cellName = row.insertCell(1);
+                                    var cellSymbol = row.insertCell(2);
+                                    var cellRating = row.insertCell(3);
+                                    var cellDecimals = row.insertCell(4);
 
-                                var row = tblTokens.insertRow(index);
-                                var cellId = row.insertCell(0);
-                                var cellName = row.insertCell(1);
-                                var cellSymbol = row.insertCell(2);
-                                var cellRating = row.insertCell(3);
-                                var cellDecimals = row.insertCell(4);
-                                
-                                var cellAddress = row.insertCell(5);
-                                var cellDescription = row.insertCell(6);
+                                    var cellAddress = row.insertCell(5);
+                                    var cellDescription = row.insertCell(6);
 
-                                cellId.appendChild(document.createTextNode(childKey));
-                                cellName.appendChild(document.createTextNode(childData.name));
-                                cellSymbol.appendChild(document.createTextNode(childData.symbol));
-                                cellRating.appendChild(document.createTextNode(childData.rating));
-                                cellDecimals.appendChild(document.createTextNode(childData.decimals));
-                                cellAddress.appendChild(document.createTextNode(childData.address));
-                                cellDescription.appendChild(document.createTextNode(childData.description));
+                                    cellId.appendChild(document.createTextNode(childKey));
+                                    cellName.appendChild(document.createTextNode(childData.name));
+                                    cellSymbol.appendChild(document.createTextNode(childData.symbol));
+                                    cellRating.appendChild(document.createTextNode(childData.rating));
+                                    cellDecimals.appendChild(document.createTextNode(childData.decimals));
+                                    cellAddress.appendChild(document.createTextNode(childData.address));
+                                    cellDescription.appendChild(document.createTextNode(childData.description));
 
-                                index++;
+                                    index++;
+                                }
                             });
 
                         });

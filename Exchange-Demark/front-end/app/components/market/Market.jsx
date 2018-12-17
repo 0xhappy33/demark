@@ -2,35 +2,34 @@ import React from 'react';
 import { Table } from 'react-bootstrap';
 import firebase from 'firebase';
 
-let Market = React.createClass({
+class Market extends React.Component{
     
+    constructor(props)
+    {
+        super(props);
+        this.readFromDtbsToTable = this.readFromDtbsToTable.bind(this);
+        
+    }
+
     componentWillMount() {
         // Load custom in main and overrides
         require("../../css/main.less");
-        // firebase.initializeApp({          
-        //     apiKey: "AIzaSyDrssCstHJYF07bIF1DeIzYZN9SdCgA85U",
-        //     authDomain: "demark-dtbs.firebaseapp.com",
-        //     databaseURL: "https://demark-dtbs.firebaseio.com",
-        //     projectId: "demark-dtbs",
-        //     messagingSenderId: "518328352226"             
-        // });
-        this.readFromDtbsToTable = this.readFromDtbsToTable.bind(this);
-        // this.readFromDtbsToTable();
-        // window.addEventListener('load',this.readFromDtbsToTable);
+     
+        //this.readFromDtbsToTable = this.readFromDtbsToTable.bind(this);
+        // this.readFromDtbsToTable;
+         window.addEventListener('load',this.readFromDtbsToTable);
 
-    },
+    }
 
     // componentDidMount()
     // {
-    //     window.addEventListener('onbeforeunload',() =>{
-    //         this.setState({readFromDtbsToTable});
-    //     });
-    // },
+    //     window.addEventListener('load',this.readFromDtbsToTable);
+    // }
 
     readFromDtbsToTable() {
-        
+        console.log("wtf???");
         var index = 1;
-        var tblTokensList = document.getElementById('tbl_tokens_list');
+        var tblTokensList = document.getElementById("tbl_tokens_list");
         var databaseRef = firebase.database().ref("/tokens");
         databaseRef.once('value', function (snapshot) {
             snapshot.forEach(function (childSnapshot) {
@@ -55,18 +54,18 @@ let Market = React.createClass({
 
             });
         });
-    },
+    }
 
 
     render() {
         return (
-            <div className="market-table panel panel-default">
+            <div className="market-table panel panel-default" onSubmit={this.readFromDtbsToTable}>
                 <div className="container-fluid">
                     <div className="row panel-heading">
                         <h1 className="panel-title">Token and ICO database</h1>
                         {/* {!this.props.market.error && ( */}
                         <hr />
-                        <Table id="tbl_tokens_list" striped condensed hover>
+                        <Table id="tbl_tokens_list">
                             <thead>
                                 <tr>
                                     <th>#</th>
@@ -105,7 +104,7 @@ let Market = React.createClass({
 
         );
     }
-});
+}
 
 
 module.exports = Market;
