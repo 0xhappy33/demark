@@ -106,7 +106,6 @@ async function clickSubmit() {
                 updates['/tokens/' + uid] = data;
                 firebase.database().ref().update(updates);
                 alert('test');
-
             }
         });
 
