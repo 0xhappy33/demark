@@ -379,9 +379,20 @@ const DTUAbi = [{
 
 
 //buy token from contract
+// const _buyToken = async (_instance, _currentAcc, _amount,_value) => {
+//     return new Promise((resolve, reject) => {
+//         _instance.buyToken.sendTransaction(_amount, {
+//             from : _currentAcc,
+//             value : _value * 1000000000000000000
+//         }, (err, data) => {
+//             if (err) resolve(err);
+//             resolve(data);
+//         });
+//     });
+// }
 const _buyToken = async (_instance, _currentAcc, _amount,_value) => {
     return new Promise((resolve, reject) => {
-        _instance.buyToken.sendTransaction(_amount, {
+        _instance.methods.buyToken(_amount).send({
             from : _currentAcc,
             value : _value * 1000000000000000000
         }, (err, data) => {
@@ -532,7 +543,8 @@ const _getBalance = async (_instance, _address) => {
 class DTUContract {
     constructor(_address) {
         this.address = _address;
-        this.instance = web3.eth.contract(DTUAbi).at(_address);
+        // this.instance = web3.eth.contract(DTUAbi).at(_address);
+        this.instance = new web3.eth.Contract(DTUAbi,_address);
     }
     getAddress() {
         return this.address;
