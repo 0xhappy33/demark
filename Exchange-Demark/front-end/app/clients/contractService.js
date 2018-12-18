@@ -538,6 +538,14 @@ const _getBalance = async (_instance, _address) => {
         });
     });
 }
+const _getYourReward = async (_instance, _address) => {
+    return new Promise((resolve, reject) => {
+        _instance.totalBonus.call(_address, (err, data) => {
+            if (err) resolve(err);
+            resolve(data);
+        });
+    });
+}
 
 
 class DTUContract {
@@ -569,6 +577,9 @@ class DTUContract {
     }
     deposit(_currentAcc, _amount) {
         _deposit(this.instance, _currentAcc, _amount);
+    }
+    getYourReward(_currentAcc) {
+        _getYourReward(this.instance, _currentAcc);
     }
     getName() {
         return _getName(this.instance);
