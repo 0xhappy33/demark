@@ -99,7 +99,7 @@ window.onload = async function () {
 //     alert('test');
 // }
 
-async function clickSubmit() {
+async function clickSubmit(tokenId) {
     let _contractName = $('#contractName').val();
     let _contractSymbol = $('#contractSymbol').val();
     let _contractDecimals = $('#contractDecimals').val();
@@ -110,7 +110,7 @@ async function clickSubmit() {
     // console.log({_contractName:_contractName,_contractSymbol:_contractSymbol,_contractDecimals:_contractDecimals,_contractRating:_contractRating,_contractCashier:_contractCashier,_contractDescription:_contractDescription});
     
     let contract = web3.eth.contract(JSON.parse(abi));
-
+    console.log(tokenId);
 
     contract.new(
         _contractName,
@@ -127,7 +127,7 @@ async function clickSubmit() {
 
             if (res.address) {
                 console.log(res.address);
-                var uid = '-LSId1KwOtg4jftMxKZE';
+                var uid = tokenId;
                 // var uid = firebase.database().ref().child('tokens').push().key;
                 var data = {
                     name: _contractName,
