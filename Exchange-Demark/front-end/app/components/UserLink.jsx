@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router';
+// import Web3 from 'web3';
 
 let UserLink = React.createClass({
   propTypes: {

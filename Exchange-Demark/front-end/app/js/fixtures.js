@@ -1672,7 +1672,7 @@ var fixtures = {
           "unit": "Kether"
         },
         "balancePending": 0,
-        "balanceSub": 0,
+        "balanceSub": 12,
         "balanceSubAvailable": 600,
         "balanceSubTrading": 0,
         "balanceSubPending": 0,

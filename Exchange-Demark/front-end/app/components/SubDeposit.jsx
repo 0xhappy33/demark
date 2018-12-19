@@ -4,6 +4,12 @@ import {Button, Input} from 'react-bootstrap';
 
 import ConfirmModal from './ConfirmModal';
 
+import DTUContract from '../clients/contractService';
+
+const contractAddress = "0xF92bbac6a4e9bD4a9B4b53015ED6A0bc1ca6b1E6";
+
+let DTU = new DTUContract(contractAddress);
+
 let SubDeposit = injectIntl(React.createClass({
   getInitialState: function() {
     return {
@@ -80,20 +86,40 @@ let SubDeposit = injectIntl(React.createClass({
     e.stopPropagation();
   },
 
-  onSubmitForm: function(e, el) {
+  // onSubmitForm: function(e, el) {
+  //   e.preventDefault();
+
+  //   if (!this.validate(e, el))
+  //     return false;
+
+  //   this.props.flux.actions.user.depositSub({
+  //     amount: this.state.amount
+  //   });
+
+
+  //   this.setState({
+  //     amount: null
+  //     // newDeposit: false
+  //   });
+
+  // },
+
+  async onSubmitDeposit(e) {
     e.preventDefault();
 
-    if (!this.validate(e, el))
-      return false;
+    try {
+      const accounts = await DTU.getAccount();
 
-    this.props.flux.actions.user.depositSub({
-      amount: this.state.amount
-    });
+      await DTU.deposit(accounts, this.state.amount);
+
+    } catch (err) {
+        this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
+    }
 
     this.setState({
-      amount: null,
-      newDeposit: false
+      amount: null
     });
+
   },
 
   render: function() {
@@ -116,7 +142,7 @@ let SubDeposit = injectIntl(React.createClass({
           onHide={this.closeModal}
           message={this.state.confirmMessage}
           flux={this.props.flux}
-          onSubmit={this.onSubmitForm}
+          onSubmit={this.onSubmitDeposit}
         />
       </form>
     );

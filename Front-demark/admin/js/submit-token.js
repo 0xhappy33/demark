@@ -2,6 +2,7 @@
 let abi;
 let byteCode;
 let currentAccount;
+let myContract;
 let dataInstance = async (_data) => {
     return new Promise((resolve, reject) => {
         BrowserSolc.getVersions(function (soljsonSources, soljsonReleases) {
@@ -44,21 +45,11 @@ window.onload = async function () {
         throw new Error();
     }
     currentAccount = await getAccounts();
-    console.log(currentAccount);
-
     let fileContract = await getData('../../contracts/DTUToken.sol');
     let contractCompile = await dataInstance(fileContract);
     abi = contractCompile.contracts[':DTUToken'].interface;
     byteCode = contractCompile.contracts[':DTUToken'].bytecode;
-    // var config = {
-    //     apiKey: "AIzaSyDvukwTRa5kbRxZENjd5J46_PwALpcryUo",
-    //     authDomain: "test-50a0b.firebaseapp.com",
-    //     databaseURL: "https://test-50a0b.firebaseio.com",
-    //     projectId: "test-50a0b",
-    //     storageBucket: "test-50a0b.appspot.com",
-    //     messagingSenderId: "1002346447366"
-    // };
-    // firebase.initializeApp(config);
+    myContract = web3.eth.contract(JSON.parse(abi));
     var databaseRef = firebase.database().ref();
     var tokensRef = databaseRef.child('/tokens/{id}');
     var temp;
@@ -67,7 +58,7 @@ window.onload = async function () {
     });
     console.log(tokensRef.key);
     console.log(firebase.database().ref().child('tokens').push().key);
-     
+
     // databaseRef.once('value', function (snapshot) {
     //     snapshot.forEach(function(childSnapshot) {
     //         var childKey = childSnapshot.key;
@@ -108,7 +99,7 @@ async function clickSubmit(tokenId) {
     let _contractDescription = $('#contractDescription').val();
 
     // console.log({_contractName:_contractName,_contractSymbol:_contractSymbol,_contractDecimals:_contractDecimals,_contractRating:_contractRating,_contractCashier:_contractCashier,_contractDescription:_contractDescription});
-    
+
     let contract = web3.eth.contract(JSON.parse(abi));
     console.log(tokenId);
 
@@ -146,5 +137,4 @@ async function clickSubmit(tokenId) {
 
             }
         });
-
 }

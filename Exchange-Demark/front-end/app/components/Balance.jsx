@@ -2,6 +2,7 @@ import React from 'react';
 import {FormattedMessage, FormattedNumber} from 'react-intl';
 import {Popover, OverlayTrigger} from 'react-bootstrap';
 
+
 let Balance = React.createClass({
   render: function() {
     return (

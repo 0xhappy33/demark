@@ -159,6 +159,7 @@ module.exports = {
       "deposit": "Deposit",
       "withdraw": "Withdraw",
       "recipient": "Recipient",
+      "rating": "Rating",
       "address": "Address",
       "market": "Market",
       "empty": "Fill it up mate!",
@@ -188,11 +189,12 @@ module.exports = {
     },
     "deposit": {
       "currency": "Deposit {currency}",
-      "confirm": "Are you sure you want to deposit {amount, number} {currency}?",
+      "confirm": "Deposit {amount, number} ETH to {currency}?",
       "not_enough": "Not enough {currency} for a deposit of {amount, number}, you have {balance, number}"
     },
     "sub": {
-      "send": "Are you sure you want to send {amount, number} {currency} to {recipient}?",
+      "send": "Are you sure you want to send {amount, number} {currency} {recipient}?",
+      "buy": "Are you sure you want to buy {amount, number} {symbol} by sending {value} {currency}?",
       "not_enough": "Not enough {currency} available to send, got {balance, number}",
       "register": "Subcurrency registration",
       "code": "Subcurrency code",
@@ -211,7 +213,8 @@ module.exports = {
       "empty": "Dont' be cheap to yourself..."
     },
     "send": {
-      "send": "Buy",
+      "send": "Transfer",
+      "withdraw": "Withdraw",
       "reward": "Reward",
       "fund": "Buy",
       "currency": "Transfer {currency}"

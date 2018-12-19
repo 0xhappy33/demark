@@ -18,4 +18,3 @@ module.exports = {
         return web3.utils.sha3('Transfer(address,address,uint256)');
     }
 }
-

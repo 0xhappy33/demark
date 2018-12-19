@@ -4,9 +4,9 @@ import {FormattedMessage} from 'react-intl';
 import {Table} from 'react-bootstrap';
 
 import TransitionGroup from '../TransitionGroup';
-import TxsRowWithdraw from '../txs/TxsRowWithdraw';
+import TxsRowTransfer from '../txs/TxsRowTransfer';
 
-let TxsWithdrawTable = React.createClass({
+let TxsTransferTable = React.createClass({
   getInitialState: function() {
     var index = _.findIndex(this.props.market.markets, {'id': this.props.market.market.id});
     var market = this.props.market.markets[index];
@@ -29,12 +29,12 @@ let TxsWithdrawTable = React.createClass({
   },
 
   render: function() {
-    var txsRowWithdraw = _.sortBy(this.props.txs, 'block').map(function (tx) {
+    var txsRowTransfer = _.sortBy(this.props.txs, 'block').map(function (tx) {
       return (
-        <TxsRowWithdraw key={tx.type + '-' + tx.hash + '-' + tx.id} tx={tx} market={this.state.market} user={this.props.user} />
+        <TxsRowTransfer key={tx.type + '-' + tx.hash + '-' + tx.id} tx={tx} market={this.state.market} user={this.props.user} />
       );
     }.bind(this));
-    txsRowWithdraw.reverse();
+    txsRowTransfer.reverse();
 
     return (
       <div>
@@ -42,14 +42,16 @@ let TxsWithdrawTable = React.createClass({
         <Table condensed hover responsive striped>
           <thead>
             <tr>
+            {/* Block , Age, From, Amount, Exchange */}
               <th className="text-center"><FormattedMessage id='txs_events.block' /></th>
+              <th className="text-center"><FormattedMessage id='txs_events.from' /></th>
               <th className="text-center"><FormattedMessage id='txs_events.to' /></th>
-              <th className="text-right"><FormattedMessage id='txs_events.amount' /></th>
+              <th className="text-center"><FormattedMessage id='txs_events.amount' /></th>
               <th className="text-right"><FormattedMessage id='txs_events.datetime' /></th>
             </tr>
           </thead>
           <TransitionGroup transitionName="trades" component="tbody" enterTimeout={1000} leaveTimeout={1000}>
-            { txsRowWithdraw }
+            { txsRowTransfer }
           </TransitionGroup>
         </Table>
       </div>
@@ -57,4 +59,4 @@ let TxsWithdrawTable = React.createClass({
   }
 });
 
-module.exports = TxsWithdrawTable;
+module.exports = TxsTransferTable;

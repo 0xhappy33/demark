@@ -6,26 +6,26 @@ import React from 'react';
 import Market from './market/Market';
 
 let Markets = React.createClass({
-  getInitialState() {
-    var path = this.props.routes[1].path;
-    return {
-      showGraph: false,
-      category: path.slice(path.lastIndexOf('/') + 1, path.length)
-    };
-  },
+  // getInitialState() {
+  //   // var path = this.props.routes[1].path;
+  //   return {
+  //     // showGraph: false,
+  //     // category: path.slice(path.lastIndexOf('/') + 1, path.length)
+  //   };
+  // },
 
   componentDidMount() {
     this.props.disableGraph();
   },
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps) {
-      var path = nextProps.routes[1].path;
-      this.setState({
-        category: path.slice(path.lastIndexOf('/') + 1, path.length)
-      });
-    }
-  },
+  // componentWillReceiveProps(nextProps) {
+  //   if (nextProps) {
+  //     var path = nextProps.routes[1].path;
+  //     this.setState({
+  //       category: path.slice(path.lastIndexOf('/') + 1, path.length)
+  //     });
+  //   }
+  // },
 
   render() {
     return (

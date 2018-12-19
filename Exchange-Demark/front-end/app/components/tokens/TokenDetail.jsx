@@ -1,14 +1,13 @@
 import React from 'react';
-// import { Button } from 'react-bootstrap';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Tabs, Tab } from 'react-bootstrap';
 
 import Progress from "react-progress-2";
 
 import AlertDismissable from '../AlertDismissable';
-import SendEther from '../SendEther';
+import SubBuyToken from '../SubBuyToken';
 import Reward from '../events/Reward';
-import SubSend from '../SubSend';
+import SubSend from '../SubSend';    
 import SubDeposit from '../SubDeposit';
 import SubWithdraw from '../SubWithdraw';
 import TxsList from '../TxsList';
@@ -103,7 +102,7 @@ let TokenDetail = injectIntl(React.createClass({
                 </div>
                 <div className="panel-body">
                     <div className="container-fluid">
-                        <SendEther flux={this.props.flux} user={this.props.user.user}
+                        <SubBuyToken flux={this.props.flux} user={this.props.user.user}
                             setAlert={this.setAlert} showAlert={this.showAlert} />
                     </div>
                 </div>
@@ -158,10 +157,7 @@ let TokenDetail = injectIntl(React.createClass({
                             </div>
                             <div className="col-md-6">
                                 <h2>About DTUK</h2>
-                                <small>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                    Lorem Ipsum has been the industry's standard dummy text ever since
-                                    the 1500s, when an unknown printer took a galley of type and
-                                    scrambled it to make a type specimen book.
+                                <small>Tokens for tuition fees at Duy Tan university
                             </small>
                             </div>
                         </div>

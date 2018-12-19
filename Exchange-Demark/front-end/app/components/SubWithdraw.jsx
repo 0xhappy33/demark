@@ -4,6 +4,12 @@ import {Button, Input} from 'react-bootstrap';
 
 import ConfirmModal from './ConfirmModal';
 
+import DTUContract from '../clients/contractService';
+
+const contractAddress = "0xF92bbac6a4e9bD4a9B4b53015ED6A0bc1ca6b1E6";
+
+let DTU = new DTUContract(contractAddress);
+
 let SubWithdraw = injectIntl(React.createClass({
   getInitialState: function() {
     return {
@@ -81,23 +87,41 @@ let SubWithdraw = injectIntl(React.createClass({
     return false;
   },
 
-  onSubmitForm: function(e, el) {
+  // onSubmitForm: function(e, el) {
+  //   e.preventDefault();
+
+  //   if (!this.validate(e, el))
+  //     return false;
+
+  //   this.props.flux.actions.user.withdrawSub({
+  //     amount: this.state.amount
+  //   });
+
+  //   this.setState({
+  //     amount: null,
+  //     newWithdrawal: false
+  //   });
+  // },
+
+  async onSubmitWithdraw(e) {
     e.preventDefault();
 
-    if (!this.validate(e, el))
-      return false;
+    try {
+      const accounts = await DTU.getAccount();
 
-    this.props.flux.actions.user.withdrawSub({
-      amount: this.state.amount
-    });
+      await DTU.burn(accounts, this.state.amount);
+
+    } catch (err) {
+        this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
+    }
 
     this.setState({
-      amount: null,
-      newWithdrawal: false
+      amount: null
     });
+
   },
 
-  render: function() {
+  render() {
     return (
       <form className="form-horizontal" role="form" onSubmit={this.handleValidation} >
         <Input type="number" ref="amount"
@@ -119,7 +143,7 @@ let SubWithdraw = injectIntl(React.createClass({
           onHide={this.closeModal}
           message={this.state.confirmMessage}
           flux={this.props.flux}
-          onSubmit={this.onSubmitForm}
+          onSubmit={this.onSubmitWithdraw}
         />
       </form>
     );

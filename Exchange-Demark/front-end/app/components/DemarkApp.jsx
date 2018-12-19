@@ -5,8 +5,7 @@ import {IntlProvider, FormattedMessage} from 'react-intl';
 import {OverlayTrigger, Popover, Button} from 'react-bootstrap';
 import flatten from 'flat';
 
-import Progress from "react-progress-2";
-// import _ from "react-progress-2";
+import 'babel-polyfill';
 
 import Favicon from './Favicon';
 import LoadingModal from './LoadingModal';
@@ -18,8 +17,6 @@ import MarketSelect from './market/MarketSelect';
 import LastPrice from './LastPrice';
 import RangeSelect from './RangeSelect';
 import GraphPrice from './GraphPrice';
-import Network from './Network';
-
 
 let fixtures = require('../js/fixtures');
 
@@ -50,19 +47,27 @@ if (window.Intl) {
 let intlData = require('../js/intlData');
 let messages = flatten(intlData.messages);
 
+import DTUContract from '../clients/contractService';
+
+const contractAddress = "0xF92bbac6a4e9bD4a9B4b53015ED6A0bc1ca6b1E6";
+
+let DTU = new DTUContract(contractAddress);
+
 let DemarkApp = React.createClass({
-  mixins: [StoreWatchMixin("config", "network", "UserStore", "MarketStore", "TradeStore", "TicketStore")],
+  mixins:[StoreWatchMixin("config", "network", "UserStore", "MarketStore", "TradeStore", "TicketStore")],
 
   getInitialState() {
     return {
       showGraph: false,
       theme: 'flatly',
       category: false,
-      loading: true
+      loading: true,
+      account: ''
     };
   },
-
+  
   componentWillMount() {
+   
     // Load theme preference
     var theme = localStorage.theme;
     if (!_.includes(['darkly', 'flatly', 'superhero'], theme))
@@ -75,13 +80,21 @@ let DemarkApp = React.createClass({
     // Load custom styles and overrides
     require("../css/styles.less");
 
-    // require("../../node_modules/react-progress-2/lib/main");
+    require("../../node_modules/react-progress-2/lib/main");
 
   },
 
-  componentDidMount() {
+  async componentDidMount() {
     setTimeout(() => this.setState({ loading: false }), 1500);
     this.props.flux.actions.config.initializeState();
+
+    if (window.web3 && window.web3.currentProvider.isMetaMask) {
+        window.web3.eth.getAccounts((error, accounts) => {
+          this.setState({ account : accounts[0]});
+      });
+    } else {
+      console.log('MetaMask account not detected :(');
+    }
   },
 
   componentWillReceiveProps(nextProps) {
@@ -188,7 +201,7 @@ let DemarkApp = React.createClass({
                       </div>
                       <div className="col-xs-3 col-md-2">
                         <div className="top-link text-right text-overflow">
-                          <UserLink address={ "123" } showIcon={true} />
+                          <UserLink address={ this.state.account } showIcon={true} />
                         </div>
                         <div className="top-btn-sm">
                           { (this.state.config.network != 1 && !this.state.config.demoMode) &&
@@ -267,5 +280,6 @@ let DemarkApp = React.createClass({
     );
   }
 });
+
 
 module.exports = DemarkApp;

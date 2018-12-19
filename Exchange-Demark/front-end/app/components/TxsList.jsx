@@ -7,6 +7,8 @@ import AlertDismissable from './AlertDismissable';
 // import TxsTable from './TxsTable';
 import TxsDepositTable from './events/TxsDepositTable';
 import TxsWithdrawTable from './events/TxsWithdrawTable';
+import TxsBuyTable from './events/TxsBuyTable';
+import TxsTransferTable from './events/TxsTransferTable';
 
 import {Tabs, Tab} from 'react-bootstrap';
 
@@ -33,10 +35,10 @@ let TxsList = React.createClass({
               <TxsWithdrawTable flux={this.props.flux} txs={this.props.txs} market={this.props.market} user={this.props.user.user} />
             </Tab>
             <Tab eventKey={3} title="Transfer">
-              <TxsDepositTable flux={this.props.flux} txs={this.props.txs} market={this.props.market} user={this.props.user.user} />
+              <TxsTransferTable flux={this.props.flux} txs={this.props.txs} market={this.props.market} user={this.props.user.user} />
             </Tab>
-            <Tab eventKey={4} title="Fund">
-              <TxsDepositTable flux={this.props.flux} txs={this.props.txs} market={this.props.market} user={this.props.user.user} />
+            <Tab eventKey={4} title="Buy">
+              <TxsBuyTable flux={this.props.flux} txs={this.props.txs} market={this.props.market} user={this.props.user.user} />
             </Tab>
           </Tabs>
         </div>

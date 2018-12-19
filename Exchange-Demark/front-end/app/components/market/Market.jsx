@@ -2,24 +2,38 @@ import React from 'react';
 import { Table } from 'react-bootstrap';
 import firebase from 'firebase';
 
+
+// import axios from 'axios';
+
+// const tokenAPI = `http://api.ethplorer.io/getAddressInfo/0x32Be343B94f860124dC4fEe278FDCBD38C102D88?apiKey=freekey`;
+
 class Market extends React.Component{
-    
-    constructor(props)
-    {
+
+    constructor(props) {
         super(props);
+
         this.readFromDtbsToTable = this.readFromDtbsToTable.bind(this);
-        
+
+        this.state = {
+            tokens: [],
+            toTokenDetail: false
+        };
     }
 
     componentWillMount() {
         // Load custom in main and overrides
-        require("../../css/main.less");
-     
-        //this.readFromDtbsToTable = this.readFromDtbsToTable.bind(this);
-        // this.readFromDtbsToTable;
-        // window.addEventListener('load',this.readFromDtbsToTable);
-
+        require("../../css/main.less"); 
+        
+        // axios.get(tokenAPI)
+        // .then(res => {
+        //     // const persons = res.data;
+        //     const tokens = res.data.tokens;
+        //     this.setState({
+        //         tokens
+        //     });
+        // })
     }
+
 
     componentDidMount()
     {
@@ -57,7 +71,6 @@ class Market extends React.Component{
         });
     }
 
-
     render() {
         return (
             <div className="market-table panel panel-default">
@@ -77,6 +90,20 @@ class Market extends React.Component{
                                 </tr>
                             </thead>
                             <tbody>
+{/* <<<<<<< HEAD
+                                {this.state.tokens.map((token, index) => {
+                                    return (
+                                        <tr style={{ cursor: 'pointer' }} >
+                                            <td className="style-row">{index}</td>
+                                            <td className="style-row color-token-name">{token.tokenInfo.name}</td>
+                                            <td className="style-row">{token.tokenInfo.symbol}</td>
+                                            <td className="style-row">{token.tokenInfo.address}</td>
+                                            <td className="style-row">{token.tokenInfo.description}</td>
+                                        </tr>
+                                    );
+                                })}
+                            </tbody>
+======= */}
                                 <tr>
                                     <td className="style-row">1</td>
                                     <td className="style-row color-token-name">DTU Token</td>
@@ -93,7 +120,6 @@ class Market extends React.Component{
                                     <td className="style-row">Tokens for tuition fees at Technology DN universtiy</td>
                                 </tr>
                             </tbody>
-
                         </Table>
                         {/* )} */}
                     </div>
