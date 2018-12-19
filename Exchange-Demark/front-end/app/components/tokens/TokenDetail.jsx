@@ -6,19 +6,32 @@ import Progress from "react-progress-2";
 
 import AlertDismissable from '../AlertDismissable';
 import SubBuyToken from '../SubBuyToken';
-import Reward from '../events/Reward';
-import SubSend from '../SubSend';    
+import SubReward from '../SubReward';
+import SubSend from '../SubSend';
 import SubDeposit from '../SubDeposit';
 import SubWithdraw from '../SubWithdraw';
 import TxsList from '../TxsList';
 // import Wallet from '../Wallet';
+
+import DTUContract from '../../clients/contractService';
+
+const contractAddress = "0xEC63f28b7b7a3fC5B8E2d831C171C083408E6586";
+
+let DTU = new DTUContract(contractAddress);
 
 let TokenDetail = injectIntl(React.createClass({
 
     getInitialState() {
         return {
             alertLevel: 'info',
-            alertMessage: ''
+            alertMessage: '',
+            accounts: '',
+            contractName: '',
+            amount: '',
+            rating: '',
+            symbol: '',
+            contractDescription: '',
+            balance: ''
         };
     },
 
@@ -26,8 +39,27 @@ let TokenDetail = injectIntl(React.createClass({
         require("../../css/loader.less");
     },
 
-    componentDidMount() {
+    async componentDidMount() {
         this.props.flux.actions.config.updateAlertCount(null);
+
+        try {
+            let accounts = await DTU.getAccount();
+            let name = await DTU.getName();
+            let symbol = await DTU.getSymbol();
+            let rating = await DTU.getRating();
+            let balance = await DTU.getBalance(accounts);
+
+            this.setState({
+                accounts: accounts,
+                contractName: name,
+                symbol: symbol,
+                balance: balance,
+                rating: rating
+            });
+
+        } catch (err) {
+            this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
+        }
     },
 
     setAlert(alertLevel, alertMessage) {
@@ -46,13 +78,18 @@ let TokenDetail = injectIntl(React.createClass({
             <div className="panel panel-default">
                 <div className="panel-heading">
                     <h3 className="panel-title">
-                        <FormattedMessage id='deposit.currency' values={{ currency: this.props.market.market.name }} />
+                        <FormattedMessage id='deposit.currency' values={{ currency: this.props.contractName }} />
                     </h3>
                 </div>
                 <div className="panel-body">
                     <div className="container-fluid">
-                        <SubDeposit flux={this.props.flux} market={this.props.market.market} user={this.props.user.user}
-                            setAlert={this.setAlert} showAlert={this.showAlert} />
+                        <SubDeposit 
+                            balance={this.state.balance}
+                            contractName={this.state.contractName}
+                            accounts={this.state.accounts}
+                            user={this.props.user.user}
+                            setAlert={this.setAlert} 
+                            showAlert={this.showAlert} />
                     </div>
                 </div>
             </div>
@@ -68,7 +105,11 @@ let TokenDetail = injectIntl(React.createClass({
                 </div>
                 <div className="panel-body">
                     <div className="container-fluid">
-                        <SubWithdraw flux={this.props.flux} market={this.props.market.market} user={this.props.user.user}
+                        <SubWithdraw 
+                            balance={this.state.balance}
+                            contractName={this.state.contractName}
+                            accounts={this.state.accounts}
+                            user={this.props.user.user}
                             setAlert={this.setAlert} showAlert={this.showAlert} />
                     </div>
                 </div>
@@ -85,7 +126,11 @@ let TokenDetail = injectIntl(React.createClass({
                 </div>
                 <div className="panel-body">
                     <div className="container-fluid">
-                        <SubSend flux={this.props.flux} market={this.props.market.market} user={this.props.user.user}
+                        <SubSend 
+                            balance={this.state.balance}
+                            contractName={this.state.contractName}
+                            accounts={this.state.accounts}
+                            user={this.props.user.user}
                             setAlert={this.setAlert} showAlert={this.showAlert} />
                     </div>
                 </div>
@@ -102,8 +147,14 @@ let TokenDetail = injectIntl(React.createClass({
                 </div>
                 <div className="panel-body">
                     <div className="container-fluid">
-                        <SubBuyToken flux={this.props.flux} user={this.props.user.user}
-                            setAlert={this.setAlert} showAlert={this.showAlert} />
+                        <SubBuyToken 
+                            balance={this.state.balance}
+                            contractName={this.state.contractName}
+                            accounts={this.state.accounts} 
+                            amount={this.state.amount}
+                            user={this.props.user.user}
+                            setAlert={this.setAlert} 
+                            showAlert={this.showAlert} />
                     </div>
                 </div>
             </div>
@@ -119,7 +170,7 @@ let TokenDetail = injectIntl(React.createClass({
                 </div>
                 <div className="panel-body">
                     <div className="container-fluid">
-                        <Reward flux={this.props.flux} user={this.props.user.user}
+                        <SubReward symbol={this.state.symbol} accounts={this.state.accounts} user={this.props.user.user}
                             setAlert={this.setAlert} showAlert={this.showAlert} />
                     </div>
                 </div>
@@ -131,34 +182,30 @@ let TokenDetail = injectIntl(React.createClass({
         return (
             <div>
                 <Progress.Component
-                     />
+                />
 
                 <div className="token-wrapper panel panel-default">
                     <div className="container">
                         <div className="row">
                             <div className="col-md-6">
-                                <h1>DTUK</h1>
-                                <p>Tokens for tuition fees at Duy Tan university</p>
-                                <hr />
+                                <h1>{this.state.contractName}</h1>
+                                {/* <p>Tokens for tuition fees at Duy Tan university</p> */}
+
                                 <div className="row">
                                     <div className="col-md-4">
-                                        <h5>Current price</h5>
-                                        <a href="#">= 0.002</a>
+                                        <h5>Balance</h5>
+                                        <small>{this.state.balance}</small>
                                     </div>
-                                    <div className="col-md-4">
+                                    {/* <div className="col-md-4">
                                         <h5>Last sold for</h5>
                                         <a href="#">--</a>
-                                    </div>
-                                    <div className="col-md-4">
-                                        <h5>Price history</h5>
-                                        <a href="#">--</a>
-                                    </div>
+                                    </div> */}
                                 </div>
                             </div>
                             <div className="col-md-6">
-                                <h2>About DTUK</h2>
-                                <small>Tokens for tuition fees at Duy Tan university
-                            </small>
+                                <h2>About {this.state.symbol}</h2>
+                                <small>{this.state.contractDescription}
+                                </small>
                             </div>
                         </div>
                         <hr />
@@ -195,8 +242,12 @@ let TokenDetail = injectIntl(React.createClass({
                         <hr />
                         <div className="row">
                             {(!this.props.market.market.txs.error) &&
-                                <TxsList title="Transactions history" flux={this.props.flux} market={this.props.market}
-                                    txs={this.props.market.market.txs} user={this.props.user} />}
+                                <TxsList 
+                                    title="Transactions history" 
+                                    flux={this.props.flux} 
+                                    market={this.props.market}
+                                    txs={this.props.market.market.txs} 
+                                    user={this.props.user} />}
                         </div>
                     </div>
                 </div>

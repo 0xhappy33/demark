@@ -11,15 +11,15 @@ let Balance = React.createClass({
             <Popover id="popover-balance">
               <div className="text-overflow">
                 <span className="text-orange">
-                  <FormattedNumber value={ this.props.user.user.balanceSub } />
-                </span> { this.props.market.market.name }{' / '}
-                <span className="text-light">{ this.props.user.user.balance } ETH</span>
+                  <FormattedNumber value={ this.props.balance } />
+                </span> { this.props.symbol }{' / '}
+                <span className="text-light">{ this.props.balance } ETH</span>
               </div>
             </Popover>} >
           <span>
             <b><FormattedMessage id='balance' />:</b> <span className="text-orange">
               <FormattedNumber value={ this.props.user.user.balanceSub } />
-            </span> { this.props.market.market.name }{' / '}
+            </span> { this.props.contractName }{' / '}
             <span className="text-light">
               { this.props.user.user.balanceFormatted &&
                 <FormattedMessage

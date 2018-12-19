@@ -6,14 +6,14 @@ import ConfirmModal from './ConfirmModal';
 
 import DTUContract from '../clients/contractService';
 
-const contractAddress = "0xF92bbac6a4e9bD4a9B4b53015ED6A0bc1ca6b1E6";
+const contractAddress = "0xEC63f28b7b7a3fC5B8E2d831C171C083408E6586";
 
 let DTU = new DTUContract(contractAddress);
 
 let SubWithdraw = injectIntl(React.createClass({
   getInitialState: function() {
     return {
-      amount: null,
+      // amount: null,
       recipient: null,
       newWithdrawal: false,
       showModal: false,
@@ -107,9 +107,9 @@ let SubWithdraw = injectIntl(React.createClass({
     e.preventDefault();
 
     try {
-      const accounts = await DTU.getAccount();
+      // const accounts = await DTU.getAccount();
 
-      await DTU.burn(accounts, this.state.amount);
+      await DTU.burn(this.props.accounts, this.state.amount);
 
     } catch (err) {
         this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });

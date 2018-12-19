@@ -6,7 +6,7 @@ import ConfirmModal from './ConfirmModal';
 
 import DTUContract from '../clients/contractService';
 
-const contractAddress = "0xF92bbac6a4e9bD4a9B4b53015ED6A0bc1ca6b1E6";
+const contractAddress = "0xEC63f28b7b7a3fC5B8E2d831C171C083408E6586";
 
 let DTU = new DTUContract(contractAddress);
 
@@ -51,11 +51,11 @@ let SubDeposit = injectIntl(React.createClass({
     if (!amount) {
       this.props.setAlert('warning', this.props.intl.formatMessage({id: 'form.empty'}));
     }
-    else if (parseFloat(amount) > this.props.user.balanceSub) {
+    else if (parseFloat(amount) > this.props.balance) {
       this.props.setAlert('warning',
         this.props.intl.formatMessage({id: 'deposit.not_enough'}, {
-          currency: this.props.market.name,
-          balance: this.props.user.balanceSub,
+          currency: this.props.contractName,
+          balance: this.props.balance,
           amount: amount
         })
       );
@@ -66,7 +66,7 @@ let SubDeposit = injectIntl(React.createClass({
         confirmMessage:
           <FormattedMessage id='deposit.confirm' values={{
               amount: amount,
-              currency: this.props.market.name
+              currency: this.props.contractName
             }}
           />
       });
@@ -86,31 +86,13 @@ let SubDeposit = injectIntl(React.createClass({
     e.stopPropagation();
   },
 
-  // onSubmitForm: function(e, el) {
-  //   e.preventDefault();
-
-  //   if (!this.validate(e, el))
-  //     return false;
-
-  //   this.props.flux.actions.user.depositSub({
-  //     amount: this.state.amount
-  //   });
-
-
-  //   this.setState({
-  //     amount: null
-  //     // newDeposit: false
-  //   });
-
-  // },
-
   async onSubmitDeposit(e) {
     e.preventDefault();
 
     try {
-      const accounts = await DTU.getAccount();
+      // const accounts = await DTU.getAccount();
 
-      await DTU.deposit(accounts, this.state.amount);
+      await DTU.deposit(this.props.accounts, this.state.amount);
 
     } catch (err) {
         this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
@@ -127,8 +109,8 @@ let SubDeposit = injectIntl(React.createClass({
       <form className="form-horizontal" role="form" onSubmit={this.handleValidation} >
         <Input type="number" className="form-control" ref="amount"
           label={<FormattedMessage id='form.amount' />} labelClassName="sr-only"
-          min={this.props.market.amountPrecision}
-          step={this.props.market.amountPrecision}
+          // min={this.props.market.amountPrecision}
+          // step={this.props.market.amountPrecision}
           placeholder="10.0000"
           onChange={this.handleChange}
           value={this.state.amount || ""} />

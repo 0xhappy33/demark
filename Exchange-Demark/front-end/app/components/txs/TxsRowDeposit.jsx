@@ -4,6 +4,9 @@ import {injectIntl, FormattedMessage, FormattedNumber} from 'react-intl';
 import bigRat from 'big-rational';
 
 let TxsRowDeposit = injectIntl(React.createClass({
+
+  
+
   render: function() {
     var amount = bigRat(this.props.tx.amount).divide(Math.pow(10, this.props.market.decimals)).valueOf();
     return (

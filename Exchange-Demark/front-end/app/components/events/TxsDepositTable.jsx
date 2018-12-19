@@ -34,7 +34,9 @@ let TxsDepositTable = React.createClass({
         <TxsRowDeposit key={tx.type + '-' + tx.hash + '-' + tx.id} tx={tx} market={this.state.market} user={this.props.user} />
       );
     }.bind(this));
+    // console.log("txs row deposit", txsRowDeposit);
     txsRowDeposit.reverse();
+    
 
     return (
       <div>
