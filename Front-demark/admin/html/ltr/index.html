@@ -212,6 +212,7 @@
 
                                         if (res.address) {
                                             var uid = $(this).attr('name');
+                                            // alert(uid);
                                             var data = {
                                                 name: dataRow[0],
                                                 symbol: dataRow[1],
@@ -222,6 +223,7 @@
                                                 address: res.address,
                                                 approve: true
                                             }
+                                            alert(data);
                                             var updates = {};
                                             updates['/tokens/' + uid] = data;
                                             firebase.database().ref().update(updates);

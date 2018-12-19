@@ -90,7 +90,7 @@ contract DTUToken is Implement {
     uint public totalSupply;         
     address public creator;
     address public cashier;
-    string public description;
+    string public contractDescription;
     uint[] public bonus = [5,6,7];
 
     modifier onlyCreator(){
@@ -118,7 +118,7 @@ contract DTUToken is Implement {
         symbol = _symbol;                                            
         rating = _unitCan;                                      
         cashier = _cashier;
-        description = _description;
+        contractDescription = _description;
         creator = msg.sender;
     }
 
