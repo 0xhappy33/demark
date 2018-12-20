@@ -193,7 +193,12 @@ let DemarkApp = React.createClass({
                           <div className="col-lg-6 top-bar-text">
                             <div className="row">
                               {(!this.state.market.error && !this.state.user.error) &&
-                                <LastPrice market={this.state.market.market} toggleGraph={this.onToggleGraph} />}
+                                <LastPrice 
+                                  user={this.state.user}
+                                  balance={this.state.balance} 
+                                  symbol={this.state.symbol}
+                                  contractName={this.state.contractName}
+                                  toggleGraph={this.onToggleGraph} />}
                             </div>
                           </div>
                           <div className="col-lg-6 top-bar-text">
@@ -218,7 +223,7 @@ let DemarkApp = React.createClass({
                       </div>
                       <div className="col-xs-3 col-md-2">
                         <div className="top-link text-right text-overflow">
-                          <UserLink address={this.state.account} showIcon={true} />
+                          <UserLink address={this.state.accounts} showIcon={true} />
                         </div>
                         <div className="top-btn-sm">
                           {(this.state.config.network != 1 && !this.state.config.demoMode) &&
@@ -244,7 +249,8 @@ let DemarkApp = React.createClass({
                     {!this.state.market.error &&
                       <BalanceSub
                         user={this.state.user}
-                        market={this.state.market}
+                        balance={this.state.balance} 
+                        symbol={this.state.symbol}
                         si={this.state.config.si} />
                     }
                   </div>
@@ -278,7 +284,8 @@ let DemarkApp = React.createClass({
                       {!this.state.market.error &&
                         <BalanceSub
                           user={this.state.user}
-                          market={this.state.market}
+                          balance={this.state.balance} 
+                          symbol={this.state.symbol}
                           si={this.state.config.si} />
                       }
 

@@ -66,8 +66,8 @@ let SubSend = injectIntl(React.createClass({
     else if (parseFloat(amount) > this.props.user.balanceSub) {
       this.props.setAlert('warning',
         this.props.intl.formatMessage({ id: 'sub.not_enough' }, {
-          currency: this.props.market.name,
-          balance: this.props.user.balanceSub
+          currency: this.props.contractName,
+          balance: this.props.balance
         })
       );
     }
@@ -84,7 +84,7 @@ let SubSend = injectIntl(React.createClass({
         confirmMessage:
           <FormattedMessage id='sub.send' values={{
             amount: this.state.amount,
-            currency: this.props.market.name,
+            currency: this.props.contractName,
             recipient: this.state.recipient
           }}
           />
@@ -151,8 +151,8 @@ let SubSend = injectIntl(React.createClass({
 
         <Input type="number" ref="amount"
           label={<FormattedMessage id='form.amount' />} labelClassName="sr-only"
-          min={this.props.market.amountPrecision}
-          step={this.props.market.amountPrecision}
+          // min={this.props.market.amountPrecision}
+          // step={this.props.market.amountPrecision}
           placeholder="10.0000"
           onChange={this.handleChange}
           value={this.state.amount || ""} />

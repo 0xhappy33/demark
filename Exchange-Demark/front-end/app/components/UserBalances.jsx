@@ -17,7 +17,7 @@ let UserBalances = React.createClass({
                 ETH
               </div>
               <div className="pull-right">
-                <FormattedNumber value={ this.props.user.balance } />
+                <FormattedNumber value={ this.props.balance } />
               </div>
             </div>
             <div className="pull-right text-light">
@@ -26,7 +26,7 @@ let UserBalances = React.createClass({
           </div>
           <div className="account-row underline clearfix">
             <div className="pull-left">
-              { this.props.market.name }
+              { this.props.symbol }
             </div>
             <div className="pull-right">
               <FormattedNumber value={ this.props.user.balanceSub } />

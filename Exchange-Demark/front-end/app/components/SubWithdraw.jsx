@@ -55,8 +55,8 @@ let SubWithdraw = injectIntl(React.createClass({
     else if (parseFloat(amount) > this.props.user.balanceSubAvailable) {
       this.props.setAlert('warning',
         this.props.intl.formatMessage({id: 'withdraw.not_enough'}, {
-          currency: this.props.market.name,
-          balance: this.props.user.balanceSubAvailable,
+          currency: this.props.constractName,
+          balance: this.props.balance,
           amount: amount
         })
       );
@@ -67,7 +67,7 @@ let SubWithdraw = injectIntl(React.createClass({
         confirmMessage:
           <FormattedMessage id='withdraw.confirm' values={{
               amount: amount,
-              currency: this.props.market.name
+              currency: this.props.contractName
             }}
           />
       });
@@ -127,8 +127,8 @@ let SubWithdraw = injectIntl(React.createClass({
         <Input type="number" ref="amount"
           placeholder="10.0000"
           label={<FormattedMessage id='form.amount' />} labelClassName="sr-only"
-          min={this.props.market.amountPrecision}
-          step={this.props.market.amountPrecision}
+          // min={this.props.market.amountPrecision}
+          // step={this.props.market.amountPrecision}
           onChange={this.handleChange}
           value={this.state.amount || ""} />
 

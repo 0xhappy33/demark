@@ -9,9 +9,12 @@ import TxsRowDeposit from '../txs/TxsRowDeposit';
 let TxsDepositTable = React.createClass({
   getInitialState: function() {
     var index = _.findIndex(this.props.market.markets, {'id': this.props.market.market.id});
+    
     var market = this.props.market.markets[index];
     return {
-      market: market
+      market: market,
+      // addressContract: this.props.addressContract,
+      api1: this.props.api1
     };
   },
 
@@ -29,6 +32,7 @@ let TxsDepositTable = React.createClass({
   },
 
   render: function() {
+    // console.log("API11111111111111 ", this.state.api1);
     var txsRowDeposit = _.sortBy(this.props.txs, 'block').map(function (tx) {
       return (
         <TxsRowDeposit key={tx.type + '-' + tx.hash + '-' + tx.id} tx={tx} market={this.state.market} user={this.props.user} />

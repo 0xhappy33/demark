@@ -54,7 +54,7 @@ let SubDeposit = injectIntl(React.createClass({
     else if (parseFloat(amount) > this.props.balance) {
       this.props.setAlert('warning',
         this.props.intl.formatMessage({id: 'deposit.not_enough'}, {
-          currency: this.props.contractName,
+          currency: this.props.symbol,
           balance: this.props.balance,
           amount: amount
         })

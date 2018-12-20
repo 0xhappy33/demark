@@ -19,7 +19,7 @@ let Balance = React.createClass({
           <span>
             <b><FormattedMessage id='balance' />:</b> <span className="text-orange">
               <FormattedNumber value={ this.props.user.user.balanceSub } />
-            </span> { this.props.contractName }{' / '}
+            </span> { this.props.symbol }{' / '}
             <span className="text-light">
               { this.props.user.user.balanceFormatted &&
                 <FormattedMessage
