@@ -41,6 +41,9 @@ let TxsList = React.createClass({
                   <span><FormattedMessage id='loading' />...</span> }
             </h3>
           </div>
+          <div className="col-md-6 col-sm-6">
+            <input type="text" placeholder="Search transaction history"/>
+          </div>
         </div>
         {this.props.market.market.error &&
           <AlertDismissable ref="alerts" level={"warning"} message={this.props.market.market.error} show={true} />}

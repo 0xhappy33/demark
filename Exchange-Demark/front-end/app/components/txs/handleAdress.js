@@ -17,6 +17,7 @@ module.exports={
     parseDate(num){
         let tmp = parseInt(num, 16);
         let d = new Date(tmp*1000);
-        return `${d.getUTCHours()}h ${d.getMinutes()}m ${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`;
+        // return `${d.getUTCHours()}h ${d.getMinutes()}m ${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`;
+        return d.toTimeString() +" "+ d.toLocaleDateString();
     }
 }

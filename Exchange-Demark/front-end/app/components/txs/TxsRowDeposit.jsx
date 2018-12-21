@@ -32,7 +32,6 @@ let TxsRowDeposit = injectIntl(React.createClass({
         <td>
           <div className="text-right">
               { handle.parseAmount(this.props.result.topics[2]) }
-          
           </div>
         </td>
         <td>
