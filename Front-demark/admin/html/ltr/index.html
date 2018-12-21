@@ -177,6 +177,7 @@
                     <script src="../../dist/js/pages/dashboards/dashboard1.js"></script>
                     <script src="../../js/submit-token.js"></script>
                     <script>
+                        
                         var databaseRef = firebase.database().ref('tokens/');
                         // var index = 1;
                         databaseRef.once('value', function (snapshot) {
@@ -195,7 +196,7 @@
                                 $.each($tds, function () {
                                     dataRow.push($(this).text())
                                 });
-                                
+
 
                                 myContract.new(
                                     dataRow[0],
@@ -228,7 +229,7 @@
                                             updates['/tokens/' + uid] = data;
                                             firebase.database().ref().update(updates);
                                             alert('test');
-                                            dataRow=[];
+                                            dataRow = [];
                                         }
                                     });
 

@@ -1,5 +1,6 @@
 
 let abi;
+
 let byteCode;
 let currentAccount;
 let myContract;
@@ -35,6 +36,8 @@ const getAccounts = async () => {
 
 }
 window.onload = async function () {
+
+    
     if (typeof web3 !== 'undefined') {
         web3 = new Web3(web3.currentProvider);
     } else {
@@ -50,14 +53,40 @@ window.onload = async function () {
     abi = contractCompile.contracts[':DTUToken'].interface;
     byteCode = contractCompile.contracts[':DTUToken'].bytecode;
     myContract = web3.eth.contract(JSON.parse(abi));
-    var databaseRef = firebase.database().ref();
-    var tokensRef = databaseRef.child('/tokens/{id}');
-    var temp;
-    tokensRef.on("child_added", snap => {
-        temp = snap.val();
+
+    var ref = await firebase.database().ref('/users/');
+    ref.once('value').then(function (snapshot) {
+        snapshot.forEach(function (childData) {
+            if (childData.key.toUpperCase() === currentAccount.toUpperCase()) {
+                // console.log(childData.key);
+                // console.log(currentAccount);
+                let temp = childData.key;
+                // console.log(temp);
+                var refTemp = firebase.database().ref('/users/' + temp);
+                refTemp.once('value').then(function (snapshotTemp) {
+                    var checkTrue = (snapshotTemp.val() && snapshotTemp.val().isAdmin);
+                    // console.log(username);
+                    // console.log('user/' + temp);
+                    if (checkTrue == false) {
+                        alert('you are not admin');
+                        
+                    }
+                });
+            }
+        });
     });
-    console.log(tokensRef.key);
-    console.log(firebase.database().ref().child('tokens').push().key);
+
+
+
+
+
+    // var tokensRef = databaseRef.child('/tokens/{id}');
+    // var temp;
+    // tokensRef.on("child_added", snap => {
+    //     temp = snap.val();
+    // });
+    // console.log(tokensRef.key);
+    // console.log(firebase.database().ref().child('tokens').push().key);
 
     // databaseRef.once('value', function (snapshot) {
     //     snapshot.forEach(function(childSnapshot) {
