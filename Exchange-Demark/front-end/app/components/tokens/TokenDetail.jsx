@@ -72,7 +72,11 @@ let TokenDetail = injectIntl(React.createClass({
                 totalSupply: totalSupply,
                 creator: creator,
                 currentBonus: currentBonus,
+<<<<<<< HEAD
                 currentState:currentState
+=======
+                currentState: currentState
+>>>>>>> 7eccac1a17b49885e215e9cd0c86217e8586b8e2
             });
 
         } catch (err) {
