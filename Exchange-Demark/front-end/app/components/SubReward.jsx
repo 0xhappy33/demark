@@ -30,8 +30,7 @@ let SubReward = injectIntl(React.createClass({
 
     try {
       let currentAcc = await DTU.getAccount();
-      // console.log("Current account: " + currentAcc);
-      // console.log("Current account: " + this.props.symbol);
+
       await DTU.reward(currentAcc);
 
     } catch (err) {

@@ -86,7 +86,7 @@ let BalanceSub = injectIntl(React.createClass({
             </h4>
           </OverlayTrigger>
         </div>
-        <div className="navbar col-md-12">
+        {/* <div className="navbar col-md-12">
           <div className="text-light">In trades</div>
           <OverlayTrigger trigger={['hover', 'click']} placement='left' rootClose={true} overlay={
               <Popover id="balance-trading-popover">
@@ -109,7 +109,7 @@ let BalanceSub = injectIntl(React.createClass({
               }
             </h4>
           </OverlayTrigger>
-        </div>
+        </div> */}
       </div>
     );
   }

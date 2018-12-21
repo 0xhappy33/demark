@@ -39,7 +39,8 @@ let TokenDetail = injectIntl(React.createClass({
             creator: '',
             currentBonus: '',
             totalSupply: '',
-            currentState: ''
+            currentState: '',
+            walletBalance: ''
         };
     },
 
@@ -61,6 +62,7 @@ let TokenDetail = injectIntl(React.createClass({
             let creator = await DTU.getCreator();
             let currentBonus = await DTU.getYourBonus(accounts);
             let currentState = await DTU.getState();
+            let walletBalance = await DTU.getWalletBalance(accounts);
 
             this.setState({
                 accounts: accounts,
@@ -72,7 +74,8 @@ let TokenDetail = injectIntl(React.createClass({
                 totalSupply: totalSupply,
                 creator: creator,
                 currentBonus: currentBonus,
-                currentState: currentState
+                currentState: currentState,
+                walletBalance: walletBalance
             });
 
         } catch (err) {
@@ -181,6 +184,7 @@ let TokenDetail = injectIntl(React.createClass({
                             contractName={this.state.contractName}
                             accounts={this.state.accounts} 
                             amount={this.state.amount}
+                            walletBalance={this.state.walletBalance}
                             user={this.props.user.user}
                             setAlert={this.setAlert} 
                             showAlert={this.showAlert} />

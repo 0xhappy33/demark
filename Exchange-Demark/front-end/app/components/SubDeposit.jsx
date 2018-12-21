@@ -47,8 +47,10 @@ let SubDeposit = injectIntl(React.createClass({
     this.setState({
       amount: amount
     });
-
-    if (!amount) {
+    if (amount < 0) {
+      this.props.setAlert('warning', this.props.intl.formatMessage({id: 'form.smaller'}));
+    }
+    else if (!amount) {
       this.props.setAlert('warning', this.props.intl.formatMessage({id: 'form.empty'}));
     }
     else if (parseFloat(amount) > this.props.balance) {

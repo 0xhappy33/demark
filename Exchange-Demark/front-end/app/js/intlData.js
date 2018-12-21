@@ -163,6 +163,7 @@ module.exports = {
       "address": "Address",
       "market": "Market",
       "empty": "Fill it up mate!",
+      "smaller": "Don't be smaller than 0!",
       "cheap": "Don't be cheap...",
       "warning": "Warning!",
       "yours": "Your trades"
