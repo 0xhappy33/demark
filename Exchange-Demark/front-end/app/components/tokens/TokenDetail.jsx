@@ -62,8 +62,6 @@ let TokenDetail = injectIntl(React.createClass({
             let currentBonus = await DTU.getYourBonus(accounts);
             let currentState = await DTU.getState();
 
-            console.log(".......... currentState ", currentState);
-
             this.setState({
                 accounts: accounts,
                 contractName: name,
@@ -73,7 +71,8 @@ let TokenDetail = injectIntl(React.createClass({
                 cashier: cashier,
                 totalSupply: totalSupply,
                 creator: creator,
-                currentBonus: currentBonus
+                currentBonus: currentBonus,
+                currentState: currentState
             });
 
         } catch (err) {
@@ -309,10 +308,10 @@ let TokenDetail = injectIntl(React.createClass({
                             {/* {(!this.props.market.market.txs.error) && */}
                                 <TxsList 
                                     title="Transactions history" 
-                                    flux={this.props.flux} 
+                                    // flux={this.props.flux} 
                                     market={this.props.market}
                                     addressContract={this.state.addressContract}
-                                    txs={this.props.market.market.txs} 
+                                    // txs={this.props.market.market.txs} 
                                     user={this.props.user} />
                         </div>
                     </div>

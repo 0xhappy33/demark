@@ -18,11 +18,12 @@ let TxsList = React.createClass({
   getInitialState() {
     return {
         addressContract: this.props.addressContract,
-        api1 : `https://api-rinkeby.etherscan.io/api?module=logs&action=getLogs&fromBlock=0&toBlock=latest&address=${this.props.addressContract}&topic0=${topic1}&apikey=NQNPZCN9E9X3BX5WEGISP84158T55AMW21`
+        apiDeposit : `https://api-rinkeby.etherscan.io/api?module=logs&action=getLogs&fromBlock=0&toBlock=latest&address=${this.props.addressContract}&topic0=${topic1}&apikey=NQNPZCN9E9X3BX5WEGISP84158T55AMW21`
     };
   },
 
   render: function() {
+    // console.log("API", this.state.apiDeposit);
     return (
       <div>
         <div className="container-fluid row">
@@ -41,7 +42,7 @@ let TxsList = React.createClass({
               <TxsDepositTable 
                 addressContract={this.state.addressContract} 
                 topic1={this.state.topic1} 
-                api1={this.state.api1}
+                apiDeposit={this.state.apiDeposit}
                 market={this.props.market}
                 // txs={this.props.txs} 
                 user={this.props.user.user} />
