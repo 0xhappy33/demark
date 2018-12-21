@@ -11,8 +11,6 @@
 
 <head>
   <title>Demark - A decentralized exchange for ethereum tokens</title>
-
-
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="https://www.gstatic.com/firebasejs/5.5.9/firebase.js"></script>
@@ -32,10 +30,11 @@
 
 <body>
   <div id="app"></div>
-  <script> console.log(firebase.database().ref().child('tokens').push().key);</script>
+  <!-- <script> console.log(firebase.database().ref().child('tokens').push().key);</script> -->
   <!-- <script>import firebase from 'firebase';</script> -->
   <script type="text/javascript" src="app.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.36/dist/web3.min.js" integrity="sha256-nWBTbvxhJgjslRyuAKJHK+XcZPlCnmIAAMixz6EefVk=" crossorigin="anonymous"></script>
+  <!-- <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script> -->
 </body>
 
 </html>

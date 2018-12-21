@@ -12,7 +12,16 @@ import TxsTransferTable from './events/TxsTransferTable';
 
 import {Tabs, Tab} from 'react-bootstrap';
 
+let topic1 = '0xf6f342132c7de5e5a1e99c8efae544c94731f3ff093f5c3c97c6973d9415cdfb';
 let TxsList = React.createClass({
+
+  getInitialState() {
+    return {
+        addressContract: this.props.addressContract,
+        api1 : `https://api-rinkeby.etherscan.io/api?module=logs&action=getLogs&fromBlock=0&toBlock=latest&address=${this.props.addressContract}&topic0=${topic1}&apikey=NQNPZCN9E9X3BX5WEGISP84158T55AMW21`
+    };
+  },
+
   render: function() {
     return (
       <div>
@@ -29,7 +38,13 @@ let TxsList = React.createClass({
         <div className="container-fluid">
           <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
             <Tab eventKey={1} title="Deposit">
-              <TxsDepositTable flux={this.props.flux} txs={this.props.txs} market={this.props.market} user={this.props.user.user} />
+              <TxsDepositTable 
+                addressContract={this.state.addressContract} 
+                topic1={this.state.topic1} 
+                api1={this.state.api1}
+                market={this.props.market}
+                // txs={this.props.txs} 
+                user={this.props.user.user} />
             </Tab>
             <Tab eventKey={2} title="Withdraw">
               <TxsWithdrawTable flux={this.props.flux} txs={this.props.txs} market={this.props.market} user={this.props.user.user} />

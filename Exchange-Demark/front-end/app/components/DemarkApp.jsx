@@ -1,8 +1,8 @@
 import _ from 'lodash';
 import React from 'react';
-import {StoreWatchMixin} from 'fluxxor';
-import {IntlProvider, FormattedMessage} from 'react-intl';
-import {OverlayTrigger, Popover, Button} from 'react-bootstrap';
+import { StoreWatchMixin } from 'fluxxor';
+import { IntlProvider, FormattedMessage } from 'react-intl';
+import { OverlayTrigger, Popover, Button } from 'react-bootstrap';
 import flatten from 'flat';
 
 import 'babel-polyfill';
@@ -49,12 +49,12 @@ let messages = flatten(intlData.messages);
 
 import DTUContract from '../clients/contractService';
 
-const contractAddress = "0xF92bbac6a4e9bD4a9B4b53015ED6A0bc1ca6b1E6";
+const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
 
 let DTU = new DTUContract(contractAddress);
 
 let DemarkApp = React.createClass({
-  mixins:[StoreWatchMixin("config", "network", "UserStore", "MarketStore", "TradeStore", "TicketStore")],
+  mixins: [StoreWatchMixin("config", "network", "UserStore", "MarketStore", "TradeStore", "TicketStore")],
 
   getInitialState() {
     return {
@@ -62,12 +62,17 @@ let DemarkApp = React.createClass({
       theme: 'flatly',
       category: false,
       loading: true,
-      account: ''
+      account: '',
+      contractName: '',
+      symbol: '',
+      balance: '',
+      rating: '',
+      walletBalance: ''
     };
   },
-  
+
   componentWillMount() {
-   
+
     // Load theme preference
     var theme = localStorage.theme;
     if (!_.includes(['darkly', 'flatly', 'superhero'], theme))
@@ -88,12 +93,25 @@ let DemarkApp = React.createClass({
     setTimeout(() => this.setState({ loading: false }), 1500);
     this.props.flux.actions.config.initializeState();
 
-    if (window.web3 && window.web3.currentProvider.isMetaMask) {
-        window.web3.eth.getAccounts((error, accounts) => {
-          this.setState({ account : accounts[0]});
+    try {
+      let accounts = await DTU.getAccount();
+      let name = await DTU.getName();
+      let symbol = await DTU.getSymbol();
+      let rating = await DTU.getRating();
+      let balance = await DTU.getBalance(accounts);
+      let walletBalance = await DTU.getWalletBalance(accounts);
+      // console.log({name:name,symbol:symbol,rating:rating,balance:balance})
+      this.setState({
+        accounts: accounts,
+        contractName: name,
+        symbol: symbol,
+        balance: balance,
+        rating: rating,
+        walletBalance: walletBalance
       });
-    } else {
-      console.log('MetaMask account not detected :(');
+
+    } catch (err) {
+      this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
     }
   },
 
@@ -135,7 +153,7 @@ let DemarkApp = React.createClass({
 
   render() {
     const { loading } = this.state;
-    if(loading) {
+    if (loading) {
       return null
     }
     return (
@@ -147,7 +165,7 @@ let DemarkApp = React.createClass({
                 <div className="col-md-2" id="side-bar">
                   <div className="row">
                     <NavBar flux={this.state.flux} />
-                    { this.state.market.error &&
+                    {this.state.market.error &&
                       <div className="container-fluid">
                         <div className="alert alert-danger" role="alert">
                           <h5>
@@ -155,8 +173,8 @@ let DemarkApp = React.createClass({
                           </h5>
                           {this.state.market.error}
                         </div>
-                      </div> }
-                    { this.state.user.error &&
+                      </div>}
+                    {this.state.user.error &&
                       <div className="container-fluid">
                         <div className="alert alert-danger" role="alert">
                           <h5>
@@ -164,7 +182,7 @@ let DemarkApp = React.createClass({
                           </h5>
                           {this.state.user.error}
                         </div>
-                      </div> }
+                      </div>}
                     {/* <div className="visible-lg">
                       <Network flux={this.state.flux} />
                     </div> */}
@@ -177,15 +195,22 @@ let DemarkApp = React.createClass({
                         <div className="row">
                           <div className="col-lg-6 top-bar-text">
                             <div className="row">
-                              { (!this.state.market.error && !this.state.user.error) &&
-                                <LastPrice market={this.state.market.market} toggleGraph={this.onToggleGraph} /> }
+                              {(!this.state.market.error && !this.state.user.error) &&
+                                <LastPrice 
+                                  user={this.state.user}
+                                  balance={this.state.balance} 
+                                  symbol={this.state.symbol}
+                                  contractName={this.state.contractName}
+                                  toggleGraph={this.onToggleGraph} />}
                             </div>
                           </div>
                           <div className="col-lg-6 top-bar-text">
                             <div className="row">
                               <Balance
                                 user={this.state.user}
-                                market={this.state.market}
+                                balance={this.state.balance} 
+                                symbol={this.state.symbol}
+                                walletBalance={this.state.walletBalance}
                                 si={this.state.config.si} />
                             </div>
                           </div>
@@ -193,41 +218,42 @@ let DemarkApp = React.createClass({
                       </div>
                       <div className="col-xs-2 col-md-2">
                         <div className="row">
-                          { !this.state.user.error &&
+                          {!this.state.user.error &&
                             <div className="top-btn pull-right">
                               <MarketSelect flux={this.state.flux} market={this.state.market} user={this.state.user} />
-                            </div> }
+                            </div>}
                         </div>
                       </div>
                       <div className="col-xs-3 col-md-2">
                         <div className="top-link text-right text-overflow">
-                          <UserLink address={ this.state.account } showIcon={true} />
+                          <UserLink address={this.state.accounts} showIcon={true} />
                         </div>
                         <div className="top-btn-sm">
-                          { (this.state.config.network != 1 && !this.state.config.demoMode) &&
+                          {(this.state.config.network != 1 && !this.state.config.demoMode) &&
                             <OverlayTrigger trigger={['click']} placement='bottom' rootClose={true} overlay={
                               <Popover id="network-id-popover">
-                                Network ID { this.state.config.network }
+                                Network ID {this.state.config.network}
                               </Popover>}>
                               <div className="pull-right">
                                 <Button bsStyle="warning" bsSize="xsmall">TESTNET</Button>
                               </div>
-                            </OverlayTrigger> }
-                          { this.state.config.demoMode &&
+                            </OverlayTrigger>}
+                          {this.state.config.demoMode &&
                             <div className="pull-right">
                               <Button bsStyle="warning" bsSize="xsmall" onClick={this.disableDemoMode}>
                                 Rinkeby Test Network
                               </Button>
-                            </div> }
+                            </div>}
                         </div>
                       </div>
                     </div>
                   </div>
                   <div className="row visible-xs visible-sm sub-bar">
-                    { !this.state.market.error &&
+                    {!this.state.market.error &&
                       <BalanceSub
                         user={this.state.user}
-                        market={this.state.market}
+                        balance={this.state.balance} 
+                        symbol={this.state.symbol}
                         si={this.state.config.si} />
                     }
                   </div>
@@ -235,15 +261,15 @@ let DemarkApp = React.createClass({
                     <div className="col-md-10">
                       <div className="inner-content">
 
-                        { (!this.state.market.error && this.state.showGraph) &&
+                        {(!this.state.market.error && this.state.showGraph) &&
                           <div className="container-fluid">
                             <div className="row">
                               <RangeSelect flux={this.state.flux} />
                               <GraphPrice market={this.state.market} height={320} full={false} />
                             </div>
-                          </div> }
+                          </div>}
 
-                        { (!this.state.market.error && !this.state.user.error) &&
+                        {(!this.state.market.error && !this.state.user.error) &&
                           React.cloneElement(this.props.children, {
                             flux: this.state.flux,
                             config: this.state.config,
@@ -258,13 +284,14 @@ let DemarkApp = React.createClass({
                       </div>
                     </div>
                     <div className="col-md-2 visible-md visible-lg sub-bar">
-                      { !this.state.market.error &&
+                      {!this.state.market.error &&
                         <BalanceSub
                           user={this.state.user}
-                          market={this.state.market}
+                          balance={this.state.balance} 
+                          symbol={this.state.symbol}
                           si={this.state.config.si} />
                       }
-                     
+
                     </div>
                   </div>
                 </div>
@@ -272,9 +299,9 @@ let DemarkApp = React.createClass({
             </div>
           </div>
 
-          <LoadingModal flux={ this.state.flux } network={ this.state.network } config={ this.state.config } theme={ this.state.theme } />
+          <LoadingModal flux={this.state.flux} network={this.state.network} config={this.state.config} theme={this.state.theme} />
 
-          <Favicon url={fixtures.favicon} animated={false} alertCount={ this.state.config.alertCount } />
+          <Favicon url={fixtures.favicon} animated={false} alertCount={this.state.config.alertCount} />
         </div>
       </IntlProvider>
     );

@@ -67,8 +67,8 @@ let TokenRequest = React.createClass({
             // dbcon.push({
             //     name:name
             // })
-            alert('token is requested');
-            console.log(data);
+            alert('Token is requested');
+            // console.log(data);
             this.refs.name.value = "";
             this.refs.symbol.value = "";
             this.refs.rating.value = "";
