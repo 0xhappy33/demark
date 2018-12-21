@@ -185,7 +185,7 @@
                                 var childKey = childSnapshot.key;
                                 var childData = childSnapshot.val();
                                 if (childData.approve == false) {
-                                    $('#tbl_tokens tbody').append(`<tr><td class="font-medium">${childData.name}</td><td><span class="label label-success label-rounded">${childData.symbol}</span> </td><td class="txt-oflo">${childData.rating}</td><td class="txt-oflo">${childData.decimals}</td><td class="txt-oflo">${childData.cashier}</td><td><span class="txt-oflo">${childData.description}</span></td><td><input type="button" class="btn btn-success btnDeploy" name=${childKey} value="Deploy" /></td></tr>`);
+                                    $('#tbl_tokens tbody').append(`<tr><td class="font-medium">${childData.name}</td><td><span class="label label-success label-rounded">${childData.symbol}</span> </td><td class="txt-oflo">${childData.rating}</td><td class="txt-oflo">${childData.decimals}</td><td class="txt-oflo">${childData.cashier}</td><td><span class="txt-oflo">${childData.description}</span></td><td><input type="button" id="deployID" class="btn btn-success btnDeploy" name=${childKey} value="Deploy" /></td></tr>`);
 
                                 }
                             });

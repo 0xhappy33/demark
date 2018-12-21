@@ -1,6 +1,4 @@
-
 let abi;
-
 let byteCode;
 let currentAccount;
 let myContract;
@@ -54,29 +52,41 @@ window.onload = async function () {
     byteCode = contractCompile.contracts[':DTUToken'].bytecode;
     myContract = web3.eth.contract(JSON.parse(abi));
 
-    var ref = await firebase.database().ref('/users/');
-    ref.once('value').then(function (snapshot) {
+    var refDB = await firebase.database().ref('/users/');
+    refDB.once('value').then(function (snapshot) {
         snapshot.forEach(function (childData) {
             if (childData.key.toUpperCase() === currentAccount.toUpperCase()) {
                 // console.log(childData.key);
                 // console.log(currentAccount);
                 let temp = childData.key;
-                // console.log(temp);
+                 console.log(temp);
                 var refTemp = firebase.database().ref('/users/' + temp);
                 refTemp.once('value').then(function (snapshotTemp) {
                     var checkTrue = (snapshotTemp.val() && snapshotTemp.val().isAdmin);
                     // console.log(username);
                     // console.log('user/' + temp);
                     if (checkTrue == false) {
-                        alert('you are not admin');
-                        
+                        alert('You are not admin! You cannot deploy tokens!');
+                        $('#deployID').prop('disabled',true);
                     }
+                    
                 });
             }
         });
     });
-
-
+    // truyen dtuid vao bien
+    var dtuid = '2121116947';
+    var refDBforAddr = await firebase.database().ref('/users/');
+    refDBforAddr.on('value', function (snapshotAddr){  
+        snapshotAddr.forEach(function (dataAddr){
+            var key = dataAddr.key;
+            var dataval = dataAddr.val();
+            if(dataval.dtuID == dtuid){
+                console.log(key);
+            }
+            
+        });
+    }); 
 
 
 
@@ -131,7 +141,7 @@ async function clickSubmit(tokenId) {
 
     let contract = web3.eth.contract(JSON.parse(abi));
     console.log(tokenId);
-
+    
     contract.new(
         _contractName,
         _contractDecimals,
