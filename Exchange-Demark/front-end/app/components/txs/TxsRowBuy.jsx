@@ -1,13 +1,10 @@
 import React from 'react';
 import {injectIntl} from 'react-intl';
-// import {Popover, OverlayTrigger} from 'react-bootstrap';
-import bigRat from 'big-rational';
 import handle from './handleAdress';
 
 let TxsRowBuy = injectIntl(React.createClass({
 
   render: function() {
-    // var amount = bigRat(this.props.result.topics[2]).divide(Math.pow(10, 0)).valueOf();
     
     return (
       <tr>
@@ -23,12 +20,12 @@ let TxsRowBuy = injectIntl(React.createClass({
         </td>
         <td>
           <div className="text-right">
-          { handle.parseToken(this.props.result.topics[2]) }
+          { handle.parseAmount(this.props.result.topics[2]) }
           </div>
         </td>
         <td>
           <div className="text-right">
-          { handle.parseToken(this.props.result.topics[3]) }
+          { handle.parseAmount(this.props.result.topics[3]) }
           </div>
         </td>
         <td>

@@ -147,17 +147,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <!-- <td class="font-medium">MCMDJWOJGPI</td> -->
-                                            <td class="font-medium">DTUK</td>
-                                            <td><span class="label label-success label-rounded">DTUK</span> </td>
-                                            <td class="txt-oflo">100</td>
-                                            <td class="txt-oflo">0</td>
-                                            <td class="txt-oflo">0xA75B2d7b277919c224B198743C88EfE608BA8c1e</td>
-                                            <td><span class="txt-oflo">A token for tuition fees at Duy Tan university</span></td>
-                                            <td><input type="button" class="btn btn-success" onclick="clickDeploy()"
-                                                    value="Deploy Token" /></td>
-                                        </tr>
 
                                     </tbody>
                                 </table>
@@ -186,40 +175,70 @@
                     <script src="../../assets/libs/chartist/dist/chartist.min.js"></script>
                     <script src="../../assets/libs/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.min.js"></script>
                     <script src="../../dist/js/pages/dashboards/dashboard1.js"></script>
+                    <script src="../../js/submit-token.js"></script>
                     <script>
+                        
                         var databaseRef = firebase.database().ref('tokens/');
-                        var tblTokens = document.getElementById('tbl_tokens');
-                        var index = 1;
+                        // var index = 1;
                         databaseRef.once('value', function (snapshot) {
                             snapshot.forEach(function (childSnapshot) {
                                 var childKey = childSnapshot.key;
                                 var childData = childSnapshot.val();
                                 if (childData.approve == false) {
-                                    var row = tblTokens.insertRow(index);
-                                    var cellId = row.insertCell(0);
-                                    var cellName = row.insertCell(1);
-                                    var cellSymbol = row.insertCell(2);
-                                    var cellRating = row.insertCell(3);
-                                    var cellDecimals = row.insertCell(4);
+                                    $('#tbl_tokens tbody').append(`<tr><td class="font-medium">${childData.name}</td><td><span class="label label-success label-rounded">${childData.symbol}</span> </td><td class="txt-oflo">${childData.rating}</td><td class="txt-oflo">${childData.decimals}</td><td class="txt-oflo">${childData.cashier}</td><td><span class="txt-oflo">${childData.description}</span></td><td><input type="button" id="deployID" class="btn btn-success btnDeploy" name=${childKey} value="Deploy" /></td></tr>`);
 
-
-                                    var cellAddress = row.insertCell(5);
-                                    var cellDescription = row.insertCell(6);
-
-                                    cellId.appendChild(document.createTextNode(childKey));
-                                    cellName.appendChild(document.createTextNode(childData.name));
-                                    cellSymbol.appendChild(document.createTextNode(childData.symbol));
-                                    cellRating.appendChild(document.createTextNode(childData.rating));
-                                    cellDecimals.appendChild(document.createTextNode(childData.decimals));
-                                    cellAddress.appendChild(document.createTextNode(childData.address));
-                                    cellDescription.appendChild(document.createTextNode(childData.description));
-
-                                    index++;
                                 }
+                            });
+                            $(".btnDeploy").click(function () {
+                                var $row = $(this).closest("tr"),
+                                    $tds = $row.find("td");
+                                let dataRow = [];
+                                $.each($tds, function () {
+                                    dataRow.push($(this).text())
+                                });
+
+
+                                myContract.new(
+                                    dataRow[0],
+                                    dataRow[3],
+                                    dataRow[1],
+                                    dataRow[2],
+                                    dataRow[4],
+                                    dataRow[5],
+                                    {
+                                        data: `0x${byteCode}`,
+                                        from: currentAccount,
+                                        gas: 4800000
+                                    }, async (err, res) => {
+
+                                        if (res.address) {
+                                            var uid = $(this).attr('name');
+                                            // alert(uid);
+                                            var data = {
+                                                name: dataRow[0],
+                                                symbol: dataRow[1],
+                                                rating: dataRow[2],
+                                                decimals: dataRow[3],
+                                                cashier: dataRow[4],
+                                                description: dataRow[5],
+                                                address: res.address,
+                                                approve: true
+                                            }
+                                            alert(data);
+                                            var updates = {};
+                                            updates['/tokens/' + uid] = data;
+                                            firebase.database().ref().update(updates);
+                                            alert('test');
+                                            dataRow = [];
+                                        }
+                                    });
+
+
                             });
 
                         });
                     </script>
+                    <script src="../../js/submit-token.js"></script>
 </body>
 
 </html>

@@ -1,7 +1,7 @@
-
 let abi;
 let byteCode;
 let currentAccount;
+let myContract;
 let dataInstance = async (_data) => {
     return new Promise((resolve, reject) => {
         BrowserSolc.getVersions(function (soljsonSources, soljsonReleases) {
@@ -34,6 +34,8 @@ const getAccounts = async () => {
 
 }
 window.onload = async function () {
+
+    
     if (typeof web3 !== 'undefined') {
         web3 = new Web3(web3.currentProvider);
     } else {
@@ -44,25 +46,90 @@ window.onload = async function () {
         throw new Error();
     }
     currentAccount = await getAccounts();
-    // console.log(currentAccount);
-
-    let fileContract = await getData('../contracts/DTUToken.sol');
+    let fileContract = await getData('../../contracts/DTUToken.sol');
     let contractCompile = await dataInstance(fileContract);
     abi = contractCompile.contracts[':DTUToken'].interface;
     byteCode = contractCompile.contracts[':DTUToken'].bytecode;
-    var databaseRef = firebase.database().ref();
-    var tokensRef = databaseRef.child('/tokens/{id}');
-    var temp;
-    tokensRef.on("child_added", snap => {
-        temp = snap.val();
+    myContract = web3.eth.contract(JSON.parse(abi));
+
+    var refDB = await firebase.database().ref('/users/');
+    refDB.once('value').then(function (snapshot) {
+        snapshot.forEach(function (childData) {
+            if (childData.key.toUpperCase() === currentAccount.toUpperCase()) {
+                // console.log(childData.key);
+                // console.log(currentAccount);
+                let temp = childData.key;
+                 console.log(temp);
+                var refTemp = firebase.database().ref('/users/' + temp);
+                refTemp.once('value').then(function (snapshotTemp) {
+                    var checkTrue = (snapshotTemp.val() && snapshotTemp.val().isAdmin);
+                    // console.log(username);
+                    // console.log('user/' + temp);
+                    if (checkTrue == false) {
+                        alert('You are not admin! You cannot deploy tokens!');
+                        $('#deployID').prop('disabled',true);
+                    }
+                    
+                });
+            }
+        });
     });
-    console.log(tokensRef.key);
-    console.log(firebase.database().ref().child('tokens').push().key);
+    // truyen dtuid vao bien
+    var dtuid = '2121116947';
+    var refDBforAddr = await firebase.database().ref('/users/');
+    refDBforAddr.on('value', function (snapshotAddr){  
+        snapshotAddr.forEach(function (dataAddr){
+            var key = dataAddr.key;
+            var dataval = dataAddr.val();
+            if(dataval.dtuID == dtuid){
+                console.log(key);
+            }
+            
+        });
+    }); 
+
+
+
+    // var tokensRef = databaseRef.child('/tokens/{id}');
+    // var temp;
+    // tokensRef.on("child_added", snap => {
+    //     temp = snap.val();
+    // });
+    // console.log(tokensRef.key);
+    // console.log(firebase.database().ref().child('tokens').push().key);
+
+    // databaseRef.once('value', function (snapshot) {
+    //     snapshot.forEach(function(childSnapshot) {
+    //         var childKey = childSnapshot.key;
+    //         var childData = childSnapshot.val();
+    //         console.log(childKey);
+    //         console.log(childData);
+    //     });
+    //     var datatemp = snapshot.val();
+    //     console.log(datatemp.name);
+
+    // });
 }
+// test request token
+// function save_tokens() {
+//     var uid = '-LSId1KwOtg4jftMxKZE';
+//     var data = {
+//         name: "updates23456",
+//         symbol: "asd",
+//         rating: "_contractRating",
+//         decimals: "_contractDecimals",
+//         cashier: "_contractCashier",
+//         description: "description",
+//         //address: res.address,
+//         approve: true
+//     }
+//     var updates = {};
+//     updates['/tokens/'+uid] = data;
+//     firebase.database().ref().update(updates);
+//     alert('test');
+// }
 
-
-
-async function clickSubmit() {
+async function clickSubmit(tokenId) {
     let _contractName = $('#contractName').val();
     let _contractSymbol = $('#contractSymbol').val();
     let _contractDecimals = $('#contractDecimals').val();
@@ -71,10 +138,10 @@ async function clickSubmit() {
     let _contractDescription = $('#contractDescription').val();
 
     // console.log({_contractName:_contractName,_contractSymbol:_contractSymbol,_contractDecimals:_contractDecimals,_contractRating:_contractRating,_contractCashier:_contractCashier,_contractDescription:_contractDescription});
-    
+
     let contract = web3.eth.contract(JSON.parse(abi));
-
-
+    console.log(tokenId);
+    
     contract.new(
         _contractName,
         _contractDecimals,
@@ -90,7 +157,7 @@ async function clickSubmit() {
 
             if (res.address) {
                 console.log(res.address);
-                var uid = '-LSId1KwOtg4jftMxKZE';
+                var uid = tokenId;
                 // var uid = firebase.database().ref().child('tokens').push().key;
                 var data = {
                     name: _contractName,
@@ -109,5 +176,4 @@ async function clickSubmit() {
 
             }
         });
-
 }

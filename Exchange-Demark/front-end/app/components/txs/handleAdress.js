@@ -9,17 +9,11 @@ module.exports={
     parseAmount(num){
         return parseInt(num, 16)/1000000000000000000+" ETH";
     },
+
     parseToken(num){
-        return parseInt(num, 16)/1000000000000000000;
+        return parseInt(num.slice(num.length-26), 16);
     },
-
-    parseValueToken(str){
-        let start= str.indexOf('x') + 1;
-        let start2 = start.indexOf(num2!==0);
-        let arrSplit = num.split(start);
-        return parseInt(num, 16);
-    },
-
+    
     parseDate(num){
         let tmp = parseInt(num, 16);
         let d = new Date(tmp*1000);

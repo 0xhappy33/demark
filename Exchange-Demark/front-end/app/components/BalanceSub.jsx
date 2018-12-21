@@ -9,7 +9,7 @@ let BalanceSub = injectIntl(React.createClass({
     var formatMessage = this.props.intl.formatMessage;
     var available = this.props.user.user.balanceSubAvailable;
     var trading = this.props.user.user.balanceSubTrading;
-    var balance = this.props.user.user.balanceSub;
+    var balance = this.props.balance;
 
     return (
       <div>

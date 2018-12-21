@@ -4,8 +4,6 @@ import firebase from 'firebase';
 
 import { Link } from 'react-router';
 
-// const tokenAPI = `http://api.ethplorer.io/getAddressInfo/0x32Be343B94f860124dC4fEe278FDCBD38C102D88?apiKey=freekey`;
-
 class Market extends React.Component {
 
     constructor(props) {
@@ -39,6 +37,7 @@ class Market extends React.Component {
                 if (item.approve == true) {
                     tokenData.push(item);
                     index++;
+                    
                 }
             });
         });
@@ -89,6 +88,7 @@ class Market extends React.Component {
                         {/* )} */}
                     </div>
                 </div>
+                
             </div>
 
         );
