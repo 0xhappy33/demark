@@ -11,31 +11,35 @@ let LastPrice = React.createClass({
     };
   },
 
-  componentWillReceiveProps: function(nextProps) {
-    if (nextProps.market.name == this.state.lastMarket) {
-      if (nextProps.market.lastPrice > this.state.lastPrice)
-        this.setState({
-          priceChange: 'success'
-        });
-      else if (nextProps.market.lastPrice < this.state.lastPrice)
-        this.setState({
-          priceChange: 'danger'
-        });
-    }
-    else
-      this.setState({
-        lastMarket: nextProps.market.name,
-        lastPrice: "N/A",
-        priceChange: 'default'
-      });
+  // componentDidMount() {
 
-    if (nextProps.market.lastPrice && nextProps.market.name) {
-      this.setState({
-        lastMarket: nextProps.market.name,
-        lastPrice: utils.numeral(nextProps.market.lastPrice, String(nextProps.market.precision).length - 1)
-      });
-    }
-  },
+  // },
+
+  // componentWillReceiveProps(nextProps) {
+  //   if (this.props.contractName == this.state.lastMarket) {
+  //     if (nextProps.market.lastPrice > this.state.lastPrice)
+  //       this.setState({
+  //         priceChange: 'success'
+  //       });
+  //     else if (nextProps.market.lastPrice < this.state.lastPrice)
+  //       this.setState({
+  //         priceChange: 'danger'
+  //       });
+  //   }
+  //   else
+  //     this.setState({
+  //       lastMarket: this.props.contractName,
+  //       lastPrice: "N/A",
+  //       priceChange: 'default'
+  //     });
+
+  //   if (nextProps.market.lastPrice && this.props.contractName) {
+  //     this.setState({
+  //       lastMarket: this.props.contractName,
+  //       lastPrice: utils.numeral(nextProps.market.lastPrice, String(nextProps.market.precision).length - 1)
+  //     });
+  //   }
+  // },
 
   render: function() {
     return (

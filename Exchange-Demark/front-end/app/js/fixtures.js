@@ -1669,7 +1669,7 @@ var fixtures = {
         "balance": 3866.53390136035,
         "balanceFormatted": {
           "value": 3.8665339013603495,
-          "unit": "Kether"
+          "unit": "ETH"
         },
         "balancePending": 0,
         "balanceSub": 12,

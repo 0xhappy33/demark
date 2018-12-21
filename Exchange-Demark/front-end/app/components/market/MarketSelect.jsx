@@ -43,14 +43,14 @@ let MarketSelect = React.createClass({
           </DropdownButton>
         </span>
         <span className="hidden-xs">
-          <DropdownButton
+          {/* <DropdownButton
             id="market-md-dropdown"
             ref="market"
             onSelect={this.handleChange}
             title={this.state.market}
             pullRight >
               { this.state.items }
-          </DropdownButton>
+          </DropdownButton> */}
         </span>
       </div>
     );

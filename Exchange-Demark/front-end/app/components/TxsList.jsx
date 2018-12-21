@@ -11,9 +11,27 @@ import TxsBuyTable from './events/TxsBuyTable';
 import TxsTransferTable from './events/TxsTransferTable';
 
 import {Tabs, Tab} from 'react-bootstrap';
+import sha3 from '../clients/sha3';
+
+// let topicDeposit = '0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c';
+// let topicWithDraw = '0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c';
+// let topicTransfer = '0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c';
+// let topicBuyToken = '0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c';
 
 let TxsList = React.createClass({
+
+  getInitialState() {
+    return {
+        addressContract: this.props.addressContract,
+        apiDeposit : `https://api-rinkeby.etherscan.io/api?module=logs&action=getLogs&fromBlock=0&toBlock=latest&address=${this.props.addressContract}&topic0=${sha3.topicDeposit()}&apikey=NQNPZCN9E9X3BX5WEGISP84158T55AMW21`,
+        apiWithDraw : `https://api-rinkeby.etherscan.io/api?module=logs&action=getLogs&fromBlock=0&toBlock=latest&address=${this.props.addressContract}&topic0=${sha3.topicFundTransfer()}&apikey=NQNPZCN9E9X3BX5WEGISP84158T55AMW21`,
+        apiTransfer : `https://api-rinkeby.etherscan.io/api?module=logs&action=getLogs&fromBlock=0&toBlock=latest&address=${this.props.addressContract}&topic0=${sha3.topicTransfer()}&apikey=NQNPZCN9E9X3BX5WEGISP84158T55AMW21`,
+        apiBuyToken : `https://api-rinkeby.etherscan.io/api?module=logs&action=getLogs&fromBlock=0&toBlock=latest&address=${this.props.addressContract}&topic0=${sha3.topicBuyToken()}&apikey=NQNPZCN9E9X3BX5WEGISP84158T55AMW21`
+    };
+  },
+
   render: function() {
+    // console.log("API", this.state.apiDeposit);
     return (
       <div>
         <div className="container-fluid row">
@@ -29,16 +47,32 @@ let TxsList = React.createClass({
         <div className="container-fluid">
           <Tabs defaultActiveKey={1} id="uncontrolled-tab-example">
             <Tab eventKey={1} title="Deposit">
-              <TxsDepositTable flux={this.props.flux} txs={this.props.txs} market={this.props.market} user={this.props.user.user} />
+              <TxsDepositTable 
+                addressContract={this.state.addressContract} 
+                apiDeposit={this.state.apiDeposit}
+                market={this.props.market}
+                user={this.props.user.user} />
             </Tab>
             <Tab eventKey={2} title="Withdraw">
-              <TxsWithdrawTable flux={this.props.flux} txs={this.props.txs} market={this.props.market} user={this.props.user.user} />
+              <TxsWithdrawTable 
+                addressContract={this.state.addressContract} 
+                apiWithDraw={this.state.apiWithDraw}
+                market={this.props.market}
+                user={this.props.user.user} />
             </Tab>
             <Tab eventKey={3} title="Transfer">
-              <TxsTransferTable flux={this.props.flux} txs={this.props.txs} market={this.props.market} user={this.props.user.user} />
+              <TxsTransferTable 
+                addressContract={this.state.addressContract} 
+                apiTransfer={this.state.apiTransfer} 
+                market={this.props.market} 
+                user={this.props.user.user} />
             </Tab>
             <Tab eventKey={4} title="Buy">
-              <TxsBuyTable flux={this.props.flux} txs={this.props.txs} market={this.props.market} user={this.props.user.user} />
+              <TxsBuyTable 
+                addressContract={this.state.addressContract} 
+                apiBuyToken={this.state.apiBuyToken} 
+                market={this.props.market} 
+                user={this.props.user.user} />
             </Tab>
           </Tabs>
         </div>

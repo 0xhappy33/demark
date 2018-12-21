@@ -1,37 +1,51 @@
 import _ from 'lodash';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
-import {Table} from 'react-bootstrap';
+import { FormattedMessage } from 'react-intl';
+import { Table } from 'react-bootstrap';
 
 import TransitionGroup from '../TransitionGroup';
 import TxsRowDeposit from '../txs/TxsRowDeposit';
 
+import axios from 'axios';
+
 let TxsDepositTable = React.createClass({
-  getInitialState: function() {
-    var index = _.findIndex(this.props.market.markets, {'id': this.props.market.market.id});
+
+  getInitialState: function () {
+    var index = _.findIndex(this.props.market.markets, { 'id': this.props.market.market.id });
+
     var market = this.props.market.markets[index];
     return {
-      market: market
+      market: market,
+      addressContract: this.props.addressContract,
+      apiDeposit: this.props.apiDeposit,
+      result: []
     };
   },
 
-  componentDidMount: function() {
+  componentDidMount: function () {
     this.componentWillReceiveProps(this.props);
   },
 
-  componentWillReceiveProps: function(nextProps) {
-    var index = _.findIndex(nextProps.market.markets, {'id': nextProps.market.market.id});
+  componentWillReceiveProps: function (nextProps) {
+    var index = _.findIndex(nextProps.market.markets, { 'id': nextProps.market.market.id });
     var market = nextProps.market.markets[index];
+
+    axios.get(this.state.apiDeposit)
+    .then(res => {
+      this.setState({
+        result: res.data.result
+      })
+    });
 
     this.setState({
       market: market
     });
   },
 
-  render: function() {
-    var txsRowDeposit = _.sortBy(this.props.txs, 'block').map(function (tx) {
+  render: function () {
+    var txsRowDeposit = _.sortBy(this.state.result, 'blockNumber').map(function (result) {
       return (
-        <TxsRowDeposit key={tx.type + '-' + tx.hash + '-' + tx.id} tx={tx} market={this.state.market} user={this.props.user} />
+        <TxsRowDeposit result={result} user={this.props.user} />
       );
     }.bind(this));
     txsRowDeposit.reverse();
@@ -49,7 +63,7 @@ let TxsDepositTable = React.createClass({
             </tr>
           </thead>
           <TransitionGroup transitionName="trades" component="tbody" enterTimeout={1000} leaveTimeout={1000}>
-            { txsRowDeposit }
+            {txsRowDeposit}
           </TransitionGroup>
         </Table>
       </div>

@@ -83,7 +83,7 @@ module.exports = {
         },
         "Win": {
           "install": `Download the
-                        <a href="https://build.ethdev.com/builds/Windows%20Go%20develop%20branch/Geth-Win64-latest.zip">
+                        <a href="#">
                           lastest geth build
                         </a>
                       for Windows`,
@@ -262,6 +262,7 @@ module.exports = {
     "txs_events": {
       "block": "Block #",
       "from": "From",
+      "fromto": "From / To",
       "to": "To",
       "exchange": "Exchange",
       "amount": "Amount",

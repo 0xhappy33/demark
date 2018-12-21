@@ -93,7 +93,7 @@ let routes = (
       <Route path="markets/xchain" component={Markets} />
       <Route path="markets/assets" component={Markets} />
       <Route path="markets/currencies" component={Markets} />
-      <Route path="tokendetail" component={TokenDetail} />
+      <Route path="/tokendetail" component={TokenDetail}/>
       {/* <Route path="btc/buy" component={Tickets} />
       <Route path="btc/sell" component={CreateTicket} />
       <Route path="btc/reserve" component={ReserveTicket} />

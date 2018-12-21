@@ -2,38 +2,42 @@ import React from 'react';
 import {injectIntl, FormattedMessage, FormattedNumber} from 'react-intl';
 // import {Popover, OverlayTrigger} from 'react-bootstrap';
 import bigRat from 'big-rational';
+import handle from './handleAdress';
 
 let TxsRowDeposit = injectIntl(React.createClass({
-  render: function() {
-    var amount = bigRat(this.props.tx.amount).divide(Math.pow(10, this.props.market.decimals)).valueOf();
+  
+  
+  getInitialState: function () {
+    return {
+      iBlockNumber: this.props.result.blockNumber,
+      iTimeStamp: this.props.result.timeStamp
+    };
+  },
+
+
+
+  render() {
     return (
       <tr>
         <td>
           <div className="text-center">
-            <FormattedNumber value={this.props.tx.block} />
+            {handle.parseBlock(this.state.iBlockNumber)}
           </div>
         </td>
         <td>
           <div className="text-center">
-              { this.props.tx.from }
+              { handle.handleAddr(this.props.result.topics[1]) }
           </div>
         </td>
         <td>
           <div className="text-right">
-            <FormattedMessage id='ether' values={{
-                value: amount,
-                unit: this.props.market.name
-              }}
-            />
+              { handle.parseAmount(this.props.result.topics[2]) }
+          
           </div>
         </td>
         <td>
           <div className="text-right">
-            <FormattedMessage id='ether' values={{
-                value: amount,
-                unit: this.props.market.name
-              }}
-            />
+            { handle.parseDate(this.state.iTimeStamp) }
           </div>
         </td>
       </tr>

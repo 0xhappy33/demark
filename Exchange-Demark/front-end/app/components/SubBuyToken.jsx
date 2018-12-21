@@ -10,7 +10,7 @@ let fixtures = require("../js/fixtures");
 
 import DTUContract from '../clients/contractService';
 
-const contractAddress = "0xF92bbac6a4e9bD4a9B4b53015ED6A0bc1ca6b1E6";
+const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
 
 let DTU = new DTUContract(contractAddress);
 
@@ -129,13 +129,12 @@ let SubBuyToken = injectIntl(React.createClass({
     try {
       let accounts = await DTU.getAccount();
       let rating = await DTU.getRating();
-      let symbol = await DTU.getSymbol();
+      // let symbol = await DTU.getSymbol();
 
       // console.log("NAME ****** ", symbol);
 
       this.setState({
-        rating: rating,
-        symbol: symbol
+        rating: rating        
       })
       
       let value = this.state.amount / this.state.rating;
@@ -143,9 +142,7 @@ let SubBuyToken = injectIntl(React.createClass({
       this.setState({
         value: value
       });
-
-      // console.log(this.state.value, "  sddddd");
-      // console.log("Rating ***** ", rating," eth : ", this.state.amount/rating);
+      
       await DTU.buyToken(accounts, this.state.amount, this.state.value);
 
     } catch (err) {
@@ -162,13 +159,6 @@ let SubBuyToken = injectIntl(React.createClass({
   render: function() {
     return (
       <form className="form-horizontal" role="form" onSubmit={this.handleValidation} >
-        {/* <Input type="text" ref="address"
-          label={<FormattedMessage id='form.address' />} labelClassName="sr-only"
-          placeholder="0x"
-          maxLength="42" pattern="0x[a-fA-F\d]+"
-          onChange={this.handleChange}
-          value={this.state.recipient || ""} /> */}
-
         <Input type="number" ref="amount"
           label={<FormattedMessage id='form.amount' />} labelClassName="sr-only"
           placeholder="10.0000"

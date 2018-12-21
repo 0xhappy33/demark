@@ -6,14 +6,14 @@ import ConfirmModal from './ConfirmModal';
 
 import DTUContract from '../clients/contractService';
 
-const contractAddress = "0xF92bbac6a4e9bD4a9B4b53015ED6A0bc1ca6b1E6";
+const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
 
 let DTU = new DTUContract(contractAddress);
 
 let SubWithdraw = injectIntl(React.createClass({
   getInitialState: function() {
     return {
-      amount: null,
+      // amount: null,
       recipient: null,
       newWithdrawal: false,
       showModal: false,
@@ -55,8 +55,8 @@ let SubWithdraw = injectIntl(React.createClass({
     else if (parseFloat(amount) > this.props.user.balanceSubAvailable) {
       this.props.setAlert('warning',
         this.props.intl.formatMessage({id: 'withdraw.not_enough'}, {
-          currency: this.props.market.name,
-          balance: this.props.user.balanceSubAvailable,
+          currency: this.props.constractName,
+          balance: this.props.balance,
           amount: amount
         })
       );
@@ -67,7 +67,7 @@ let SubWithdraw = injectIntl(React.createClass({
         confirmMessage:
           <FormattedMessage id='withdraw.confirm' values={{
               amount: amount,
-              currency: this.props.market.name
+              currency: this.props.contractName
             }}
           />
       });
@@ -107,9 +107,9 @@ let SubWithdraw = injectIntl(React.createClass({
     e.preventDefault();
 
     try {
-      const accounts = await DTU.getAccount();
+      // const accounts = await DTU.getAccount();
 
-      await DTU.burn(accounts, this.state.amount);
+      await DTU.burn(this.props.accounts, this.state.amount);
 
     } catch (err) {
         this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
@@ -127,8 +127,8 @@ let SubWithdraw = injectIntl(React.createClass({
         <Input type="number" ref="amount"
           placeholder="10.0000"
           label={<FormattedMessage id='form.amount' />} labelClassName="sr-only"
-          min={this.props.market.amountPrecision}
-          step={this.props.market.amountPrecision}
+          // min={this.props.market.amountPrecision}
+          // step={this.props.market.amountPrecision}
           onChange={this.handleChange}
           value={this.state.amount || ""} />
 
