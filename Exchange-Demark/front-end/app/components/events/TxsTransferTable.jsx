@@ -6,12 +6,17 @@ import {Table} from 'react-bootstrap';
 import TransitionGroup from '../TransitionGroup';
 import TxsRowTransfer from '../txs/TxsRowTransfer';
 
+import axios from 'axios';
+
 let TxsTransferTable = React.createClass({
   getInitialState: function() {
     var index = _.findIndex(this.props.market.markets, {'id': this.props.market.market.id});
     var market = this.props.market.markets[index];
     return {
-      market: market
+      market: market,
+      addressContract: this.props.addressContract,
+      apiTransfer: this.props.apiTransfer,
+      result: []
     };
   },
 
@@ -23,15 +28,22 @@ let TxsTransferTable = React.createClass({
     var index = _.findIndex(nextProps.market.markets, {'id': nextProps.market.market.id});
     var market = nextProps.market.markets[index];
 
+    axios.get(this.state.apiTransfer)
+    .then(res => {
+      this.setState({
+        result: res.data.result
+      })
+    });
+
     this.setState({
       market: market
     });
   },
 
   render: function() {
-    var txsRowTransfer = _.sortBy(this.props.txs, 'block').map(function (tx) {
+    var txsRowTransfer = _.sortBy(this.state.result, 'blockNumber').map(function (result) {
       return (
-        <TxsRowTransfer key={tx.type + '-' + tx.hash + '-' + tx.id} tx={tx} market={this.state.market} user={this.props.user} />
+        <TxsRowTransfer result={result} market={this.state.market} user={this.props.user} />
       );
     }.bind(this));
     txsRowTransfer.reverse();
@@ -44,8 +56,7 @@ let TxsTransferTable = React.createClass({
             <tr>
             {/* Block , Age, From, Amount, Exchange */}
               <th className="text-center"><FormattedMessage id='txs_events.block' /></th>
-              <th className="text-center"><FormattedMessage id='txs_events.from' /></th>
-              <th className="text-center"><FormattedMessage id='txs_events.to' /></th>
+              <th className="text-center"><FormattedMessage id='txs_events.fromto' /></th>
               <th className="text-center"><FormattedMessage id='txs_events.amount' /></th>
               <th className="text-right"><FormattedMessage id='txs_events.datetime' /></th>
             </tr>

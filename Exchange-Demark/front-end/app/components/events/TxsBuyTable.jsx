@@ -6,12 +6,17 @@ import {Table} from 'react-bootstrap';
 import TransitionGroup from '../TransitionGroup';
 import TxsRowBuy from '../txs/TxsRowBuy';
 
+import axios from 'axios';
+
 let TxsBuyTable = React.createClass({
   getInitialState: function() {
     var index = _.findIndex(this.props.market.markets, {'id': this.props.market.market.id});
     var market = this.props.market.markets[index];
     return {
-      market: market
+      market: market,
+      addressContract: this.props.addressContract,
+      apiBuyToken: this.props.apiBuyToken,
+      result: []
     };
   },
 
@@ -22,6 +27,14 @@ let TxsBuyTable = React.createClass({
   componentWillReceiveProps: function(nextProps) {
     var index = _.findIndex(nextProps.market.markets, {'id': nextProps.market.market.id});
     var market = nextProps.market.markets[index];
+    
+    axios.get(this.state.apiBuyToken)
+    .then(res => {
+      this.setState({
+        result: res.data.result
+      })
+    });
+    // console.log(this.state.result)
 
     this.setState({
       market: market
@@ -29,9 +42,9 @@ let TxsBuyTable = React.createClass({
   },
 
   render: function() {
-    var txsRowBuy = _.sortBy(this.props.txs, 'block').map(function (tx) {
+    var txsRowBuy = _.sortBy(this.state.result, 'blockNumber').map(function (result) {
       return (
-        <TxsRowBuy key={tx.type + '-' + tx.hash + '-' + tx.id} tx={tx} market={this.state.market} user={this.props.user} />
+        <TxsRowBuy result={result} user={this.props.user} />
       );
     }.bind(this));
     txsRowBuy.reverse();

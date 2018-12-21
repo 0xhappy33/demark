@@ -3,54 +3,40 @@ import {injectIntl, FormattedMessage, FormattedNumber} from 'react-intl';
 // import {Popover, OverlayTrigger} from 'react-bootstrap';
 import bigRat from 'big-rational';
 
+import handle from './handleAdress';
+
 let TxsRowWithdraw = injectIntl(React.createClass({
+
+  getInitialState: function () {
+    return {
+      iBlockNumber: this.props.result.blockNumber,
+      iTimeStamp: this.props.result.timeStamp
+    };
+  },
+
   render: function() {
-    var amount = bigRat(this.props.tx.amount).divide(Math.pow(10, this.props.market.decimals)).valueOf();
     return (
       <tr>
         <td>
           <div className="text-center">
-            <FormattedNumber value={this.props.tx.block} />
+            {handle.parseBlock(this.state.iBlockNumber)}
           </div>
         </td>
         <td>
           <div className="text-center">
-              { this.props.tx.to }
+              { handle.handleAddr(this.props.result.topics[1]) }
           </div>
         </td>
         <td>
           <div className="text-right">
-            <FormattedMessage id='ether' values={{
-                value: amount,
-                unit: this.props.market.name
-              }}
-            />
+          { handle.parseAmount(this.props.result.topics[2]) }
           </div>
         </td>
         <td>
           <div className="text-right">
-              1st Mar, 2018
+            { handle.parseDate(this.state.iTimeStamp) }
           </div>
         </td>
-        {/* <td>
-          <OverlayTrigger trigger={['click']} placement='left' rootClose={true} overlay={
-              <Popover id={this.props.tx.hash + "-details"} bsSize="large">
-                <div className="help-block">
-                  { this.props.intl.formatMessage({id: 'txs.hash'}) }
-                  <div className="text-overflow">
-                    <code>{ this.props.tx.hash }</code>
-                  </div>
-                </div>
-                { this.props.tx.id &&
-                  <div className="help-block">
-                    { this.props.intl.formatMessage({id: 'txs.id'}) }
-                    <div className="text-overflow">
-                      <code>{ this.props.tx.id }</code>
-                    </div>
-                  </div> }
-              </Popover>}>
-          </OverlayTrigger>
-        </td> */}
       </tr>
     );
   }

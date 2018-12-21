@@ -16,10 +16,7 @@ let TxsDepositTable = React.createClass({
     var market = this.props.market.markets[index];
     return {
       market: market,
-      // addressContract: this.props.addressContract,
-      api1: this.props.api1,
       addressContract: this.props.addressContract,
-      topic1: this.props.topic1,
       apiDeposit: this.props.apiDeposit,
       result: []
     };
@@ -32,28 +29,26 @@ let TxsDepositTable = React.createClass({
   componentWillReceiveProps: function (nextProps) {
     var index = _.findIndex(nextProps.market.markets, { 'id': nextProps.market.market.id });
     var market = nextProps.market.markets[index];
+
     axios.get(this.state.apiDeposit)
     .then(res => {
       this.setState({
         result: res.data.result
       })
     });
-    console.log(this.state.result);
+
     this.setState({
       market: market
     });
   },
 
   render: function () {
-    // console.log("API11111111111111 ", this.state.api1);
-    var txsRowDeposit = _.sortBy(this.props.txs, 'block').map(function (tx) {
+    var txsRowDeposit = _.sortBy(this.state.result, 'blockNumber').map(function (result) {
       return (
-        <TxsRowDeposit key={tx.type + '-' + tx.hash + '-' + tx.id} tx={tx} user={this.props.user} />
+        <TxsRowDeposit result={result} user={this.props.user} />
       );
     }.bind(this));
-    // console.log("txs row deposit", txsRowDeposit);
     txsRowDeposit.reverse();
-
 
     return (
       <div>

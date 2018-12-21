@@ -262,6 +262,7 @@ module.exports = {
     "txs_events": {
       "block": "Block #",
       "from": "From",
+      "fromto": "From / To",
       "to": "To",
       "exchange": "Exchange",
       "amount": "Amount",
