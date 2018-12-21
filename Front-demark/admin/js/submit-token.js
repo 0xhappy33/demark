@@ -44,7 +44,7 @@ window.onload = async function () {
         throw new Error();
     }
     currentAccount = await getAccounts();
-    console.log(currentAccount);
+    // console.log(currentAccount);
 
     let fileContract = await getData('../contracts/DTUToken.sol');
     let contractCompile = await dataInstance(fileContract);

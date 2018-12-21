@@ -13,19 +13,19 @@ let Balance = React.createClass({
                 <span className="text-orange">
                   <FormattedNumber value={ this.props.balance } />
                 </span> { this.props.symbol }{' / '}
-                <span className="text-light">{ this.props.balance } ETH</span>
+                <span className="text-light">{ this.props.walletBalance } ETH</span>
               </div>
             </Popover>} >
           <span>
             <b><FormattedMessage id='balance' />:</b> <span className="text-orange">
-              <FormattedNumber value={ this.props.user.user.balanceSub } />
+              <FormattedNumber value={ this.props.balance } />
             </span> { this.props.symbol }{' / '}
             <span className="text-light">
               { this.props.user.user.balanceFormatted &&
                 <FormattedMessage
                   id='ether'
                   values={{
-                    value: this.props.user.user.balanceFormatted.value,
+                    value: this.props.walletBalance,
                     unit: this.props.user.user.balanceFormatted.unit
                   }}
                 /> }

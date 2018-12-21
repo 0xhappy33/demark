@@ -3,9 +3,11 @@ import {injectIntl, FormattedMessage, FormattedNumber} from 'react-intl';
 // import {Popover, OverlayTrigger} from 'react-bootstrap';
 import bigRat from 'big-rational';
 import axios from 'axios';
+import sha3 from '../../clients/sha3';
 
 let contract = '';
-let topic = '';
+let topic = sha3.topicDeposit();
+// console.log(topic)
 let API = `https://api-rinkeby.etherscan.io/api?module=logs&action=getLogs&fromBlock=0&toBlock=latest&address=${contract}&topic0=${topic}&apikey=NQNPZCN9E9X3BX5WEGISP84158T55AMW21`;
 
 
@@ -28,7 +30,7 @@ let TxsRowDeposit = injectIntl(React.createClass({
         })
       })
 
-    console.log(result);
+    console.log(this.state.result);
   },
   
   render() {

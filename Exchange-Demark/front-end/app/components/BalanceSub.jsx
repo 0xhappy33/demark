@@ -19,7 +19,7 @@ let BalanceSub = injectIntl(React.createClass({
               <Popover id="balance-sub-popover">
                 { formatMessage({id: 'wallet.balance'}, {
                     currency: this.props.symbol,
-                    balance: balance
+                    balance: this.props.balance
                   })
                 }
               </Popover>}>

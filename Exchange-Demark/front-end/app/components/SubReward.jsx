@@ -4,7 +4,7 @@ import {Button} from 'react-bootstrap';
 
 import DTUContract from '../clients/contractService';
 
-const contractAddress = "0xEC63f28b7b7a3fC5B8E2d831C171C083408E6586";
+const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
 
 let DTU = new DTUContract(contractAddress);
 

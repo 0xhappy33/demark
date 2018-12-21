@@ -10,7 +10,7 @@ let fixtures = require("../js/fixtures");
 
 import DTUContract from '../clients/contractService';
 
-const contractAddress = "0xF92bbac6a4e9bD4a9B4b53015ED6A0bc1ca6b1E6";
+const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
 
 let DTU = new DTUContract(contractAddress);
 

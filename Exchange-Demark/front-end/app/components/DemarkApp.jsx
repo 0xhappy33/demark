@@ -49,7 +49,7 @@ let messages = flatten(intlData.messages);
 
 import DTUContract from '../clients/contractService';
 
-const contractAddress = "0xEC63f28b7b7a3fC5B8E2d831C171C083408E6586";
+const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
 
 let DTU = new DTUContract(contractAddress);
 
@@ -66,7 +66,8 @@ let DemarkApp = React.createClass({
       contractName: '',
       symbol: '',
       balance: '',
-      rating: ''
+      rating: '',
+      walletBalance: ''
     };
   },
 
@@ -98,13 +99,15 @@ let DemarkApp = React.createClass({
       let symbol = await DTU.getSymbol();
       let rating = await DTU.getRating();
       let balance = await DTU.getBalance(accounts);
-
+      let walletBalance = await DTU.getWalletBalance(accounts);
+      // console.log({name:name,symbol:symbol,rating:rating,balance:balance})
       this.setState({
         accounts: accounts,
         contractName: name,
         symbol: symbol,
         balance: balance,
-        rating: rating
+        rating: rating,
+        walletBalance: walletBalance
       });
 
     } catch (err) {
@@ -207,7 +210,7 @@ let DemarkApp = React.createClass({
                                 user={this.state.user}
                                 balance={this.state.balance} 
                                 symbol={this.state.symbol}
-                                // market={this.state.market}
+                                walletBalance={this.state.walletBalance}
                                 si={this.state.config.si} />
                             </div>
                           </div>

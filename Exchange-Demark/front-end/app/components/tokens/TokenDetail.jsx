@@ -15,12 +15,9 @@ import TxsList from '../TxsList';
 
 import DTUContract from '../../clients/contractService';
 
-const contractAddress = "0xEC63f28b7b7a3fC5B8E2d831C171C083408E6586";
+const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
 
 let DTU = new DTUContract(contractAddress);
-
-let contract ='';
-let topic ='';
 
 
 let TokenDetail = injectIntl(React.createClass({
@@ -37,7 +34,12 @@ let TokenDetail = injectIntl(React.createClass({
             rating: '',
             symbol: '',
             contractDescription: '',
-            balance: ''
+            balance: '',
+            cashier: '',
+            creator: '',
+            currentBonus: '',
+            totalSupply: '',
+            currentState: ''
         };
     },
 
@@ -54,13 +56,24 @@ let TokenDetail = injectIntl(React.createClass({
             let symbol = await DTU.getSymbol();
             let rating = await DTU.getRating();
             let balance = await DTU.getBalance(accounts);
+            let cashier = await DTU.getCashier();
+            let totalSupply = await DTU.getTotalSupply();
+            let creator = await DTU.getCreator();
+            let currentBonus = await DTU.getYourBonus(accounts);
+            let currentState = await DTU.getState();
+
+            console.log(".......... currentState ", currentState);
 
             this.setState({
                 accounts: accounts,
                 contractName: name,
                 symbol: symbol,
                 balance: balance,
-                rating: rating
+                rating: rating,
+                cashier: cashier,
+                totalSupply: totalSupply,
+                creator: creator,
+                currentBonus: currentBonus
             });
 
         } catch (err) {
@@ -102,6 +115,16 @@ let TokenDetail = injectIntl(React.createClass({
         );
     },
     withdraw() {
+        if(this.state.currentState < 0) {
+            return(
+            <div className="panel panel-default">
+                <div className="panel-heading">
+                    <h3 className="panel-title">
+                        Not able to withdraw at this moment!
+                    </h3>
+                </div>
+            </div>)
+        }
         return (
             <div className="panel panel-default">
                 <div className="panel-heading">
@@ -185,6 +208,19 @@ let TokenDetail = injectIntl(React.createClass({
         );
     },
 
+    notification(currState) {
+        if(currState < 0) {
+            return(
+                <div className="panel panel-default">
+                    <div className="panel-heading">
+                        <p className="panel-title">Contract out of money</p>
+                    </div>
+                    
+                </div>
+            )
+        }
+    },
+
     render() {
         return (
             <div>
@@ -196,22 +232,44 @@ let TokenDetail = injectIntl(React.createClass({
                             <div className="col-md-6">
                                 <h1>{this.state.contractName}</h1>
                                 {/* <p>Tokens for tuition fees at Duy Tan university</p> */}
-
+                                <div className="row">
+                                    <div className="col-md-12">
+                                        <h5>Cashier</h5>
+                                        <span style={{color: 'blue', textDecoration: 'underline'}}>{this.state.cashier}</span>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="col-md-3">
+                                        <h5>Balance</h5>
+                                        <span style={{color: 'blue'}}>{this.state.balance}</span>
+                                    </div>
+                                    <div className="col-md-3">
+                                        <h5>Total supply</h5>
+                                        <span style={{color: 'blue'}}>{this.state.totalSupply}</span>
+                                    </div>
+                                    <div className="col-md-3">
+                                        <h5>Rating</h5>
+                                        <span style={{color: 'blue'}}>{this.state.rating}</span>
+                                    </div>
+                                    <div className="col-md-3">
+                                        <h5>Award</h5>
+                                        <span style={{color: 'blue'}}>{this.state.currentBonus}</span>
+                                    </div>
+                                </div>
                                 <div className="row">
                                     <div className="col-md-4">
-                                        <h5>Balance</h5>
-                                        <small>{this.state.balance}</small>
+                                        <h5>Creator</h5>
+                                        <span style={{color: 'blue'}}>{this.state.creator}</span>
                                     </div>
-                                    {/* <div className="col-md-4">
-                                        <h5>Last sold for</h5>
-                                        <a href="#">--</a>
-                                    </div> */}
                                 </div>
                             </div>
                             <div className="col-md-6">
                                 <h2>About {this.state.symbol}</h2>
-                                <small>Tokens for tuition fees at Back Khoa university
+                                <small>Tokens for tuition fees at Duy Tan university
                                 </small>
+                                
+                                {this.notification(this.state.currentState)}
+                                
                             </div>
                         </div>
                         <hr />
@@ -224,7 +282,8 @@ let TokenDetail = injectIntl(React.createClass({
                                         {this.deposit()}
                                     </Tab>
                                     <Tab eventKey={2} title={this.props.intl.formatMessage({ id: 'withdraw.currency' }, { currency: this.state.symbol })}>
-                                        {this.withdraw()}
+                                                {this.withdraw()
+                                                }
                                     </Tab>
                                     <Tab eventKey={3} title={this.props.intl.formatMessage({ id: 'send.currency' }, { currency: this.state.symbol })}>
                                         {this.transfer()}
