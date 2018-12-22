@@ -7,9 +7,9 @@ import utils from '../js/utils';
 let BalanceSub = injectIntl(React.createClass({
   render: function() {
     var formatMessage = this.props.intl.formatMessage;
-    var available = this.props.user.user.balanceSubAvailable;
-    var trading = this.props.user.user.balanceSubTrading;
-    var balance = this.props.user.user.balanceSub;
+    // var available = this.props.user.user.balanceSubAvailable;
+    // var trading = this.props.user.user.balanceSubTrading;
+    var balance = this.props.balance;
 
     return (
       <div>
@@ -38,9 +38,9 @@ let BalanceSub = injectIntl(React.createClass({
           </OverlayTrigger>
         </div>
         <div className="navbar col-md-12">
-          <div className="text-light">Available <span className="hidden-xs">to trade</span></div>
+          {/* <div className="text-light">Available <span className="hidden-xs">to trade</span></div> */}
           <div>
-            <OverlayTrigger trigger={['hover', 'click']} placement='left' rootClose={true} overlay={
+            {/* <OverlayTrigger trigger={['hover', 'click']} placement='left' rootClose={true} overlay={
                 <Popover id="balance-available-popover">
                   { formatMessage({id: 'wallet.available'}, {
                       currency: this.props.symbol,
@@ -60,14 +60,14 @@ let BalanceSub = injectIntl(React.createClass({
                   />
                 }
               </h4>
-            </OverlayTrigger>
+            </OverlayTrigger> */}
           </div>
           <OverlayTrigger trigger={['hover', 'click']} placement='left' rootClose={true} overlay={
               <Popover id="balance-pending-popover">
                 <div className="text-overflow">
                   { formatMessage({id: 'wallet.pending'}, {
                       currency: "ETH",
-                      balance: this.props.balance,
+                      balance: this.props.walletBalance,
                       pending: this.props.user.user.balancePending
                     })
                   }
@@ -78,7 +78,7 @@ let BalanceSub = injectIntl(React.createClass({
                 <FormattedMessage
                   id='ether'
                   values={{
-                    value: this.props.user.user.balanceFormatted.value,
+                    value: this.props.walletBalance,
                     unit: this.props.user.user.balanceFormatted.unit
                   }}
                 />
@@ -86,7 +86,7 @@ let BalanceSub = injectIntl(React.createClass({
             </h4>
           </OverlayTrigger>
         </div>
-        <div className="navbar col-md-12">
+        {/* <div className="navbar col-md-12">
           <div className="text-light">In trades</div>
           <OverlayTrigger trigger={['hover', 'click']} placement='left' rootClose={true} overlay={
               <Popover id="balance-trading-popover">
@@ -109,7 +109,7 @@ let BalanceSub = injectIntl(React.createClass({
               }
             </h4>
           </OverlayTrigger>
-        </div>
+        </div> */}
       </div>
     );
   }

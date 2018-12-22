@@ -3,38 +3,37 @@ import {injectIntl, FormattedMessage, FormattedNumber} from 'react-intl';
 // import {Popover, OverlayTrigger} from 'react-bootstrap';
 import bigRat from 'big-rational';
 
+import handle from './handleAdress';
+
 let TxtRowTransfer = injectIntl(React.createClass({
   render: function() {
-    var amount = bigRat(this.props.tx.amount).divide(Math.pow(10, this.props.market.decimals)).valueOf();
+    // var amount = bigRat(this.props.tx.amount).divide(Math.pow(10, this.props.market.decimals)).valueOf();
     return (
       <tr>
         <td>
           <div className="text-center">
-            <FormattedNumber value={this.props.tx.block} />
+            { handle.parseBlock(this.props.result.blockNumber)}
           </div>
         </td>
         <td>
           <div className="text-center">
-              { this.props.tx.from }
-          </div>
-        </td>
-        <td>
-          <div className="text-center">
-              { this.props.tx.to }
-          </div>
-        </td>
-        <td>
-          <div className="text-right">
-            <FormattedMessage id='ether' values={{
-                value: amount,
-                unit: this.props.market.name
-              }}
-            />
+              <samp>
+                  { handle.handleAddr(this.props.result.topics[1]) }
+                </samp>
+                  <br />
+                <samp>
+                  { handle.handleAddr(this.props.result.topics[2]) }
+              </samp>
           </div>
         </td>
         <td>
           <div className="text-right">
-            27th, July 2018
+          { handle.parseToken(this.props.result.topics[3]) }
+          </div>
+        </td>
+        <td>
+          <div className="text-right">
+            { handle.parseDate(this.props.result.timeStamp) }
           </div>
         </td>
       </tr>

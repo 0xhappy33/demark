@@ -63,7 +63,7 @@ let SubSend = injectIntl(React.createClass({
     else if (!amount) {
       this.props.setAlert('warning', this.props.intl.formatMessage({ id: 'form.cheap' }));
     }
-    else if (parseFloat(amount) > this.props.user.balanceSub) {
+    else if (parseFloat(amount) > this.props.balance) {
       this.props.setAlert('warning',
         this.props.intl.formatMessage({ id: 'sub.not_enough' }, {
           currency: this.props.contractName,

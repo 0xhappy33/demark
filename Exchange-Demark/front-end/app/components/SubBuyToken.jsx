@@ -19,7 +19,6 @@ let SubBuyToken = injectIntl(React.createClass({
   getInitialState: function() {
     return {
       amount: null,
-      // recipient: null,
       rating: null,
       symbol: null,
       value: null,
@@ -55,7 +54,6 @@ let SubBuyToken = injectIntl(React.createClass({
     var amount = this.refs.amount.getValue().trim();
 
     this.setState({
-      // recipient: address,
       amount: amount
     });
 
@@ -65,10 +63,10 @@ let SubBuyToken = injectIntl(React.createClass({
     if (!amount) {
       this.props.setAlert('warning', this.props.intl.formatMessage({id: 'form.cheap'}));
     }
-    else if (parseFloat(amount) > this.props.user.balance) {
+    else if (parseFloat(amount) > this.props.walletBalance) {
       this.props.setAlert('warning', this.props.intl.formatMessage({id: 'sub.not_enough'}, {
           currency: "ETH",
-          balance: this.props.user.balance
+          balance: this.props.walletBalance
         })
       );
     }

@@ -163,6 +163,7 @@ module.exports = {
       "address": "Address",
       "market": "Market",
       "empty": "Fill it up mate!",
+      "smaller": "Don't be smaller than 0!",
       "cheap": "Don't be cheap...",
       "warning": "Warning!",
       "yours": "Your trades"
@@ -262,6 +263,7 @@ module.exports = {
     "txs_events": {
       "block": "Block #",
       "from": "From",
+      "fromto": "From / To",
       "to": "To",
       "exchange": "Exchange",
       "amount": "Amount",

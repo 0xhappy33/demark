@@ -4,8 +4,6 @@ import firebase from 'firebase';
 
 import { Link } from 'react-router';
 
-// const tokenAPI = `http://api.ethplorer.io/getAddressInfo/0x32Be343B94f860124dC4fEe278FDCBD38C102D88?apiKey=freekey`;
-
 class Market extends React.Component {
 
     constructor(props) {
@@ -39,6 +37,7 @@ class Market extends React.Component {
                 if (item.approve == true) {
                     tokenData.push(item);
                     index++;
+                    
                 }
             });
         });
@@ -59,7 +58,7 @@ class Market extends React.Component {
                         <Table history id="tbl_tokens_list">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    {/* <th>#</th> */}
                                     <th>Name</th>
                                     <th>Symbol</th>
                                     <th>Address</th>
@@ -70,9 +69,9 @@ class Market extends React.Component {
                                 {this.state.tokens.map(item => {
                                     return (
                                         <tr key={item.key} value={item}>
-                                            <td className="style-row">
+                                            {/* <td className="style-row">
                                                 {item.key}
-                                            </td>
+                                            </td> */}
                                             <td className="style-row color-token-name">
                                                 <Link to="/tokendetail">
                                                     {item.name}
@@ -89,6 +88,7 @@ class Market extends React.Component {
                         {/* )} */}
                     </div>
                 </div>
+                
             </div>
 
         );

@@ -1,45 +1,36 @@
 import React from 'react';
-import {injectIntl, FormattedMessage, FormattedNumber} from 'react-intl';
-// import {Popover, OverlayTrigger} from 'react-bootstrap';
-import bigRat from 'big-rational';
+import {injectIntl} from 'react-intl';
+import handle from './handleAdress';
 
 let TxsRowBuy = injectIntl(React.createClass({
+
   render: function() {
-    var amount = bigRat(this.props.tx.amount).divide(Math.pow(10, this.props.market.decimals)).valueOf();
+    
     return (
       <tr>
         <td>
-        {/* Block , Age, From, Amount, Exchange */}
           <div className="text-center">
-            <FormattedNumber value={this.props.tx.block} />
+            {handle.parseBlock(this.props.result.blockNumber)}
           </div>
         </td>
         <td>
           <div className="text-center">
-              { this.props.tx.from }
+              { handle.handleAddr(this.props.result.topics[1]) }
           </div>
         </td>
         <td>
           <div className="text-right">
-            <FormattedMessage id='ether' values={{
-                value: amount,
-                unit: this.props.market.name
-              }}
-            />
+          { handle.parseAmount(this.props.result.topics[2]) }
           </div>
         </td>
         <td>
           <div className="text-right">
-            <FormattedMessage id='ether' values={{
-                value: amount,
-                unit: this.props.market.name
-              }}
-            />
+          { handle.parseAmount(this.props.result.topics[3]) }
           </div>
         </td>
         <td>
           <div className="text-right">
-              14th Sep, 2018
+            { handle.parseDate(this.props.result.timeStamp) }
           </div>
         </td>
       </tr>
