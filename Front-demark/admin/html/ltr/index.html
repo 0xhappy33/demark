@@ -224,11 +224,11 @@
                                                 address: res.address,
                                                 approve: true
                                             }
-                                            alert(data);
+                                            // alert(data);
                                             var updates = {};
                                             updates['/tokens/' + uid] = data;
                                             firebase.database().ref().update(updates);
-                                            alert('test');
+                                            alert('Your token have been deployed');
                                             dataRow = [];
                                         }
                                     });
