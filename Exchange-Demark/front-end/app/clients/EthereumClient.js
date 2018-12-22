@@ -15,7 +15,7 @@ var EthereumClient = function(params) {
       web3.setProvider(new web3.providers.HttpProvider('//' + params.host));
     }
 
-    var ContractABI = web3.eth.contract(abi.etherex);
+    var ContractABI = web3.eth.contract(abi.dtuk);
     this.contract = ContractABI.at(params.address);
 
     if (params.error)

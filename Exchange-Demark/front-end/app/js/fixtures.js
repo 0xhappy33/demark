@@ -48,7 +48,7 @@ var fixtures = {
     markets: {
       "market": {
         "id": 1,
-        "name": "ETX",
+        "name": "DTUK",
         "address": "0xda7ce79725418f4f6e13bf5f520c89cec5f6a974",
         "category": 1,
         "decimals": 5,
@@ -924,7 +924,7 @@ var fixtures = {
       "markets": [
         {
           "id": 1,
-          "name": "ETX",
+          "name": "DTUK",
           "address": "0xda7ce79725418f4f6e13bf5f520c89cec5f6a974",
           "category": 1,
           "decimals": 5,
@@ -1452,7 +1452,7 @@ var fixtures = {
             "owner": "0xcd2a3d9f938e13cd947ec05abc7fe734df8dd826",
             "market": {
               "id": 1,
-              "name": "ETX"
+              "name": "DTUK"
             },
             "status": "mined",
             "block": 875428
@@ -1510,7 +1510,7 @@ var fixtures = {
             "owner": "0xcd2a3d9f938e13cd947ec05abc7fe734df8dd826",
             "market": {
               "id": 1,
-              "name": "ETX"
+              "name": "DTUK"
             },
             "status": "mined",
             "block": 875424
@@ -1524,7 +1524,7 @@ var fixtures = {
             "owner": "0xcd2a3d9f938e13cd947ec05abc7fe734df8dd826",
             "market": {
               "id": 1,
-              "name": "ETX"
+              "name": "DTUK"
             },
             "status": "mined",
             "block": 875424
@@ -1538,7 +1538,7 @@ var fixtures = {
             "owner": "0xcd2a3d9f938e13cd947ec05abc7fe734df8dd826",
             "market": {
               "id": 1,
-              "name": "ETX"
+              "name": "DTUK"
             },
             "status": "mined",
             "block": 875424
@@ -1552,7 +1552,7 @@ var fixtures = {
             "owner": "0xcd2a3d9f938e13cd947ec05abc7fe734df8dd826",
             "market": {
               "id": 1,
-              "name": "ETX"
+              "name": "DTUK"
             },
             "status": "mined",
             "block": 875424
@@ -1566,7 +1566,7 @@ var fixtures = {
             "owner": "0xcd2a3d9f938e13cd947ec05abc7fe734df8dd826",
             "market": {
               "id": 1,
-              "name": "ETX"
+              "name": "DTUK"
             },
             "status": "mined",
             "block": 875426
@@ -1669,10 +1669,10 @@ var fixtures = {
         "balance": 3866.53390136035,
         "balanceFormatted": {
           "value": 3.8665339013603495,
-          "unit": "Kether"
+          "unit": "ETH"
         },
         "balancePending": 0,
-        "balanceSub": 0,
+        "balanceSub": 12,
         "balanceSubAvailable": 600,
         "balanceSubTrading": 0,
         "balanceSubPending": 0,

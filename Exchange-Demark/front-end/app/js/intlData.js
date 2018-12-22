@@ -57,14 +57,14 @@ module.exports = {
                       other {is fetching blocks from # peers}}.`,
       "force": "Load anyway",
       "failed": {
-        "header": "EtherEx failed to load",
-        "explain": "There was a problem loading EtherEx.",
-        "assistance": "Visit #etherex on IRC for assitance."
+        "header": "Demark failed to load",
+        "explain": "There was a problem loading Demark.",
+        "assistance": "Visit #Demark on IRC for assitance."
       },
       "connect": {
         "failed": "Ethereum not found",
-        "explain": `EtherEx requires an Ethereum client to be running and current.
-                    EtherEx could not detect a client running which probably means
+        "explain": `Demark requires an Ethereum client to be running and current.
+                    Demark could not detect a client running which probably means
                     it's not installed, running or is misconfigured.`,
         "assistance": `Get help installing and configuring Ethereum`
       },
@@ -83,7 +83,7 @@ module.exports = {
         },
         "Win": {
           "install": `Download the
-                        <a href="https://build.ethdev.com/builds/Windows%20Go%20develop%20branch/Geth-Win64-latest.zip">
+                        <a href="#">
                           lastest geth build
                         </a>
                       for Windows`,
@@ -113,10 +113,12 @@ module.exports = {
     "nav": {
       "toggle": "Toggle navigation",
       "categories": "Categories",
-      "trades": "Trades",
-      "markets": "Markets",
+      "trades": "Trade",
+      "markets": "Market",
       "wallet": "Wallet",
-      "tools": "Tools",
+      "account": "Account",
+      "request": "Request Token",
+      "tools": "Tool",
       "help": "Help"
     },
     "sections": {
@@ -157,16 +159,18 @@ module.exports = {
       "deposit": "Deposit",
       "withdraw": "Withdraw",
       "recipient": "Recipient",
+      "rating": "Rating",
       "address": "Address",
       "market": "Market",
       "empty": "Fill it up mate!",
+      "smaller": "Don't be smaller than 0!",
       "cheap": "Don't be cheap...",
       "warning": "Warning!",
       "yours": "Your trades"
     },
     "config": {
       "title": "Configuration",
-      "current": "EtherEx address",
+      "current": "Demark address",
       "new": "New address",
       "blockfee": "BTC relay block fee",
       "blockfeehelp": "Amount of wei you would charge to other users for the BTC block headers you would successfully store to btcrelay.",
@@ -186,11 +190,12 @@ module.exports = {
     },
     "deposit": {
       "currency": "Deposit {currency}",
-      "confirm": "Are you sure you want to deposit {amount, number} {currency}?",
+      "confirm": "Deposit {amount, number} ETH to {currency}?",
       "not_enough": "Not enough {currency} for a deposit of {amount, number}, you have {balance, number}"
     },
     "sub": {
-      "send": "Are you sure you want to send {amount, number} {currency} to {recipient}?",
+      "send": "Are you sure you want to send {amount, number} {currency} {recipient}?",
+      "buy": "Are you sure you want to buy {amount, number} {symbol} by sending {value} {currency}?",
       "not_enough": "Not enough {currency} available to send, got {balance, number}",
       "register": "Subcurrency registration",
       "code": "Subcurrency code",
@@ -209,8 +214,11 @@ module.exports = {
       "empty": "Dont' be cheap to yourself..."
     },
     "send": {
-      "send": "Send",
-      "currency": "Send {currency}"
+      "send": "Transfer",
+      "withdraw": "Withdraw",
+      "reward": "Reward",
+      "fund": "Buy",
+      "currency": "Transfer {currency}"
     },
     "market": {
       "favorite": "Favorite",
@@ -251,6 +259,15 @@ module.exports = {
       "details": "Details",
       "hash": "Hash",
       "id": "Trade ID"
+    },
+    "txs_events": {
+      "block": "Block #",
+      "from": "From",
+      "fromto": "From / To",
+      "to": "To",
+      "exchange": "Exchange",
+      "amount": "Amount",
+      "datetime": "Date / Time"
     },
     "user": {
       "account": "My Account",

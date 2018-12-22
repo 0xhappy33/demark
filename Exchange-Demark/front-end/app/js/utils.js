@@ -107,15 +107,15 @@ var utils = {
   consoleDebug: 'background-color: #217dbb; color: #fff; padding: 2px 6px;',
 
   log(prefix, message) {
-    console.log('%cEtherEx', this.consoleLog, prefix, message);
+    console.log('%DTUK', this.consoleLog, prefix, message);
   },
 
   warn(prefix, message) {
-    console.warn('%cEtherEx', this.consoleWarn, prefix, message);
+    console.warn('%cDTUK', this.consoleWarn, prefix, message);
   },
 
   error(prefix, message) {
-    console.error('%cEtherEx', this.consoleError, prefix, message);
+    console.error('%cDTUK', this.consoleError, prefix, message);
   },
 
   debug(prefix, message) {

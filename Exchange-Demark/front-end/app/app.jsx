@@ -4,21 +4,18 @@ import ReactDOM from 'react-dom';
 import {Router, Route, IndexRoute, useRouterHistory } from 'react-router';
 import { createHashHistory } from 'history';
 
-import EtherExApp from './components/EtherExApp';
+import DemarkApp from './components/DemarkApp';
 
-import Trades from './components/Trades';
 import Markets from './components/Markets';
+import Trades from './components/Trades';
 import UserDetails from './components/UserDetails';
-import Wallet from './components/Wallet';
+// import Wallet from './components/Wallet';
+import TokenRequest from './components/tokens/TokenRequest';
 import Tools from './components/Tools';
 import Help from './components/Help';
 import Placeholder from './components/Placeholder';
-
-import Tickets from './components/btcswap/Tickets';
-import CreateTicket from './components/btcswap/CreateTicket';
-import ReserveTicket from './components/btcswap/ReserveTicket';
-import ClaimTicket from './components/btcswap/ClaimTicket';
-import BtcHelp from './components/btcswap/Help';
+import TokenDetail from './components/tokens/TokenDetail';
+import MarketTest from './components/market/MarketTest';
 
 import ConfigStore from './stores/ConfigStore';
 import NetworkStore from './stores/NetworkStore';
@@ -34,9 +31,22 @@ import TradeActions from './actions/TradeActions';
 import MarketActions from './actions/MarketActions';
 import TicketActions from './actions/btcswap/TicketActions';
 
+import firebase from 'firebase';
+
+
 // Load fonts and icons
 require("./css/fonts.css");
 require("./css/icons.css");
+
+const config = {
+  apiKey: "AIzaSyDrssCstHJYF07bIF1DeIzYZN9SdCgA85U",
+  authDomain: "demark-dtbs.firebaseapp.com",
+  databaseURL: "https://demark-dtbs.firebaseio.com",
+  projectId:   "demark-dtbs",
+  storageBucket: "demark-dtbs.appspot.com",
+  messagingSenderId: "518328352226"
+};
+firebase.initializeApp(config);
 
 let stores = {
   config: new ConfigStore(),
@@ -54,6 +64,7 @@ let actions = {
   market: new MarketActions(),
   trade: new TradeActions(),
   ticket: new TicketActions()
+  //firebase: new FirebaseConn() // add firebase connect to actions
 };
 
 let flux = new Fluxxor.Flux(stores, actions);
@@ -69,25 +80,31 @@ flux.setDispatchInterceptor(function(action, dispatch) {
 });
 
 // Opt-out of fugly _k in query string
-const appHistory = useRouterHistory(createHashHistory)({ queryKey: false })
+let appHistory = useRouterHistory(createHashHistory)({ queryKey: false })
 
 let routes = (
   <Router history={appHistory} createElement={createFluxComponent}>
-    <Route path="/" component={EtherExApp}>
-      <IndexRoute component={Trades} />
-      <Route path="trades" component={Trades} />
+    <Route path="/" component={DemarkApp}>
+      <IndexRoute component={Markets} />
       <Route path="markets" component={Markets} />
+      <Route path="trades" component={Trades} />
+      <Route path="markets/token" component={Markets} />
       <Route path="markets/subs" component={Markets} />
       <Route path="markets/xchain" component={Markets} />
       <Route path="markets/assets" component={Markets} />
       <Route path="markets/currencies" component={Markets} />
-      <Route path="btc/buy" component={Tickets} />
+      <Route path="/tokendetail" component={TokenDetail}/>
+      {/* <Route path="btc/buy" component={Tickets} />
       <Route path="btc/sell" component={CreateTicket} />
       <Route path="btc/reserve" component={ReserveTicket} />
       <Route path="btc/claim" component={ClaimTicket} />
       <Route path="btc/help" component={BtcHelp} />
-      <Route path="btc/tickets/:ticketId" component={Tickets} />
-      <Route path="wallet" component={Wallet} />
+      <Route path="btc/tickets/:ticketId" component={Tickets} /> */}
+      {/* <Route path="wallet" component={Wallet} /> */}
+      {/* test data from api ethereum */}
+      <Route path="tokens" component={MarketTest} />
+      {/* test data from api ethereum */}
+      <Route path="request" component={TokenRequest} />
       <Route path="tools" component={Tools} />
       <Route path="help" component={Help} />
       <Route path="user" component={UserDetails} />
