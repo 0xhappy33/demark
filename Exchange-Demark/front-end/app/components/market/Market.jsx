@@ -58,7 +58,7 @@ class Market extends React.Component {
                         <Table history id="tbl_tokens_list">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    {/* <th>#</th> */}
                                     <th>Name</th>
                                     <th>Symbol</th>
                                     <th>Address</th>
@@ -69,9 +69,9 @@ class Market extends React.Component {
                                 {this.state.tokens.map(item => {
                                     return (
                                         <tr key={item.key} value={item}>
-                                            <td className="style-row">
+                                            {/* <td className="style-row">
                                                 {item.key}
-                                            </td>
+                                            </td> */}
                                             <td className="style-row color-token-name">
                                                 <Link to="/tokendetail">
                                                     {item.name}
