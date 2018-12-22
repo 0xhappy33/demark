@@ -1,10 +1,9 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-// import {ProgressBar} from 'react-bootstrap';
+
+import {FormGroup, FormControl} from 'react-bootstrap';
 
 import AlertDismissable from './AlertDismissable';
-// import RangeSelect from './RangeSelect';
-// import TxsTable from './TxsTable';
 import TxsDepositTable from './events/TxsDepositTable';
 import TxsWithdrawTable from './events/TxsWithdrawTable';
 import TxsBuyTable from './events/TxsBuyTable';
@@ -12,11 +11,6 @@ import TxsTransferTable from './events/TxsTransferTable';
 
 import {Tabs, Tab} from 'react-bootstrap';
 import sha3 from '../clients/sha3';
-
-// let topicDeposit = '0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c';
-// let topicWithDraw = '0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c';
-// let topicTransfer = '0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c';
-// let topicBuyToken = '0xe1fffcc4923d04b559f4d29a8bfc6cda04eb5b0d3c460751c2402c5c5cc9109c';
 
 let TxsList = React.createClass({
 
@@ -42,7 +36,7 @@ let TxsList = React.createClass({
             </h3>
           </div>
           <div className="col-md-6 col-sm-6">
-            <input type="text" placeholder="Search transaction history"/>
+            
           </div>
         </div>
         {this.props.market.market.error &&

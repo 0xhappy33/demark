@@ -252,6 +252,7 @@ let DemarkApp = React.createClass({
                     {!this.state.market.error &&
                       <BalanceSub
                         user={this.state.user}
+                        walletBalance={this.state.walletBalance}
                         balance={this.state.balance} 
                         symbol={this.state.symbol}
                         si={this.state.config.si} />
@@ -286,6 +287,7 @@ let DemarkApp = React.createClass({
                     <div className="col-md-2 visible-md visible-lg sub-bar">
                       {!this.state.market.error &&
                         <BalanceSub
+                          walletBalance={this.state.walletBalance}
                           user={this.state.user}
                           balance={this.state.balance} 
                           symbol={this.state.symbol}

@@ -237,37 +237,74 @@ let TokenDetail = injectIntl(React.createClass({
                                 {/* <p>Tokens for tuition fees at Duy Tan university</p> */}
                                 <div className="row">
                                     <div className="col-md-12">
-                                        <h5>Cashier</h5>
-                                        <span style={{color: 'blue', textDecoration: 'underline'}}>{this.state.cashier}</span>
+                                        <div className="panel panel-default">
+                                            <div className="panel-heading">
+                                                <h3 className="panel-title">Cashier</h3>
+                                            </div>
+                                            <div className="panel-body">
+                                                <div className="container-fluid">
+                                                    <span style={{color: 'blue'}}>{this.state.cashier}</span>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="row">
                                     <div className="col-md-3">
-                                        <h5>Balance</h5>
-                                        <span style={{color: 'blue'}}>{this.state.balance}</span>
+                                        <div className="panel panel-default">
+                                                <div className="panel-heading">
+                                                    <h3 className="panel-title" style={{fontSize: '12px', textAlign: 'center'}}>Balance</h3>
+                                                </div>
+                                                <div className="panel-body">
+                                                    <div className="container-fluid">
+                                                        <span style={{color: 'blue'}}>{this.state.balance}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                     </div>
                                     <div className="col-md-3">
-                                        <h5>Total supply</h5>
-                                        <span style={{color: 'blue'}}>{this.state.totalSupply}</span>
+                                            <div className="panel panel-default">
+                                                <div className="panel-heading">
+                                                    <h3 className="panel-title" style={{fontSize: '12px', textAlign: 'center'}}>Total supply</h3>
+                                                </div>
+                                                <div className="panel-body">
+                                                    <div className="container-fluid">
+                                                    <span style={{color: 'blue'}}>{this.state.totalSupply}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                     </div>
                                     <div className="col-md-3">
-                                        <h5>Rating</h5>
-                                        <span style={{color: 'blue'}}>{this.state.rating}</span>
+                                            <div className="panel panel-default">
+                                                <div className="panel-heading">
+                                                    <h3 className="panel-title" style={{fontSize: '12px', textAlign: 'center'}}>Rating</h3>
+                                                </div>
+                                                <div className="panel-body">
+                                                    <div className="container-fluid">
+                                                    <span style={{color: 'blue'}}>{this.state.rating}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                     </div>
                                     <div className="col-md-3">
-                                        <h5>Award</h5>
-                                        <span style={{color: 'blue'}}>{this.state.currentBonus}</span>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-md-4">
-                                        <h5>Creator</h5>
-                                        <span style={{color: 'blue'}}>{this.state.creator}</span>
+                                            <div className="panel panel-default">
+                                                <div className="panel-heading">
+                                                    <h3 className="panel-title" style={{fontSize: '12px', textAlign: 'center'}}>Award</h3>
+                                                </div>
+                                                <div className="panel-body">
+                                                    <div className="container-fluid">
+                                                        <span style={{color: 'blue'}}>{this.state.currentBonus}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
                                     </div>
                                 </div>
                             </div>
                             <div className="col-md-6">
-                                <h2>About {this.state.symbol}</h2>
+                                <h2>About {this.state.contractName}</h2>
+                                <h5>Creator</h5>
+                                <span style={{color: 'blue'}}>{this.state.creator}</span>
+                                <br/>
                                 <small>Tokens for tuition fees at Duy Tan university
                                 </small>
                                 
