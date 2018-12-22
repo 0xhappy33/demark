@@ -48,7 +48,7 @@ window.onload = async function () {
 
     // console.log(currentAccount);
 
-    let fileContract = await getData('../contracts/DTUToken.sol');
+    let fileContract = await getData('../../contracts/DTUToken.sol');
     let contractCompile = await dataInstance(fileContract);
     abi = contractCompile.contracts[':DTUToken'].interface;
     byteCode = contractCompile.contracts[':DTUToken'].bytecode;

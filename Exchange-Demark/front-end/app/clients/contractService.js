@@ -17,7 +17,7 @@ const DTUAbi = [ { "constant": false, "inputs": [ { "name": "_spender", "type": 
 // }
 const _buyToken = async (_instance, _currentAcc, _amount,_value) => {
     return new Promise((resolve, reject) => {
-        _instance.methods.buyToken(_amount).send({
+        _instance.buyToken.sendTransaction(_amount,{
             from : _currentAcc,
             value : _value * 1000000000000000000
         }, (err, data) => {

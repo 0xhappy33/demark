@@ -30,28 +30,36 @@ let TxsRowDeposit = injectIntl(React.createClass({
     // topic = this.state.topic1;
     // console.log("Test API :  " + this.state.apiDeposit);
 
-    var amount = bigRat(this.props.tx.amount).divide(Math.pow(10, this.props.market.decimals)).valueOf();
+    // var amount = bigRat(this.props.tx.amount).divide(Math.pow(10, this.props.market.decimals)).valueOf();
+    let block  = this.props.tx.blockNumber;
+    let from  = this.props.tx.topics[1];
+    let amount  = this.props.tx.topics[2];
+    let datetime  = this.props.tx.timeStamp;
     return (
       <tr>
         <td>
           <div className="text-center">
             <FormattedNumber value={this.props.tx.block} />
+            { this.props.tx.block }
           </div>
         </td>
         <td>
           <div className="text-center">
-              { this.props.tx.from }
+              {/* { this.props.tx.from } */}
+              { this.props.tx.from } 
           </div>
         </td>
         <td>
           <div className="text-right">
+              {/* { this.props.tx.amount } */}
               { this.props.tx.amount }
             />
           </div>
         </td>
         <td>
           <div className="text-right">
-            { this.props.tx.age }
+            {/* { this.props.tx.age } */}
+            { this.props.tx.datetime }
             />
           </div>
         </td>
