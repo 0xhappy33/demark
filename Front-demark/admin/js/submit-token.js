@@ -59,6 +59,7 @@ window.onload = async function () {
                 // console.log(childData.key);
                 // console.log(currentAccount);
                 let temp = childData.key;
+                //let temp = '0xe7d7eB5271352E0963fAFC4A5F1D22535AFD6e84';
                  console.log(temp);
                 var refTemp = firebase.database().ref('/users/' + temp);
                 refTemp.once('value').then(function (snapshotTemp) {
@@ -67,7 +68,7 @@ window.onload = async function () {
                     // console.log('user/' + temp);
                     if (checkTrue == false) {
                         alert('You are not admin! You cannot deploy tokens!');
-                        $('#deployID').prop('disabled',true);
+                        $('input').prop('disabled',true);
                     }
                     
                 });
