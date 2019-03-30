@@ -118,6 +118,7 @@ module.exports = {
       "wallet": "Wallet",
       "account": "Account",
       "request": "Request Token",
+      "publish": "Publish Token",
       "tools": "Tool",
       "help": "Help"
     },
@@ -153,6 +154,8 @@ module.exports = {
       "buyorsell": "Buy or Sell",
       "amount": "Amount",
       "price": "Price",
+      "toaddress": "To address",
+      "mint": "Mint",
       "total": "Total",
       "trade": "Place trade",
       "new": "New Trade",
@@ -272,6 +275,7 @@ module.exports = {
     "user": {
       "account": "My Account",
       "balances": "Balances",
+      "tokenforico": "Token For ICO",
       "not_found": "User not found",
       "address": "Current address",
       "total": "Total value (ETH)",

@@ -1,16 +1,16 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
-import { Tabs, Tab } from 'react-bootstrap';
+import { Input, Button } from 'react-bootstrap';
 
 import Progress from "react-progress-2";
 
-import AlertDismissable from '../AlertDismissable';
+// import AlertDismissable from '../AlertDismissable';
 import SubBuyToken from '../SubBuyToken';
 import SubReward from '../SubReward';
 import SubSend from '../SubSend';
 import SubDeposit from '../SubDeposit';
 import SubWithdraw from '../SubWithdraw';
-import TxsList from '../TxsList';
+// import TxsList from '../TxsList';
 // import Wallet from '../Wallet';
 
 import DTUContract from '../../clients/contractService';
@@ -20,7 +20,7 @@ const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
 let DTU = new DTUContract(contractAddress);
 
 
-let TokenDetail = injectIntl(React.createClass({
+let ICODetail = injectIntl(React.createClass({
 
     getInitialState() {
         return {
@@ -104,29 +104,28 @@ let TokenDetail = injectIntl(React.createClass({
                 </div>
                 <div className="panel-body">
                     <div className="container-fluid">
-                        <SubDeposit 
+                        <SubDeposit
                             balance={this.state.balance}
                             contractName={this.state.contractName}
                             accounts={this.state.accounts}
                             user={this.props.user.user}
-                            setAlert={this.setAlert} 
+                            setAlert={this.setAlert}
                             showAlert={this.showAlert} />
                     </div>
                 </div>
             </div>
         );
     },
-    
     withdraw() {
-        if(this.state.currentState < 0) {
-            return(
-            <div className="panel panel-default">
-                <div className="panel-heading">
-                    <h3 className="panel-title">
-                        Not able to withdraw at this moment!
+        if (this.state.currentState < 0) {
+            return (
+                <div className="panel panel-default">
+                    <div className="panel-heading">
+                        <h3 className="panel-title">
+                            Not able to withdraw at this moment!
                     </h3>
-                </div>
-            </div>)
+                    </div>
+                </div>)
         }
         return (
             <div className="panel panel-default">
@@ -138,7 +137,7 @@ let TokenDetail = injectIntl(React.createClass({
                 </div>
                 <div className="panel-body">
                     <div className="container-fluid">
-                        <SubWithdraw 
+                        <SubWithdraw
                             balance={this.state.balance}
                             contractName={this.state.contractName}
                             accounts={this.state.accounts}
@@ -159,7 +158,7 @@ let TokenDetail = injectIntl(React.createClass({
                 </div>
                 <div className="panel-body">
                     <div className="container-fluid">
-                        <SubSend 
+                        <SubSend
                             balance={this.state.balance}
                             contractName={this.state.contractName}
                             accounts={this.state.accounts}
@@ -180,16 +179,16 @@ let TokenDetail = injectIntl(React.createClass({
                 </div>
                 <div className="panel-body">
                     <div className="container-fluid">
-                        <SubBuyToken 
+                        <SubBuyToken
                             balance={this.state.balance}
                             contractName={this.state.contractName}
-                            accounts={this.state.accounts} 
+                            accounts={this.state.accounts}
                             amount={this.state.amount}
                             rating={this.state.rating}
                             symbol={this.state.symbol}
                             walletBalance={this.state.walletBalance}
                             user={this.props.user.user}
-                            setAlert={this.setAlert} 
+                            setAlert={this.setAlert}
                             showAlert={this.showAlert} />
                     </div>
                 </div>
@@ -215,13 +214,13 @@ let TokenDetail = injectIntl(React.createClass({
     },
 
     notification(currState) {
-        if(currState < 0) {
-            return(
+        if (currState < 0) {
+            return (
                 <div className="panel panel-default">
                     <div className="panel-heading">
                         <p className="panel-title">Contract out of money</p>
                     </div>
-                    
+
                 </div>
             )
         }
@@ -234,19 +233,20 @@ let TokenDetail = injectIntl(React.createClass({
                 />
                 <div className="token-wrapper panel panel-default">
                     <div className="container">
+                        {/* For mint token */}
                         <div className="row">
+                            {/* ----------- ICO TOKEN DETAIL ----------- */}
                             <div className="col-md-6">
                                 <h1>{this.state.contractName}</h1>
-                                {/* <p>Tokens for tuition fees at Duy Tan university</p> */}
                                 <div className="row">
                                     <div className="col-md-12">
                                         <div className="panel panel-default">
                                             <div className="panel-heading">
-                                                <h3 className="panel-title">Cashier</h3>
+                                                <h3 className="panel-title">Address</h3>
                                             </div>
                                             <div className="panel-body">
                                                 <div className="container-fluid">
-                                                    <span style={{color: 'blue'}}>{this.state.cashier}</span>
+                                                    <span style={{ color: 'blue' }}>{this.state.cashier}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -255,108 +255,66 @@ let TokenDetail = injectIntl(React.createClass({
                                 <div className="row">
                                     <div className="col-md-3">
                                         <div className="panel panel-default">
-                                                <div className="panel-heading">
-                                                    <h3 className="panel-title" style={{fontSize: '12px', textAlign: 'center'}}>Balance</h3>
-                                                </div>
-                                                <div className="panel-body">
-                                                    <div className="container-fluid">
-                                                        <span style={{color: 'blue'}}>{this.state.balance}</span>
-                                                    </div>
+                                            <div className="panel-heading">
+                                                <h3 className="panel-title" style={{ fontSize: '12px', textAlign: 'center' }}>Funding Goal</h3>
+                                            </div>
+                                            <div className="panel-body">
+                                                <div className="container-fluid">
+                                                    <span style={{ color: 'blue' }}>{this.state.balance}</span>
                                                 </div>
                                             </div>
+                                        </div>
                                     </div>
                                     <div className="col-md-3">
-                                            <div className="panel panel-default">
-                                                <div className="panel-heading">
-                                                    <h3 className="panel-title" style={{fontSize: '12px', textAlign: 'center'}}>Total supply</h3>
-                                                </div>
-                                                <div className="panel-body">
-                                                    <div className="container-fluid">
-                                                    <span style={{color: 'blue'}}>{this.state.totalSupply}</span>
-                                                    </div>
+                                        <div className="panel panel-default">
+                                            <div className="panel-heading">
+                                                <h3 className="panel-title" style={{ fontSize: '12px', textAlign: 'center' }}>Base price</h3>
+                                            </div>
+                                            <div className="panel-body">
+                                                <div className="container-fluid">
+                                                    <span style={{ color: 'blue' }}>2 ETH</span>
                                                 </div>
                                             </div>
+                                        </div>
                                     </div>
-                                    <div className="col-md-3">
-                                            <div className="panel panel-default">
-                                                <div className="panel-heading">
-                                                    <h3 className="panel-title" style={{fontSize: '12px', textAlign: 'center'}}>Rating</h3>
-                                                </div>
-                                                <div className="panel-body">
-                                                    <div className="container-fluid">
-                                                    <span style={{color: 'blue'}}>{this.state.rating}</span>
-                                                    </div>
+                                    <div className="col-md-5">
+                                        <div className="panel panel-default">
+                                            <div className="panel-heading">
+                                                <h3 className="panel-title" style={{ fontSize: '12px', textAlign: 'center' }}>Deadline</h3>
+                                            </div>
+                                            <div className="panel-body">
+                                                <div className="container-fluid">
+                                                    <span style={{ color: 'blue' }}>May 15th, 2019</span>
                                                 </div>
                                             </div>
-                                    </div>
-                                    <div className="col-md-3">
-                                            <div className="panel panel-default">
-                                                <div className="panel-heading">
-                                                    <h3 className="panel-title" style={{fontSize: '12px', textAlign: 'center'}}>Award</h3>
-                                                </div>
-                                                <div className="panel-body">
-                                                    <div className="container-fluid">
-                                                        <span style={{color: 'blue'}}>{this.state.currentBonus}</span>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+                        
+                            {/* ----------- To mint token ----------- */}
                             <div className="col-md-6">
-                                <h2>About {this.state.contractName}</h2>
-                                <h5>Creator</h5>
-                                <span style={{color: 'blue'}}>{this.state.creator}</span>
-                                <br/>
-                                <small>Tokens for tuition fees at Duy Tan university
-                                </small>
-                                
-                                {this.notification(this.state.currentState)}
-                                
-                            </div>
-                        </div>
-                        <hr />
-                        <div className="row">
-                            <AlertDismissable ref="alerts" level={this.state.alertLevel} message={this.state.alertMessage} />
+                                <form className="form-horizontal" role="form" onSubmit={this.handleValidation} >
 
-                            <div className="hidden-xs hidden-sm">
-                                <Tabs defaultActiveKey={1} position='left' tabWidth={3}>
-                                    <Tab eventKey={1} title={this.props.intl.formatMessage({ id: 'deposit.currency' }, { currency: this.state.symbol })}>
-                                        {this.deposit()}
-                                    </Tab>
-                                    <Tab eventKey={2} title={this.props.intl.formatMessage({ id: 'withdraw.currency' }, { currency: this.state.symbol })}>
-                                                {this.withdraw()
-                                                }
-                                    </Tab>
-                                    <Tab eventKey={3} title={this.props.intl.formatMessage({ id: 'send.currency' }, { currency: this.state.symbol })}>
-                                        {this.transfer()}
-                                    </Tab>
-                                    <Tab eventKey={4} title={this.props.intl.formatMessage({ id: 'send.fund' }, { currency: "ETH" })}>
-                                        {this.send()}
-                                    </Tab>
-                                    <Tab eventKey={5} title={this.props.intl.formatMessage({ id: 'send.reward' }, { currency: "ETH" })}>
-                                        {this.reward()}
-                                    </Tab>
-                                </Tabs>
+                                    <h2>TO MINT TOKEN</h2>
+                                    <Input type="number" ref="amount"
+                                        placeholder="10"
+                                        label="Amount" labelClassName="sr-only"
+                                        />
+                                    
+                                    <Input type="text" ref="address"
+                                        placeholder="0xa75b2d7b277919c224b198743c88efe608ba8c1e"
+                                        label="To Address" labelClassName="sr-only"
+                                        />
+
+                                    <div className="form-group">
+                                        <Button className={"btn-block" + (this.state.newWithdrawal ? " btn-primary" : "")} type="submit" key="toaddress">
+                                            <FormattedMessage id='form.mint' />
+                                        </Button>
+                                    </div>
+                                </form>
+
                             </div>
-                            <div className="visible-xs visible-sm">
-                                {this.deposit()}
-                                {this.withdraw()}
-                                {this.transfer()}
-                                {this.send()}
-                                {this.reward()}
-                            </div>
-                        </div>
-                        <hr />
-                        <div className="row">
-                            {/* {(!this.props.market.market.txs.error) && */}
-                                <TxsList 
-                                    title="Transactions history" 
-                                    // flux={this.props.flux} 
-                                    market={this.props.market}
-                                    addressContract={this.state.addressContract}
-                                    // txs={this.props.market.market.txs} 
-                                    user={this.props.user} />
                         </div>
                     </div>
                 </div>
@@ -365,4 +323,4 @@ let TokenDetail = injectIntl(React.createClass({
     }
 }));
 
-module.exports = TokenDetail;
+module.exports = ICODetail;

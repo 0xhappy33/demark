@@ -37,7 +37,6 @@ class Market extends React.Component {
                 if (item.approve == true) {
                     tokenData.push(item);
                     index++;
-                    
                 }
             });
         });
@@ -49,47 +48,92 @@ class Market extends React.Component {
 
     render() {
         return (
-            <div className="market-table panel panel-default">
-                <div className="container-fluid">
-                    <div className="row panel-heading">
-                        <h1 className="panel-title">Token and ICO database</h1>
-                        {/* {!this.props.market.error && ( */}
-                        <hr />
-                        <Table history id="tbl_tokens_list">
-                            <thead>
-                                <tr>
-                                    {/* <th>#</th> */}
-                                    <th>Name</th>
-                                    <th>Symbol</th>
-                                    <th>Address</th>
-                                    <th>Description</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {this.state.tokens.map(item => {
-                                    return (
-                                        <tr key={item.key} value={item}>
-                                            {/* <td className="style-row">
+            <div>
+                <div className="market-table panel panel-default">
+                    <div className="container-fluid">
+                        <div className="row panel-heading">
+                            <h1 className="panel-title">LIST OF TOKEN</h1>
+                            {/* {!this.props.market.error && ( */}
+                            <hr />
+                            <Table history id="tbl_tokens_list">
+                                <thead>
+                                    <tr>
+                                        {/* <th>#</th> */}
+                                        <th>Name</th>
+                                        <th>Symbol</th>
+                                        <th>Address</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {this.state.tokens.map(item => {
+                                        return (
+                                            <tr key={item.key} value={item}>
+                                                {/* <td className="style-row">
                                                 {item.key}
                                             </td> */}
-                                            <td className="style-row color-token-name">
-                                                <Link to="/tokendetail">
-                                                    {item.name}
-                                                </Link>
-                                            </td>
-                                            <td className="style-row">{item.symbol}</td>
-                                            <td className="style-row">{item.address}</td>
-                                            <td className="style-row">{item.description}</td>
-                                        </tr>
-                                    )
-                                })}
-                            </tbody>
-                        </Table>
-                        {/* )} */}
+                                                <td className="style-row color-token-name">
+                                                    <Link to="/tokendetail">
+                                                        {item.name}
+                                                    </Link>
+                                                </td>
+                                                <td className="style-row">{item.symbol}</td>
+                                                <td className="style-row">{item.address}</td>
+                                                <td className="style-row">{item.description}</td>
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </Table>
+                            {/* )} */}
+                        </div>
                     </div>
                 </div>
-                
+
+                <div className="market-table panel panel-default">
+                    <div className="container-fluid">
+                        <div className="row panel-heading">
+                            <h1 className="panel-title">LIST ICO</h1>
+                            {/* {!this.props.market.error && ( */}
+                            <hr />
+                            <Table history id="tbl_tokens_list">
+                                <thead>
+                                    <tr>
+                                        {/* <th>#</th> */}
+                                        <th>Name</th>
+                                        <th>Funding Goal</th>
+                                        <th>Base price</th>
+                                        <th>Deadline</th>
+                                        <th>Address</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {this.state.tokens.map(item => {
+                                        return (
+                                            <tr key={item.key} value={item}>
+                                                {/* <td className="style-row">
+                                                {item.key}
+                                            </td> */}
+                                                <td className="style-row color-token-name">
+                                                    <Link to="/tokendetail">
+                                                        {item.name}
+                                                    </Link>
+                                                </td>
+                                                <td className="style-row">23000 tokens</td>
+                                                <td className="style-row">2 ETH</td>
+                                                <td className="style-row">May 5th, 2019</td>
+                                                <td className="style-row">{item.address}</td>
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </Table>
+                            {/* )} */}
+                        </div>
+                    </div>
+                </div>
             </div>
+
 
         );
     }

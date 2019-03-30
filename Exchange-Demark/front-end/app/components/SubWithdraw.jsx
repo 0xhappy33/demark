@@ -89,30 +89,11 @@ let SubWithdraw = injectIntl(React.createClass({
     return false;
   },
 
-  // onSubmitForm: function(e, el) {
-  //   e.preventDefault();
-
-  //   if (!this.validate(e, el))
-  //     return false;
-
-  //   this.props.flux.actions.user.withdrawSub({
-  //     amount: this.state.amount
-  //   });
-
-  //   this.setState({
-  //     amount: null,
-  //     newWithdrawal: false
-  //   });
-  // },
-
   async onSubmitWithdraw(e) {
     e.preventDefault();
 
     try {
-      // const accounts = await DTU.getAccount();
-
       await DTU.burn(this.props.accounts, this.state.amount);
-
     } catch (err) {
         this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
     }
@@ -129,8 +110,6 @@ let SubWithdraw = injectIntl(React.createClass({
         <Input type="number" ref="amount"
           placeholder="10.0000"
           label={<FormattedMessage id='form.amount' />} labelClassName="sr-only"
-          // min={this.props.market.amountPrecision}
-          // step={this.props.market.amountPrecision}
           onChange={this.handleChange}
           value={this.state.amount || ""} />
 

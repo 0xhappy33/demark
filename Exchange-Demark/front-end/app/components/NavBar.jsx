@@ -38,6 +38,12 @@ let NavBar = injectIntl(React.createClass({
             </Link>
           </li>
           <li>
+            <Link to="/publish" activeClassName="active">
+              <i className="icon-cog-alt"></i>{' '}
+              <span className="hidden-xs"><FormattedMessage id="nav.publish" /></span>
+            </Link>
+          </li>
+          <li>
             <Link to="/tools" activeClassName="active">
               <i className="icon-cog-alt"></i>{' '}
               <span className="hidden-xs"><FormattedMessage id="nav.tools" /></span>

@@ -9,13 +9,19 @@ import DemarkApp from './components/DemarkApp';
 import Markets from './components/Markets';
 import Trades from './components/Trades';
 import UserDetails from './components/UserDetails';
+
+// import ICOTokenDetail from './components/ICOTokenDetail';
+
 // import Wallet from './components/Wallet';
 import TokenRequest from './components/tokens/TokenRequest';
+import TokenPublish from './components/tokens/TokenPublish';
 import Tools from './components/Tools';
 import Help from './components/Help';
 import Placeholder from './components/Placeholder';
 import TokenDetail from './components/tokens/TokenDetail';
 import MarketTest from './components/market/MarketTest';
+
+import ICODetail from './components/tokens/ICODetail';
 
 import ConfigStore from './stores/ConfigStore';
 import NetworkStore from './stores/NetworkStore';
@@ -94,6 +100,8 @@ let routes = (
       <Route path="markets/assets" component={Markets} />
       <Route path="markets/currencies" component={Markets} />
       <Route path="/tokendetail" component={TokenDetail}/>
+      <Route path="/ico-detail" component={ICODetail}/>
+      
       {/* <Route path="btc/buy" component={Tickets} />
       <Route path="btc/sell" component={CreateTicket} />
       <Route path="btc/reserve" component={ReserveTicket} />
@@ -105,9 +113,11 @@ let routes = (
       <Route path="tokens" component={MarketTest} />
       {/* test data from api ethereum */}
       <Route path="request" component={TokenRequest} />
+      <Route path="publish" component={TokenPublish} />
       <Route path="tools" component={Tools} />
       <Route path="help" component={Help} />
       <Route path="user" component={UserDetails} />
+      {/* <Route path="icotokendetail" component={ICOTokenDetail} /> */}
       <Route path="*" component={Placeholder} />
     </Route>
   </Router>

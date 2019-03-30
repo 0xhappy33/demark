@@ -1,40 +1,14 @@
 import React from 'react';
-//import DtbsConn from '../../actions/DtbsConn';
-//import connectFB from './connectFB';
 import firebase from 'firebase';
-// import DtbsConn from '../../actions/DtbsConn';
-//const firebase = require('firebase');
-let TokenRequest = React.createClass({
 
-    // constructor(props) {
-    //     super(props);
-    //     this.setState({
-    //         config:''
-    //     });
-    // },
+let TokenRequest = React.createClass({
 
     componentWillMount() {
         // Load custom in main and overrides
         require("../../css/main.less");
-        
     },
-    // reload_page()
-    // {
-    //     window.location.reload();
-    // },
 
     requestToken() {
-        //let fb = new DtbsConn;
-        // var config = {
-        //     apiKey: "AIzaSyDrssCstHJYF07bIF1DeIzYZN9SdCgA85U",
-        //     authDomain: "demark-dtbs.firebaseapp.com",
-        //     databaseURL: "https://demark-dtbs.firebaseio.com",
-        //     projectId: "demark-dtbs",
-        //     storageBucket: "demark-dtbs.appspot.com",
-        //     messagingSenderId: "518328352226"
-        // };
-        // firebase.initializeApp(config);
-
         var id = firebase.database().ref().child('token').push().key;
         //let fb = new connectFB();
 

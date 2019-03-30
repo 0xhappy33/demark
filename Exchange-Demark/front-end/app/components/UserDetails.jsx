@@ -5,7 +5,8 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import UserBalances from './UserBalances';
 // import UserAddress from './UserAddress';
-import TradeList from './TradeList';
+// import TradeList from './TradeList';
+import { Table } from 'react-bootstrap';
 
 import BKContract from '../clients/contractService';
 
@@ -101,9 +102,49 @@ let UserDetails = React.createClass({
               </div> :
               <h5><FormattedMessage id='user.not_found' /></h5>}
           </div>
-
           {/* {this.state.own &&
             <TradeList flux={this.props.flux} market={this.props.market} trades={this.state.own} user={this.props.user} listOwn={true} />} */}
+        </div>
+        <div className="row">
+          <div className="col-lg-10 col-lg-offset-1 col-md-12">
+            <div className="panel panel-default trade-form">
+              <div className="panel-heading">
+                <h3 className="panel-title">
+                  Token for ICO
+                </h3>
+              </div>
+              <div className="panel-body">
+                <Table history id="tbl_tokens_list">
+                  <thead>
+                    <tr>
+                      {/* <th>#</th> */}
+                      <th>Name</th>
+                      <th>Decimal</th>
+                      <th>Symbol</th>
+                      <th>Total Supply</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="clickable" data-toggle="collapse" data-target="#group-of-rows-1" aria-expanded="false" aria-controls="group-of-rows-1">
+                      <td className="style-row">Duy Tan Token</td>
+                      <td className="style-row">2 ETH</td>
+                      <td className="style-row">DTUK</td>
+                      <td className="style-row">200</td>
+                    </tr>
+                  </tbody>
+                  <tbody id="group-of-rows-1" className="collapse">
+                    <tr>
+                      <td className="style-row">DTU</td>
+                      <td className="style-row">2 ETH</td>
+                      <td className="style-row">May 5th, 2019</td>
+                      <td className="style-row">as</td>
+                    </tr>
+                  </tbody>
+                </Table>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
 
