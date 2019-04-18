@@ -52,37 +52,31 @@ let TokenPublish = React.createClass({
 
         var name = document.getElementById('name').value;
         var symbol = document.getElementById('symbol').value;
-        var rating = document.getElementById('rating').value;
         var decimals = document.getElementById('decimals').value;
-        var cashier = document.getElementById('cashier').value;
-        var description = document.getElementById('description').value;
+        var totalsupply = document.getElementById('totalsupply').value;
 
-        if (name == '' || symbol == '' || rating == '' || decimals == '' || cashier == '' || description == '') {
+        if (name == '' || symbol == '' || decimals == '' || totalsupply == '') {
             alert('NULL');
         }
         else {
             var data = {
                 name: name,
                 symbol: symbol,
-                rating: rating,
                 decimals: decimals,
-                cashier: cashier,
-                description: description,
-                address: '0x0',
+                totalsupply: totalsupply,
+                owner: '0x0',
                 approve: false
             }
 
             var updates = {};
-            updates['/tokens/' + id] = data;
+            updates['/tokens_ico/' + id] = data;
             firebase.database().ref().update(updates);
             alert('Token is requested');
             // console.log(data);
             this.refs.name.value = "";
             this.refs.symbol.value = "";
-            this.refs.rating.value = "";
             this.refs.decimals.value = "";
-            this.refs.cashier.value = "";
-            this.refs.description.value = "";
+            this.refs.totalsupply.value = "";
         }
     },
 
@@ -121,7 +115,7 @@ let TokenPublish = React.createClass({
                                             <label><b>Decimals</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="text" placeholder="Decimals" name="rating" className="form-request-input" id="rating" ref="rating" /> <br /> <br />
+                                            <input type="text" placeholder="Decimals" name="decimals" className="form-request-input" id="decimals" ref="decimals" /> <br /> <br />
                                         </div>
                                     </div>
                                     <div className="row">
@@ -129,7 +123,7 @@ let TokenPublish = React.createClass({
                                             <label><b>Total Supply</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="text" placeholder="Total supply" name="decimals" className="form-request-input" id="decimals" ref="decimals" /> <br /> <br />
+                                            <input type="text" placeholder="Total supply" name="totalsupply" className="form-request-input" id="totalsupply" ref="totalsupply" /> <br /> <br />
                                         </div>
                                     </div>
                                     <div className="row">
@@ -181,7 +175,7 @@ let TokenPublish = React.createClass({
                                             <label><b>Start pre-order</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="datetime-local" placeholder="start pre-order" name="start-pre-order" className="form-request-input" id="startPreOrderTime" ref="start-pre-order" /> <br /> <br />                                            
+                                            <input type="datetime-local" placeholder="start pre-order" name="start-pre-order" className="form-request-input" id="startPreOrderTime" ref="start-pre-order" /> <br /> <br />
                                         </div>
                                     </div>
                                     <div className="row">
@@ -189,7 +183,7 @@ let TokenPublish = React.createClass({
                                             <label><b>End pre-order</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="datetime-local" placeholder="end pre-order" name="end-pre-order" className="form-request-input" id="endPreOrderTime" ref="end-pre-order" /> <br /> <br />                                            
+                                            <input type="datetime-local" placeholder="end pre-order" name="end-pre-order" className="form-request-input" id="endPreOrderTime" ref="end-pre-order" /> <br /> <br />
                                         </div>
                                     </div>
                                     <div className="row">
@@ -197,7 +191,7 @@ let TokenPublish = React.createClass({
                                             <label><b>Start order</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="datetime-local" placeholder="start order" name="start-order" className="form-request-input" id="startOrderTime" ref="start-order" /> <br /> <br />                                            
+                                            <input type="datetime-local" placeholder="start order" name="start-order" className="form-request-input" id="startOrderTime" ref="start-order" /> <br /> <br />
                                         </div>
                                     </div>
                                     <div className="row">
@@ -205,7 +199,7 @@ let TokenPublish = React.createClass({
                                             <label><b>End order</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="datetime-local" placeholder="end order" name="end-order" className="form-request-input" id="endOrderTime" ref="end-order" /> <br /> <br />                                            
+                                            <input type="datetime-local" placeholder="end order" name="end-order" className="form-request-input" id="endOrderTime" ref="end-order" /> <br /> <br />
                                         </div>
                                     </div>
                                     <div className="row">
@@ -266,6 +260,7 @@ let TokenPublish = React.createClass({
                     </div>
                 </div>
             </div>
+
         );
     }
 
