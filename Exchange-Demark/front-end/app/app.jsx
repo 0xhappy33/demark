@@ -33,6 +33,9 @@ import TicketActions from './actions/btcswap/TicketActions';
 
 import firebase from 'firebase';
 
+// Phuong's imports here
+import TokenItem from './pages/admin-page/sections/token-management/token-item';
+// End Phuong's imports
 
 // Load fonts and icons
 require("./css/fonts.css");
@@ -86,6 +89,7 @@ let routes = (
   <Router history={appHistory} createElement={createFluxComponent}>
     <Route path="/" component={DemarkApp}>
       <IndexRoute component={Markets} />
+      <Route path="token" component={TokenItem} />
       <Route path="markets" component={Markets} />
       <Route path="trades" component={Trades} />
       <Route path="markets/token" component={Markets} />
