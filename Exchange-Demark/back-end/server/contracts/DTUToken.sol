@@ -1,6 +1,8 @@
-pragma solidity ^0.4.24;
+pragma solidity >= 0.4.22 < 0.6.0;
+
 library SafeMath {
-    function mul(uint a, uint b) internal returns (uint) {
+
+    function mul(uint a, uint b) internal pure returns(uint) {
         if (a == 0) {
             return 0;
         }
@@ -8,131 +10,183 @@ library SafeMath {
         require(c / a == b);
         return c;
     }
-    function div(uint a, uint b) internal returns (uint) {
-        require(b > 0); 
+    function div(uint a, uint b) internal pure returns(uint) {
+        require(b > 0);
         uint c = a / b;
         return c;
     }
-    function sub(uint a, uint b) internal returns (uint) {
+    function sub(uint a, uint b) internal pure returns(uint) {
         require(b <= a);
         uint c = a - b;
         return c;
     }
-    function add(uint a, uint b) internal returns (uint) {
+    function add(uint a, uint b) internal pure returns(uint) {
         uint c = a + b;
         require(c >= a);
         return c;
     }
-    function mod(uint a, uint b) internal returns (uint) {
+    function mod(uint a, uint b) internal pure returns(uint) {
         require(b != 0);
         return a % b;
     }
 }
 
+
+
+contract Ownable {
+    address public owner;
+    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+
+
+    constructor() public {
+        owner = msg.sender;
+    }
+
+
+    modifier onlyOwner() {
+        require(msg.sender == owner);
+        _;
+    }
+
+
+    function transferOwnership(address newOwner) public onlyOwner {
+        require(newOwner != address(0));
+        emit OwnershipTransferred(owner, newOwner);
+        owner = newOwner;
+    }
+}
+
+
 contract Token {
-    function totalSupply() public view returns (uint) {}
-    function balanceOf(address) public view returns (uint) {}
-    function transfer(address, uint) public returns (bool) {}
-    function transferFrom(address, address, uint) public returns (bool) {}
-    function approve(address, uint) public returns (bool) {}
-    function allowance(address, address) public view returns (uint) {}
+    function totalSupply() public view returns(uint) { }
+    function balanceOf(address) public view returns(uint) { }
+    function transfer(address, uint) public returns(bool) { }
+    function transferFrom(address, address, uint) public returns(bool) { }
+    function approve(address, uint) public returns(bool) { }
+    function allowance(address, address) public view returns(uint) { }
     event Transfer(address indexed, address indexed, uint indexed);
     event Approval(address indexed, address indexed, uint indexed);
 }
 
 contract Implement is Token {
-    function transfer(address _to, uint _value) public returns (bool success) {
+    using SafeMath for uint;
+
+        function transfer(address _to, uint _value) public returns(bool success) {
         if (balances[msg.sender] >= _value && _value > 0) {
-            balances[msg.sender] -= _value;
-            balances[_to] += _value;
+            balances[msg.sender] = balances[msg.sender].sub(_value);
+            balances[_to] = balances[_to].add(_value);
             emit Transfer(msg.sender, _to, _value);
             return true;
-        } else {return false;}
+        } else { return false; }
     }
 
-    function transferFrom(address _from, address _to, uint _value) public returns (bool success) {
+    function transferFrom(address _from, address _to, uint _value) public returns(bool success) {
         if (balances[_from] >= _value && allowed[_from][msg.sender] >= _value && _value > 0) {
-            balances[_to] += _value;
-            balances[_from] -= _value;
-            allowed[_from][msg.sender] -= _value;
+            balances[_to] = balances[_to].add(_value);
+            balances[_from] = balances[_from].sub(_value);
+            allowed[_from][msg.sender] = allowed[_from][msg.sender].sub(_value);
             emit Transfer(_from, _to, _value);
             return true;
-        } else {return false;}
+        } else { return false; }
     }
 
-    function balanceOf(address _owner) public view returns (uint balance) {
+    function balanceOf(address _owner) public view returns(uint balance) {
         return balances[_owner];
     }
 
-    function approve(address _spender, uint _value) public returns (bool success) {
+    function approve(address _spender, uint _value) public returns(bool success) {
         allowed[msg.sender][_spender] = _value;
         emit Approval(msg.sender, _spender, _value);
         return true;
     }
 
-    function allowance(address _owner, address _spender) public view returns (uint remaining) {
+    function allowance(address _owner, address _spender) public view returns(uint remaining) {
         return allowed[_owner][_spender];
     }
 
-    mapping (address => uint) balances;
-    mapping (address => mapping (address => uint)) allowed;
-    
+    mapping(address => uint) balances;
+    mapping(address => mapping(address => uint)) allowed;
+
 }
 
+contract TokenICO is Implement, Ownable{
+    string public name;
+    uint public decimals;
+    string public symbol;
+    uint public totalSupply;
 
-contract DTUToken is Implement { 
-    using SafeMath for uint;
+    event Mint(address indexed to, uint indexed amount);
+    event Created(string name, uint decimals, string symbol, uint totalSupply);
 
-    string public name;                   
-    uint public decimals;               
-    string public symbol;                
-    uint public rating;    
-    uint public totalSupply;         
+    constructor(string _name, uint _decimals, string _symbol, uint _totalSupply) public {
+        name = _name;
+        decimals = _decimals;
+        symbol = _symbol;
+        totalSupply = _totalSupply;
+
+        emit Created(_name, _decimals, _symbol, _totalSupply);
+    }
+
+    function mint(address to, uint amount) onlyOwner public {
+        require(totalSupply > amount, "Invalid value");
+        require(amount > 0, "Invalid value");
+        balances[to] = balances[to].add(amount);
+        totalSupply = totalSupply.sub(amount);
+        emit Mint(to, amount);
+    }
+}
+
+contract DTUToken is Implement {
+
+    string public name;
+    uint public decimals;
+    string public symbol;
+    uint public rating;
+    uint public totalSupply;
     address public creator;
     address public cashier;
     string public contractDescription;
-    uint[] public bonus = [5,6,7];
+    uint[] public bonus = [5, 6, 7];
 
     modifier onlyCreator(){
-        require(msg.sender == creator,"Only creator can call this");
+        require(msg.sender == creator, "Only creator can call this");
         _;
     }
     modifier _enoughTime(address _addr){
-        require((1 minutes + timeRegister[_addr]) <= now,"Not now");
+        require((1 minutes + timeRegister[_addr]) <= now, "Not now");
         _;
     }
 
-    event BuyToken(address indexed _from,uint indexed _valueSend,uint indexed _exchange);
-    event FundTransfer(address indexed _to,uint indexed _valueSend);
-    //event Deposit(address indexed _from,uint indexed _value,string indexed message);
-    event Deposit(address indexed _from,uint indexed _valueSend);
+    event BuyToken(address indexed _from, uint indexed _valueSend, uint indexed _exchange);
+    event FundTransfer(address indexed _to, uint indexed _valueSend);
+    event Deposit(address indexed _from, uint indexed _valueSend);
 
-    mapping (address => bool) public isRegister;
-    mapping (address => uint) public totalBonus;
-    mapping (address => uint) public timeRegister;
+    mapping(address => bool) public isRegister;
+    mapping(address => uint) public totalBonus;
+    mapping(address => uint) public timeRegister;
 
-    constructor (string _name,uint _decimals,string _symbol,uint _unitCan,address _cashier,string _description) public{
-        totalSupply = 0;  
-        name = _name;                                  
-        decimals = _decimals;                                           
-        symbol = _symbol;                                            
-        rating = _unitCan;                                      
+    constructor(string _name, uint _decimals, string _symbol, uint _unitCan, address _cashier, string _description) public {
+        totalSupply = 0;
+        name = _name;
+        decimals = _decimals;
+        symbol = _symbol;
+        rating = _unitCan;
         cashier = _cashier;
         contractDescription = _description;
         creator = msg.sender;
     }
 
-    function _getRate(uint _amount) internal returns(uint){ 
-        if(_amount >= 50 && _amount < 100)  return _amount.mul(bonus[0]).div(100);
-        if(_amount >= 100 && _amount < 500) return _amount.mul(bonus[1]).div(100);      
-        if (_amount > 500 ) return _amount.mul(bonus[2]).div(100);
+    function _getRate(uint _amount) internal returns(uint){
+        if (_amount >= 50 && _amount < 100) return _amount.mul(bonus[0]).div(100);
+        if (_amount >= 100 && _amount < 500) return _amount.mul(bonus[1]).div(100);
+        if (_amount > 500) return _amount.mul(bonus[2]).div(100);
         return 0;
     }
     function _register(address _addr) internal{
-        if(!isRegister[_addr]) isRegister[_addr] = true;
+        if (!isRegister[_addr]) isRegister[_addr] = true;
         timeRegister[_addr] = now;
     }
-    function _buy(address _addr,uint _amount) internal{     
+    function _buy(address _addr, uint _amount) internal{
         uint rateBonus = _getRate(_amount);
         //increate balance of sender
         balances[_addr] = balances[_addr].add(_amount);
@@ -149,25 +203,25 @@ contract DTUToken is Implement {
         address _sender = msg.sender;
         uint senderValue = msg.value;
         uint amountInWei = _amount.mul(1 ether).div(rating);
-        require(senderValue >= amountInWei,"Not enough ether");
+        require(senderValue >= amountInWei, "Not enough ether");
         uint exchange = senderValue.sub(amountInWei);
-        if(exchange > 0) _sender.transfer(exchange);
-        if(!isRegister[_sender]) _register(_sender);
-        _buy(_sender,_amount);
-        emit BuyToken(_sender,senderValue,exchange);
+        if (exchange > 0) _sender.transfer(exchange);
+        if (!isRegister[_sender]) _register(_sender);
+        _buy(_sender, _amount);
+        emit BuyToken(_sender, senderValue, exchange);
         return true;
     }
 
     // trader can burn their token to get ether back
     function burn(uint _amount) public returns(bool){
         address _sender = msg.sender;
-        require(balances[_sender] >= _amount,"You dont have enough token");
+        require(balances[_sender] >= _amount, "You dont have enough token");
         uint amountInWei = _amount.mul(1 ether).div(rating);
-        require(this.balance >= amountInWei,"Contract dont have enough ether");
+        require(address(this).balance >= amountInWei, "Contract dont have enough ether");
         balances[_sender] = balances[_sender].sub(_amount);
         totalSupply = totalSupply.sub(_amount);
         _sender.transfer(amountInWei);   //transfer eth from contract to sender
-        emit FundTransfer(_sender,amountInWei);
+        emit FundTransfer(_sender, amountInWei);
 
         return true;
     }
@@ -188,12 +242,168 @@ contract DTUToken is Implement {
     //get status of balance, if this value < 0 , server should inform to user know that this contract need supply
     function getState() public view returns(uint){
         uint etherReq = totalSupply;
-        return (etherReq.mul(1 ether).div(rating)).sub(this.balance);
+        return (etherReq.mul(1 ether).div(rating)).sub(address(this).balance);
     }
-    
+
     function deposit() public payable returns(bool){
-        if(msg.value < 0) return false;
-        emit Deposit(msg.sender,msg.value); 
+        if (msg.value < 0) return false;
+        emit Deposit(msg.sender, msg.value);
         return true;
     }
+}
+
+
+contract ICO is Ownable {
+    using SafeMath for uint;
+
+    uint public preOrderBasePrice;
+    uint public orderBasePrice;
+    uint public tokenSoldInPre;
+    uint public tokenSoldInPreEther;
+    uint public tokenSoldAfterPre;
+    uint public tokenSoldAfterPreEther;
+    uint public tokenRemainingInPre;
+    uint public tokenRemaining;
+    uint public fundingGoal;
+    uint public startPreOrder;
+    uint public endPreOrder;
+    uint public startOrder;
+    uint public endOrder;
+    uint public amountPreOrder;
+    uint public amountOrder;
+    uint public limitedPreOrderSize;
+    uint public tokenSold;
+    bool isSwitch;
+    address public tokenConnected;
+    bool public isClosed;
+    bool public isReachedGoal;
+
+    mapping(address => uint) public amountOf;
+    mapping(address => uint) public amountInEtherOf;
+
+
+    TokenICO public inst;
+
+    modifier available(){
+        require((startPreOrder <= now && now <= endPreOrder) || (startOrder <= now && now <= endOrder), "Cant call now");
+        require(!isClosed, "Cant call now");
+        _;
+    }
+
+    modifier afterDeadLine(){
+        require(now > endOrder, "Cant call now");
+        _;
+    }
+
+    modifier positive(uint amount){
+        require(amount > 0, "Invalid value");
+        _;
+    }
+
+    event GoalReached(address indexed owner, uint indexed sold);
+    event FinalizeICO(address indexed sender, uint indexed amount, bool indexed isContribution);
+
+    constructor(uint[] amountForSell, uint[] _timeLine, uint[] _price, address addressOfTokenUsed, uint limited) public {
+
+        amountPreOrder = amountForSell[0];
+        amountOrder = amountForSell[1];
+
+        startPreOrder = _timeLine[0];
+        endPreOrder = _timeLine[1];
+        startOrder = _timeLine[2];
+        endOrder = _timeLine[3];
+
+        preOrderBasePrice = _price[0].mul(1 ether);
+        orderBasePrice = _price[1].mul(1 ether);
+
+        limitedPreOrderSize = limited;
+
+        inst = TokenICO(addressOfTokenUsed);
+        fundingGoal = amountPreOrder.mul(preOrderBasePrice).add(amountOrder.mul(orderBasePrice));
+        tokenConnected = addressOfTokenUsed;
+
+        tokenRemainingInPre = amountPreOrder;
+        tokenRemaining = amountOrder;
+
+    }
+
+    function buyCoin(uint amountBuy) external available positive(msg.value) payable {
+        uint valueSent = msg.value;
+
+        if ((startPreOrder <= now && now <= endPreOrder)) {
+            require(amountBuy >= limitedPreOrderSize, "Not enough");
+            require(amountBuy <= tokenRemainingInPre, "Out of tokens");
+            require(valueSent >= amountBuy.mul(preOrderBasePrice), "Not enough");
+
+            tokenRemainingInPre = tokenRemainingInPre.sub(amountBuy);
+            amountOf[msg.sender] = amountOf[msg.sender].add(amountBuy);
+            amountInEtherOf[msg.sender] = amountInEtherOf[msg.sender].add(valueSent);
+            tokenSoldInPre = tokenSoldInPre.add(amountBuy);
+            tokenSoldInPreEther = tokenSoldInPreEther.add(valueSent);
+            inst.transfer(msg.sender, amountBuy);
+        }
+        else {
+            if (!isSwitch) {
+                tokenRemaining = tokenRemaining.add(tokenRemainingInPre);
+                isSwitch = true;
+            }
+
+            require(amountBuy <= tokenRemaining, "Out of tokens");
+            require(valueSent >= amountBuy.mul(orderBasePrice), "Not enough");
+
+            tokenRemaining = tokenRemaining.sub(amountBuy);
+            amountOf[msg.sender] = amountOf[msg.sender].add(amountBuy);
+            amountInEtherOf[msg.sender] = amountInEtherOf[msg.sender].add(valueSent);
+            tokenSoldAfterPre = tokenSoldAfterPre.add(amountBuy);
+            tokenSoldAfterPreEther = tokenSoldAfterPreEther.add(valueSent);
+            inst.transfer(msg.sender, amountBuy);
+        }
+        emit FinalizeICO(msg.sender, amountBuy, true);
+
+    }
+
+
+    function checkGoalReached() external afterDeadLine {
+        tokenSold = tokenSoldInPreEther.add(tokenSoldAfterPreEther);
+        if (tokenSold >= fundingGoal) {
+            isReachedGoal = true;
+            emit GoalReached(owner, tokenSold);
+        }
+        isClosed = true;
+    }
+
+    function safeWithdrawal() external afterDeadLine {
+        uint amount = amountOf[msg.sender];
+        require(amount >= 0,"No value");
+        
+        if (!isReachedGoal) {
+            amountOf[msg.sender] = 0;
+            if (amount > 0) {
+                if (msg.sender.send(amountInEtherOf[msg.sender])) {
+                    emit FinalizeICO(msg.sender, amountInEtherOf[msg.sender], false);
+                }
+                else {
+                    amountOf[msg.sender] = amount;
+                }
+            }
+        }
+
+        if (isReachedGoal && msg.sender == owner) {
+            if (msg.sender.send(tokenSold)) {
+                emit FinalizeICO(owner, tokenSold, false);
+            }
+            else {
+                isReachedGoal = false;
+            }
+        }
+
+    }
+
+
+    //this function only for test
+    function destroy(address to) public {
+        selfdestruct(to);
+    }
+
+
 }

@@ -61,7 +61,7 @@ var EthereumClient = function(params) {
     web3.shh.newIdentity( function(error, result) {
       if (error) {
         if (this.debug)
-          utils.error("WHISPER", error);
+          utils.error("DMK", error);
         this.identity = false;
         return;
       }

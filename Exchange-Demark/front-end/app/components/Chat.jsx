@@ -46,7 +46,7 @@ let Chat = React.createClass({
       this.setState({
         showModal: true,
         modalMessage: <p>
-          Whisper is not enabled on this node. Start <samp>geth</samp> with: <pre>--shh --rpcapi "db,eth,net,web3,shh"</pre>
+          DemarkChat is not enabled on this node. Start <samp>geth</samp> with: <pre>--shh --rpcapi "db,eth,net,web3,shh"</pre>
         </p>
       });
     this.setState({
@@ -59,7 +59,7 @@ let Chat = React.createClass({
       <div className={ (this.state.activeKey ? "col-xs-4" : "col-xs-2") + " chatbox"}>
         <Accordion activeKey={this.state.activeKey} onSelect={this.toggleActive}>
           <Panel header={
-              <span>{ this.props.market.name } Whisper
+              <span>{ this.props.market.name } Bot
                 { this.state.activeKey && <span className="pull-right"><Glyphicon glyph="remove" onClick={this.toggleActive} /></span> }
               </span>
             } bsStyle="primary" eventKey="1">

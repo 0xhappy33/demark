@@ -17,6 +17,7 @@ import MarketSelect from './market/MarketSelect';
 import LastPrice from './LastPrice';
 import RangeSelect from './RangeSelect';
 import GraphPrice from './GraphPrice';
+import Chat from './Chat';
 
 let fixtures = require('../js/fixtures');
 
@@ -293,7 +294,7 @@ let DemarkApp = React.createClass({
                           symbol={this.state.symbol}
                           si={this.state.config.si} />
                       }
-
+                      <Chat market={this.state.market.market} flux={this.props.flux} />
                     </div>
                   </div>
                 </div>

@@ -3,9 +3,47 @@ import firebase from 'firebase';
 
 let TokenPublish = React.createClass({
 
+    // getInitialState() {
+    //     return {
+    //         startPreOrderTime: '',
+    //         endPreOrderTime: '',
+    //         startOrderTime: '',
+    //         endOrderTime: '',
+    //         preOrderAmount: '',
+    //         orderAmount: '',
+    //         preOrderPrice: '',
+    //         orderPrice: '',
+    //         address: '',
+    //         limitedToken: ''
+    //     };
+    // },
+
     componentWillMount() {
         // Load custom in main and overrides
         require("../../css/main.less");
+    },
+
+    returnDatesFromconvertTimeOrderToInt() {
+        var startPreOrderTime = document.getElementById('startPreOrderTime').value;
+        var endPreOrderTime = document.getElementById('endPreOrderTime').value;
+        var startOrderTime = document.getElementById('startOrderTime').value;
+        var endOrderTime = document.getElementById('endOrderTime').value;
+        // var preOrderAmount = document.getElementById('preOrderAmount').value;
+        // var orderAmount = document.getElementById('orderAmount').value;
+        // var preOrderPrice = document.getElementById('preOrderPrice').value;
+        // var orderPrice = document.getElementById('orderPrice').value;
+        // var address = document.getElementById('address').value;
+        // var limitedToken = document.getElementById('limitedToken').value;
+        // var date_as_int = [startPreOrderTime, endPreOrderTime, startOrderTime, endOrderTime];
+        // var dates = startPreOrderTime.map(function(dateStr) {
+        //     return new Date(dateStr).getTime();
+        // });
+        var start = [];
+        start.push(startPreOrderTime, endPreOrderTime, startOrderTime, endOrderTime);
+        console.log(start);
+        console.log("........................" + start.map(date => new Date(date).getTime()));
+        // return dates;
+        // alert(startPreOrderTime);
     },
 
     publishToken() {
@@ -131,7 +169,7 @@ let TokenPublish = React.createClass({
                 <div className="form-request panel panel-default">
                     <div className="container">
                         <div className="row">
-                            <div className="col-sm-8">
+                            <div className="col-sm-12">
                                 <div className="row header-form-request panel panel-heading">
                                     <div className="col-sm-12">
                                         <h4 className="panel-title">Demark : Deploy ICO</h4>
@@ -140,42 +178,74 @@ let TokenPublish = React.createClass({
                                 <div className="panel-body">
                                     <div className="row">
                                         <div className="col-sm-2">
-                                            <label><b>Token sold</b></label>
+                                            <label><b>Start pre-order</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="text" placeholder="Token sold" name="name" className="form-request-input" id="name" ref="name" /> <br /> <br />
+                                            <input type="datetime-local" placeholder="start pre-order" name="start-pre-order" className="form-request-input" id="startPreOrderTime" ref="start-pre-order" /> <br /> <br />                                            
                                         </div>
                                     </div>
                                     <div className="row">
                                         <div className="col-sm-2">
-                                            <label><b>Token remaining</b></label>
+                                            <label><b>End pre-order</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="text" placeholder="Token remaining" name="symbol" className="form-request-input" id="symbol" ref="symbol" /> <br /> <br />
+                                            <input type="datetime-local" placeholder="end pre-order" name="end-pre-order" className="form-request-input" id="endPreOrderTime" ref="end-pre-order" /> <br /> <br />                                            
                                         </div>
                                     </div>
                                     <div className="row">
                                         <div className="col-sm-2">
-                                            <label><b>Base price</b></label>
+                                            <label><b>Start order</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="text" placeholder="Base price" name="rating" className="form-request-input" id="rating" ref="rating" /> <br /> <br />
+                                            <input type="datetime-local" placeholder="start order" name="start-order" className="form-request-input" id="startOrderTime" ref="start-order" /> <br /> <br />                                            
                                         </div>
                                     </div>
                                     <div className="row">
                                         <div className="col-sm-2">
-                                            <label><b>Deadline</b></label>
+                                            <label><b>End order</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="text" placeholder="Deadline" name="decimals" className="form-request-input" id="decimals" ref="decimals" /> <br /> <br />
+                                            <input type="datetime-local" placeholder="end order" name="end-order" className="form-request-input" id="endOrderTime" ref="end-order" /> <br /> <br />                                            
                                         </div>
                                     </div>
                                     <div className="row">
                                         <div className="col-sm-2">
-                                            <label><b>Token connected</b></label>
+                                            <label><b>Pre-order amount</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="text" placeholder="Token connected" name="decimals" className="form-request-input" id="decimals" ref="decimals" /> <br /> <br />
+                                            <input type="text" placeholder="Pre-order amount" name="pre-order-amount" className="form-request-input" id="preOrderAmount" ref="pre-order-amount" /> <br /> <br />
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-sm-2">
+                                            <label><b>Order amount</b></label>
+                                        </div>
+                                        <div className="col-sm-4">
+                                            <input type="text" placeholder="Order amount" name="order-amount" className="form-request-input" id="orderAmount" ref="order-amount" /> <br /> <br />
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-sm-2">
+                                            <label><b>Pre-order price</b></label>
+                                        </div>
+                                        <div className="col-sm-4">
+                                            <input type="text" placeholder="Base price" name="pre-order-price" className="form-request-input" id="preOrderPrice" ref="pre-order-price" /> <br /> <br />
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-sm-2">
+                                            <label><b>Address</b></label>
+                                        </div>
+                                        <div className="col-sm-4">
+                                            <input type="text" placeholder="Address" name="Address" className="form-request-input" id="address" ref="Address" /> <br /> <br />
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-sm-2">
+                                            <label><b>Limited</b></label>
+                                        </div>
+                                        <div className="col-sm-4">
+                                            <input type="number" placeholder="Limited" name="Limited" className="form-request-input" id="limitedToken" ref="Limited" /> <br /> <br />
                                         </div>
                                     </div>
                                     <div className="row">
@@ -187,24 +257,9 @@ let TokenPublish = React.createClass({
                                         <div className="col-sm-2">
                                         </div>
                                         <div className="col-sm-4">
-                                            <button type="submit" className="button-request" onClick={this.publishToken}>Publish</button>
+                                            <button type="submit" className="button-request" onClick={this.returnDatesFromconvertTimeOrderToInt}>Publish</button>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-
-                            <div className="col-sm-4">
-                                <div className="panel panel-heading">
-                                    <h4 className="panel-title">How it works?</h4>
-                                </div>
-                                <div className="panel-body">
-                                    <b>Step 1: Fill all information of your ICO</b>
-                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-                                        , when an unknown printer took
-                                    a galley of type and scrambled it to make a type specimen book.</p>
-                                    <b>Step 2: Publish it</b>
-                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
                                 </div>
                             </div>
                         </div>
