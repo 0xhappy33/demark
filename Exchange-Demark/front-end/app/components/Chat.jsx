@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
-import {FormattedTime} from 'react-intl';
-import {Accordion, Glyphicon, Button, Modal, Panel, Input, Well} from 'react-bootstrap';
+import { FormattedTime } from 'react-intl';
+import { Accordion, Glyphicon, Button, Modal, Panel, Input, Well } from 'react-bootstrap';
 
 let Chat = React.createClass({
   getInitialState() {
@@ -27,7 +27,7 @@ let Chat = React.createClass({
   },
 
   toggleActive(key) {
-    this.setState({ activeKey: this.state.activeKey ? null : key});
+    this.setState({ activeKey: this.state.activeKey ? null : key });
   },
 
   handleChange(e) {
@@ -56,14 +56,16 @@ let Chat = React.createClass({
 
   render() {
     return (
-      <div className={ (this.state.activeKey ? "col-xs-4" : "col-xs-2") + " chatbox"}>
+      // <div className={(this.state.activeKey ? "col-xs-3" : "col-xs-2") + " chatbox"}>
+      <div className={"chatbox"}>
+
         <Accordion activeKey={this.state.activeKey} onSelect={this.toggleActive}>
           <Panel header={
-              <span>{ this.props.market.name } Bot
-                { this.state.activeKey && <span className="pull-right"><Glyphicon glyph="remove" onClick={this.toggleActive} /></span> }
-              </span>
-            } bsStyle="primary" eventKey="1">
-            <Well bsSize="small" className="chatbox-messages">
+            <span>{this.props.market.name} Bot
+                {this.state.activeKey && <span className="pull-right"><Glyphicon glyph="remove" onClick={this.toggleActive} /></span>}
+            </span>
+          } bsStyle="primary" eventKey="1">
+            {/* <Well bsSize="small" className="chatbox-messages">
               { this.state.messages.map( function(message, i) {
                   if (!message.error)
                     return (
@@ -74,16 +76,24 @@ let Chat = React.createClass({
                     );
                 })
               }
-            </Well>
-            <form className="form-horizontal" onSubmit={this.handleSend}>
+            </Well> */}
+            {/* <form className="form-horizontal" onSubmit={this.handleSend}>
               <div className="container-fluid">
                 <Input type="text" ref="message" value={ this.state.message || "" } onChange={this.handleChange} />
               </div>
               <Button type="submit" bsStyle="primary" className="hidden pull-right">Send</Button>
-            </form>
+            </form> */}
+            <iframe
+              allow="microphone;"
+              width="400px"
+              height="500px"
+              src="https://console.dialogflow.com/api-client/demo/embedded/db99942a-42aa-4da0-bd57-f866302f5d40">
+            </iframe>
           </Panel>
-        </Accordion>
 
+
+        </Accordion>
+        {/* 
         <Modal show={this.state.showModal} animation={true} onHide={this.hideModal}>
           <Modal.Header closeButton>
             <Modal.Title>Oh snap!</Modal.Title>
@@ -94,7 +104,7 @@ let Chat = React.createClass({
           <Modal.Footer>
             <Button onClick={this.hideModal}>Got it</Button>
           </Modal.Footer>
-        </Modal>
+        </Modal> */}
       </div>
     );
   }
