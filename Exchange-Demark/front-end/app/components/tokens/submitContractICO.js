@@ -2,29 +2,39 @@ let abi;
 let byteCode;
 let currentAccount;
 let myContract;
-let dataInstance = async (_data) => {
-    return new Promise((resolve, reject) => {
-        BrowserSolc.getVersions(function (soljsonSources, soljsonReleases) {
-            BrowserSolc.loadVersion("soljson-v0.4.25+commit.59dbf8f1.js", function (compiler) {
-                source = _data;
-                optimize = 1;
-                result = compiler.compile(source, optimize);
-                resolve(result);
-            });
-        });
-    });
-}
+// const fs = require('fs')
+// fs.readFile('../../contracts/DTUToken.sol', 'utf8', function(err, contents) {
+//     console.log("asd ", contents);
+// });
+// import BrowserSolc from 'browser-solc';
+import web3 from '../../clients/web3';
 
-//get data in DTUToken.sol
-function getData(path) {
-    return new Promise((resolve, reject) => {
-        $.get(path, function (data) {
-            // console.log(data);
-            resolve(data);
-        }, 'text');
-    })
-}
+import firebase from 'firebase';
 
+// function readTextFile(file)
+// {
+//     var rawFile = new XMLHttpRequest();
+//     rawFile.open("GET", file, false);
+//     rawFile.onreadystatechange = function ()
+//     {
+//         if(rawFile.readyState === 4)
+//         {
+//             if(rawFile.status === 200 || rawFile.status == 0)
+//             {
+//                 var allText = rawFile.responseText;
+//                 // alert(allText);
+//                 return allText;
+//             }
+//         }
+//     }
+//     rawFile.send(null);
+// }
+
+// console.log(__dirname + '/front-end/app/components/tokens/ICOBytecode.txt');
+// console.log(readTextFile('file:///E:/PROJECT/DEMARK\ CAPSTON/Exchange-Demark/front-end/app/components/tokens/ICOBytecode.txt'));
+// console.log('====================================')
+
+// let web3;
 const getAccounts = async () => {
     return new Promise((resolve, reject) => {
         web3.eth.getAccounts((err, res) => {
@@ -34,21 +44,14 @@ const getAccounts = async () => {
 }
 
 window.onload = async function () {
-    if (typeof web3 !== 'undefined') {
-        web3 = new Web3(web3.currentProvider);
-    } else {
-        web3 = new Web3(new Web3.providers.HttpProvider("https://rinkeby.infura.io/"));
-    }
-    if (typeof BrowserSolc == 'undefined') {
-        console.log("You have to load browser-solc.js in the page.  We recommend using a <script> tag.");
-        throw new Error();
-    }
+    
     currentAccount = await getAccounts();
-    let fileContract = await getData('../../contracts/DTUToken.sol');
-    let contractCompile = await dataInstance(fileContract);
-    abi = contractCompile.contracts[':DTUToken'].interface;
-    byteCode = contractCompile.contracts[':DTUToken'].bytecode;
-    myContract = web3.eth.contract(JSON.parse(abi));
+    console.log(currentAccount)
+    // let fileContract = await getData('../../contracts/DTUToken.sol');
+    // let contractCompile = await dataInstance(fileContract);
+    // abi = contractCompile.contracts[':DTUToken'].interface;
+    // byteCode = contractCompile.contracts[':DTUToken'].bytecode;
+    myContract = web3.eth.contract(abi);
 
     var refDB = await firebase.database().ref('/users/');
     refDB.once('value').then(function (snapshot) {
@@ -176,3 +179,46 @@ async function clickSubmit(tokenId) {
             }
         });
 }
+
+
+module.exports = {
+    clickSubmitTokenICO(amountForSell, _timeLine, _price, addressOfTokenUsed, limitedToken) {
+
+        let contractICO = web3.eth.contract(JSON.parse(ICOAbi));
+            // console.log(tokenId);
+            console.log(currentAccount);
+            contractICO.new(
+                amountForSell,
+                _timeLine,
+                _price,
+                addressOfTokenUsed,
+                limitedToken,
+                {
+                    data: `0x${ICOByteCode}`,
+                    from: currentAccount,
+                    gas: 4800000
+                }, async (err, res) => {
+    
+                    if (res.address) {
+                        console.log(res.address);
+                        // var uid = tokenId;
+                        // var uid = firebase.database().ref().child('tokens').push().key;
+                        var data = {
+                            // name: _contractName,
+                            // symbol: _contractSymbol,
+                            // rating: _contractRating,
+                            // decimals: _contractDecimals,
+                            // cashier: _contractCashier,
+                            // description: _contractDescription,
+                            address: res.address,
+                            approve: true
+                        }
+                        // console.log(data);
+    
+                    }
+                });
+    
+    }
+}
+
+

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table } from 'react-bootstrap';
+import { Table, Card, Button } from 'react-bootstrap';
 import firebase from 'firebase';
 
 import { Link } from 'react-router';
@@ -49,6 +49,7 @@ class Market extends React.Component {
     render() {
         return (
             <div>
+
                 <div className="market-table panel panel-default">
                     <div className="container-fluid">
                         <div className="row panel-heading">
@@ -90,6 +91,7 @@ class Market extends React.Component {
                     </div>
                 </div>
 
+                
                 <div className="market-table panel panel-default">
                     <div className="container-fluid">
                         <div className="row panel-heading">
@@ -129,6 +131,27 @@ class Market extends React.Component {
                                 </tbody>
                             </Table>
                             {/* )} */}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="market-table panel panel-default">
+                    <div className="container-fluid">
+                        <div className="row panel-heading">
+                            <h1 className="panel-title">Trends of ICO Blockchain</h1>
+                            <hr />
+                            <div className="col-sm-3">
+                                blog one
+                            </div>
+                            <div className="col-sm-3">
+                                blog two
+                            </div>
+                            <div className="col-sm-3">
+                                blog three
+                            </div>
+                            <div className="col-sm-3">
+                                blog four
+                            </div>
                         </div>
                     </div>
                 </div>

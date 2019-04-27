@@ -58,7 +58,7 @@ contract Ownable {
 
 
 contract Token {
-    function totalSupply() public view returns(uint) { }
+    // function totalSupply() public view returns(uint) { }
     function balanceOf(address) public view returns(uint) { }
     function transfer(address, uint) public returns(bool) { }
     function transferFrom(address, address, uint) public returns(bool) { }
@@ -118,7 +118,7 @@ contract TokenICO is Implement, Ownable{
     event Mint(address indexed to, uint indexed amount);
     event Created(string name, uint decimals, string symbol, uint totalSupply);
 
-    constructor(string _name, uint _decimals, string _symbol, uint _totalSupply) public {
+    constructor(string memory _name, uint _decimals, string memory _symbol, uint _totalSupply) public {
         name = _name;
         decimals = _decimals;
         symbol = _symbol;
@@ -165,7 +165,7 @@ contract DTUToken is Implement {
     mapping(address => uint) public totalBonus;
     mapping(address => uint) public timeRegister;
 
-    constructor(string _name, uint _decimals, string _symbol, uint _unitCan, address _cashier, string _description) public {
+    constructor(string memory _name, uint _decimals, string memory _symbol, uint _unitCan, address _cashier, string memory _description) public {
         totalSupply = 0;
         name = _name;
         decimals = _decimals;
@@ -176,7 +176,7 @@ contract DTUToken is Implement {
         creator = msg.sender;
     }
 
-    function _getRate(uint _amount) internal returns(uint){
+    function _getRate(uint _amount) internal view returns(uint){
         if (_amount >= 50 && _amount < 100) return _amount.mul(bonus[0]).div(100);
         if (_amount >= 100 && _amount < 500) return _amount.mul(bonus[1]).div(100);
         if (_amount > 500) return _amount.mul(bonus[2]).div(100);
@@ -188,19 +188,14 @@ contract DTUToken is Implement {
     }
     function _buy(address _addr, uint _amount) internal{
         uint rateBonus = _getRate(_amount);
-        //increate balance of sender
         balances[_addr] = balances[_addr].add(_amount);
-        //increase totalSupply of contract
         totalSupply = totalSupply.add(_amount);
-        //increase bonus token
         totalBonus[_addr] = totalBonus[_addr].add(rateBonus);
-        //address(0) : contract transfer new token
         emit Transfer(address(0), _addr, _amount);
     }
 
-    // trader can buy token
     function buyToken(uint _amount) public payable returns(bool){
-        address _sender = msg.sender;
+        address payable _sender = msg.sender;
         uint senderValue = msg.value;
         uint amountInWei = _amount.mul(1 ether).div(rating);
         require(senderValue >= amountInWei, "Not enough ether");
@@ -212,9 +207,8 @@ contract DTUToken is Implement {
         return true;
     }
 
-    // trader can burn their token to get ether back
     function burn(uint _amount) public returns(bool){
-        address _sender = msg.sender;
+        address payable _sender = msg.sender;
         require(balances[_sender] >= _amount, "You dont have enough token");
         uint amountInWei = _amount.mul(1 ether).div(rating);
         require(address(this).balance >= amountInWei, "Contract dont have enough ether");
@@ -303,7 +297,7 @@ contract ICO is Ownable {
     event GoalReached(address indexed owner, uint indexed sold);
     event FinalizeICO(address indexed sender, uint indexed amount, bool indexed isContribution);
 
-    constructor(uint[] amountForSell, uint[] _timeLine, uint[] _price, address addressOfTokenUsed, uint limited) public {
+    constructor(uint[] memory amountForSell, uint[] memory _timeLine, uint[] memory _price, address addressOfTokenUsed, uint limited) public {
 
         amountPreOrder = amountForSell[0];
         amountOrder = amountForSell[1];
@@ -401,7 +395,7 @@ contract ICO is Ownable {
 
 
     //this function only for test
-    function destroy(address to) public {
+    function destroy(address payable to) public {
         selfdestruct(to);
     }
 

@@ -1607,7 +1607,7 @@ var EthereumClient = function(params) {
   this.postMessage = function(market, message, success, failure) {
     var post = {
       from: this.identity,
-      topics: ['EtherEx', market],
+      topics: ['Demark', market],
       payload: message,
       priority: 100,
       ttl: 120
@@ -1628,7 +1628,7 @@ var EthereumClient = function(params) {
 
   this.watchMessages = function(market, success, failure) {
     this.filters.whisper = web3.shh.filter({
-      topics: ['EtherEx', market]
+      topics: ['Demark', market]
     }).watch( function(error, result) {
       if (error) {
         utils.error(error);

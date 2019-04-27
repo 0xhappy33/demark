@@ -1,49 +1,64 @@
 import React from 'react';
+import {injectIntl, FormattedMessage} from 'react-intl';
 import firebase from 'firebase';
+import web3 from '../../clients/web3';
 
-let TokenPublish = React.createClass({
 
-    // getInitialState() {
-    //     return {
-    //         startPreOrderTime: '',
-    //         endPreOrderTime: '',
-    //         startOrderTime: '',
-    //         endOrderTime: '',
-    //         preOrderAmount: '',
-    //         orderAmount: '',
-    //         preOrderPrice: '',
-    //         orderPrice: '',
-    //         address: '',
-    //         limitedToken: ''
-    //     };
-    // },
+let currentAccount;
+import readTokenByteCode from './readbytecode.js';
+
+// import submitContractICO from './submitContractICO';
+
+let contractICOInstance = web3.eth.contract(readTokenByteCode.getAbiContractICO());
+let tokenICOInstance = web3.eth.contract(readTokenByteCode.getAbiTokenICO());
+
+let contractICOBytecode = readTokenByteCode.getBytecodeContractICO();
+let tokenICOBytecode = readTokenByteCode.getBytecodeTokenICO();
+
+
+let TokenPublish = injectIntl(React.createClass({
+
+    getInitialState() {
+        return {
+            startPreOrderTime: null,
+            endPreOrderTime: null,
+            startOrderTime: null,
+            endOrderTime: null,
+            preOrderAmount: null,
+            orderAmount: null,
+            preOrderPrice: null,
+            orderPrice: null,
+            addressOfTokenUsed: null,
+            limitedToken: null
+        };
+    },
 
     componentWillMount() {
         // Load custom in main and overrides
         require("../../css/main.less");
     },
 
+    componentDidMount() {
+
+    },
+
     returnDatesFromconvertTimeOrderToInt() {
-        var startPreOrderTime = document.getElementById('startPreOrderTime').value;
-        var endPreOrderTime = document.getElementById('endPreOrderTime').value;
-        var startOrderTime = document.getElementById('startOrderTime').value;
-        var endOrderTime = document.getElementById('endOrderTime').value;
-        // var preOrderAmount = document.getElementById('preOrderAmount').value;
-        // var orderAmount = document.getElementById('orderAmount').value;
-        // var preOrderPrice = document.getElementById('preOrderPrice').value;
-        // var orderPrice = document.getElementById('orderPrice').value;
-        // var address = document.getElementById('address').value;
-        // var limitedToken = document.getElementById('limitedToken').value;
-        // var date_as_int = [startPreOrderTime, endPreOrderTime, startOrderTime, endOrderTime];
-        // var dates = startPreOrderTime.map(function(dateStr) {
-        //     return new Date(dateStr).getTime();
-        // });
+        var startPreOrderTime = this.state.startPreOrderTime;
+        var endPreOrderTime = this.state.endPreOrderTime;
+
+        var startOrderTime = this.state.startOrderTime;
+        var endOrderTime = this.state.endOrderTime;
+        
+        var myStartPreOrderTime = new Date(startPreOrderTime).getTime()/1000.0;
+        var myEndPreOrderTime = new Date(endPreOrderTime).getTime()/1000.0;
+        var myStartOrderTime = new Date(startOrderTime).getTime()/1000.0;
+        var myEndOrderTime = new Date(endOrderTime).getTime()/1000.0;
+
         var start = [];
-        start.push(startPreOrderTime, endPreOrderTime, startOrderTime, endOrderTime);
-        console.log(start);
-        console.log("........................" + start.map(date => new Date(date).getTime()));
-        // return dates;
-        // alert(startPreOrderTime);
+        start.push(myStartPreOrderTime, myEndPreOrderTime, myStartOrderTime, myEndOrderTime);
+
+        return start;
+        
     },
 
     publishToken() {
@@ -80,6 +95,126 @@ let TokenPublish = React.createClass({
         }
     },
 
+    openModal: function() {
+        this.setState({ showModal: true });
+    },
+    
+    closeModal: function() {
+        this.setState({ showModal: false });
+      },
+    
+    
+    handleValidation: function(e) {
+        e.preventDefault();
+        if (this.validate(e, true))
+          this.openModal();
+    },
+
+    handleChange(e) {
+        e.preventDefault();
+        this.setState({
+            [e.target.name]: e.target.value
+        })
+    },
+
+    //  validate for form 
+    validate: function(e, showAlerts) {
+        e.preventDefault();
+    
+        var amount = this.refs.amount.getValue().trim();
+    
+        this.setState({
+          amount: amount
+        });
+        if (amount < 0) {
+          this.props.setAlert('warning', this.props.intl.formatMessage({id: 'form.smaller'}));
+        }
+        else if (!amount) {
+          this.props.setAlert('warning', this.props.intl.formatMessage({id: 'form.empty'}));
+        }
+        else if (parseFloat(amount) > this.props.balance) {
+          this.props.setAlert('warning',
+            this.props.intl.formatMessage({id: 'deposit.not_enough'}, {
+              currency: this.props.symbol,
+              balance: this.props.balance,
+              amount: amount
+            })
+          );
+        }
+        else {
+          this.setState({
+            newDeposit: true,
+            confirmMessage:
+              <FormattedMessage id='deposit.confirm' values={{
+                  amount: amount,
+                  currency: this.props.contractName
+                }}
+              />
+          });
+    
+          this.props.showAlert(false);
+    
+          return true;
+        }
+    
+        this.setState({
+          newDeposit: false
+        });
+    
+        if (showAlerts)
+          this.props.showAlert(true);
+    
+        e.stopPropagation();
+    },
+
+    onSubmitContractICODeploy(e) {
+        e.preventDefault();
+        this.deployContractICO();
+        this.setState({
+            startPreOrderTime: '',
+            endPreOrderTime: '',
+            startOrderTime: '',
+            endOrderTime: '',
+            preOrderAmount: '',
+            orderAmount: '',
+            preOrderPrice: '',
+            orderPrice: '',
+            address: '',
+            limitedToken: ''
+       })
+    },
+
+    deployContractICO() {
+        var amountForSell = [this.state.preOrderAmount, this.state.orderAmount];
+        var _timeLine = this.returnDatesFromconvertTimeOrderToInt();
+        var _price = [this.state.preOrderPrice, this.state.orderPrice];
+        console.log('====================================')
+        console.log(contractICOInstance)
+        console.log('====================================')
+        contractICOInstance.new(
+            amountForSell,
+            _timeLine,
+            _price,
+            this.state.addressOfTokenUsed,
+            this.state.limitedToken,
+            {
+                data: `0x${contractICOBytecode}`,
+                from: currentAccount,
+                gas: 4800000
+            }, async (err, res) => {
+                if (res.address) {
+                    console.log('====================================')
+                    console.log(res.address)
+                    console.log('====================================')
+                    // Firebase things
+                    
+                }
+                else{
+                    console.log(err)
+                }
+            });
+    },
+
     render() {
         return (
             <div>
@@ -99,7 +234,13 @@ let TokenPublish = React.createClass({
                                             <label><b>Name of Token</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="text" placeholder="DTU EDU" name="name" className="form-request-input" id="name" ref="name" /> <br /> <br />
+                                            <input 
+                                                type="text"
+                                                placeholder="Name of token ICO" 
+                                                name="nameOfTokenICO" 
+                                                className="form-request-input" 
+                                                onChange={e => this.handleChange(e)} 
+                                                value={this.state.nameOfTokenICO} /> <br /> <br />
                                         </div>
                                     </div>
                                     <div className="row">
@@ -107,7 +248,13 @@ let TokenPublish = React.createClass({
                                             <label><b>Symbol</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="text" placeholder="DTUK" name="symbol" className="form-request-input" id="symbol" ref="symbol" /> <br /> <br />
+                                            <input 
+                                                type="text" 
+                                                placeholder="Symbol" 
+                                                name="symbol" 
+                                                className="form-request-input" 
+                                                onChange={e => this.handleChange(e)} 
+                                                value={this.state.symbol} /> <br /> <br />
                                         </div>
                                     </div>
                                     <div className="row">
@@ -115,7 +262,13 @@ let TokenPublish = React.createClass({
                                             <label><b>Decimals</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="text" placeholder="Decimals" name="decimals" className="form-request-input" id="decimals" ref="decimals" /> <br /> <br />
+                                            <input 
+                                                type="text" 
+                                                placeholder="Decimals" 
+                                                name="decimals" 
+                                                className="form-request-input" 
+                                                onChange={e => this.handleChange(e)} 
+                                                value={this.state.decimals} /> <br /> <br />
                                         </div>
                                     </div>
                                     <div className="row">
@@ -123,7 +276,13 @@ let TokenPublish = React.createClass({
                                             <label><b>Total Supply</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="text" placeholder="Total supply" name="totalsupply" className="form-request-input" id="totalsupply" ref="totalsupply" /> <br /> <br />
+                                            <input 
+                                                type="text" 
+                                                placeholder="Total supply" 
+                                                name="totalsupply" 
+                                                className="form-request-input" 
+                                                onChange={e => this.handleChange(e)} 
+                                                value={this.state.totalsupply} /> <br /> <br />
                                         </div>
                                     </div>
                                     <div className="row">
@@ -175,7 +334,13 @@ let TokenPublish = React.createClass({
                                             <label><b>Start pre-order</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="datetime-local" placeholder="start pre-order" name="start-pre-order" className="form-request-input" id="startPreOrderTime" ref="start-pre-order" /> <br /> <br />
+                                            <input 
+                                                type="datetime-local" 
+                                                placeholder="start pre-order" 
+                                                name="startPreOrderTime" 
+                                                onChange={e => this.handleChange(e)} 
+                                                className="form-request-input" 
+                                                value={this.state.startPreOrderTime} /> <br /> <br />
                                         </div>
                                     </div>
                                     <div className="row">
@@ -183,7 +348,13 @@ let TokenPublish = React.createClass({
                                             <label><b>End pre-order</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="datetime-local" placeholder="end pre-order" name="end-pre-order" className="form-request-input" id="endPreOrderTime" ref="end-pre-order" /> <br /> <br />
+                                            <input 
+                                                type="datetime-local" 
+                                                placeholder="end pre-order" 
+                                                className="form-request-input"  
+                                                value={this.state.endPreOrderTime} 
+                                                name="endPreOrderTime"
+                                                onChange={e => this.handleChange(e)}  /> <br /> <br />
                                         </div>
                                     </div>
                                     <div className="row">
@@ -191,7 +362,13 @@ let TokenPublish = React.createClass({
                                             <label><b>Start order</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="datetime-local" placeholder="start order" name="start-order" className="form-request-input" id="startOrderTime" ref="start-order" /> <br /> <br />
+                                            <input 
+                                                type="datetime-local" 
+                                                placeholder="start order" 
+                                                className="form-request-input" 
+                                                value={this.state.startOrderTime} 
+                                                name="startOrderTime" 
+                                                onChange={e => this.handleChange(e)}/> <br /> <br />
                                         </div>
                                     </div>
                                     <div className="row">
@@ -199,7 +376,13 @@ let TokenPublish = React.createClass({
                                             <label><b>End order</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="datetime-local" placeholder="end order" name="end-order" className="form-request-input" id="endOrderTime" ref="end-order" /> <br /> <br />
+                                            <input 
+                                                type="datetime-local" 
+                                                placeholder="end order" 
+                                                className="form-request-input" 
+                                                value={this.state.endOrderTime} 
+                                                name="endOrderTime" 
+                                                onChange={e => this.handleChange(e)} /> <br /> <br />
                                         </div>
                                     </div>
                                     <div className="row">
@@ -207,7 +390,13 @@ let TokenPublish = React.createClass({
                                             <label><b>Pre-order amount</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="text" placeholder="Pre-order amount" name="pre-order-amount" className="form-request-input" id="preOrderAmount" ref="pre-order-amount" /> <br /> <br />
+                                            <input 
+                                                type="number" 
+                                                placeholder="Pre-order amount" 
+                                                value={this.state.preOrderAmount} 
+                                                className="form-request-input" 
+                                                name="preOrderAmount" 
+                                                onChange={e => this.handleChange(e)} /> <br /> <br />
                                         </div>
                                     </div>
                                     <div className="row">
@@ -215,7 +404,13 @@ let TokenPublish = React.createClass({
                                             <label><b>Order amount</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="text" placeholder="Order amount" name="order-amount" className="form-request-input" id="orderAmount" ref="order-amount" /> <br /> <br />
+                                            <input 
+                                                type="number" 
+                                                placeholder="Order amount" 
+                                                name="orderAmount" 
+                                                onChange={e => this.handleChange(e)} 
+                                                className="form-request-input" 
+                                                value={this.state.orderAmount} /> <br /> <br />
                                         </div>
                                     </div>
                                     <div className="row">
@@ -223,7 +418,27 @@ let TokenPublish = React.createClass({
                                             <label><b>Pre-order price</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="text" placeholder="Base price" name="pre-order-price" className="form-request-input" id="preOrderPrice" ref="pre-order-price" /> <br /> <br />
+                                            <input 
+                                                type="number" 
+                                                placeholder="Pre order price" 
+                                                className="form-request-input" 
+                                                value={this.state.preOrderPrice} 
+                                                name="preOrderPrice" 
+                                                onChange={e => this.handleChange(e)} /> <br /> <br />
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-sm-2">
+                                            <label><b>Order price</b></label>
+                                        </div>
+                                        <div className="col-sm-4">
+                                            <input 
+                                                type="number" 
+                                                placeholder="Order price" 
+                                                className="form-request-input" 
+                                                value={this.state.orderPrice} 
+                                                name="orderPrice" 
+                                                onChange={e => this.handleChange(e)} /> <br /> <br />
                                         </div>
                                     </div>
                                     <div className="row">
@@ -231,7 +446,13 @@ let TokenPublish = React.createClass({
                                             <label><b>Address</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="text" placeholder="Address" name="Address" className="form-request-input" id="address" ref="Address" /> <br /> <br />
+                                            <input 
+                                                type="text" 
+                                                placeholder="Address" 
+                                                className="form-request-input" 
+                                                value={this.state.addressOfTokenUsed} 
+                                                name="addressOfTokenUsed" 
+                                                onChange={e => this.handleChange(e)} /> <br /> <br />
                                         </div>
                                     </div>
                                     <div className="row">
@@ -239,19 +460,25 @@ let TokenPublish = React.createClass({
                                             <label><b>Limited</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input type="number" placeholder="Limited" name="Limited" className="form-request-input" id="limitedToken" ref="Limited" /> <br /> <br />
+                                            <input 
+                                                type="number" 
+                                                placeholder="Limited" 
+                                                className="form-request-input" 
+                                                value={this.state.limitedToken}  
+                                                name="limitedToken"  
+                                                onChange={e => this.handleChange(e)} /> <br /> <br />
                                         </div>
                                     </div>
                                     <div className="row">
                                         <div className="col-sm-12">
-                                            <p><b>Note: You have to pay fee for publishing your token 2ETH for each action</b></p>
+                                            <p><b>Note: You have to pay fee for publishing your token 2ETH at least for each action</b></p>
                                         </div>
                                     </div>
                                     <div className="row">
                                         <div className="col-sm-2">
                                         </div>
                                         <div className="col-sm-4">
-                                            <button type="submit" className="button-request" onClick={this.returnDatesFromconvertTimeOrderToInt}>Publish</button>
+                                            <button type="submit" className="button-request" onClick={this.onSubmitContractICODeploy} >Deploy contract ICO</button>
                                         </div>
                                     </div>
                                 </div>
@@ -264,6 +491,6 @@ let TokenPublish = React.createClass({
         );
     }
 
-});
+}));
 
 module.exports = TokenPublish;
