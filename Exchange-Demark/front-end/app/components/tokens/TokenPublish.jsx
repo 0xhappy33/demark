@@ -3,11 +3,12 @@ import {injectIntl, FormattedMessage} from 'react-intl';
 import firebase from 'firebase';
 import web3 from '../../clients/web3';
 
-
 let currentAccount;
 import readTokenByteCode from './readbytecode.js';
 
 // import submitContractICO from './submitContractICO';
+import submitContractICO from './submitContractICO';
+
 
 let contractICOInstance = web3.eth.contract(readTokenByteCode.getAbiContractICO());
 let tokenICOInstance = web3.eth.contract(readTokenByteCode.getAbiTokenICO());
@@ -20,6 +21,7 @@ let TokenPublish = injectIntl(React.createClass({
 
     getInitialState() {
         return {
+            // contract ICO
             startPreOrderTime: null,
             endPreOrderTime: null,
             startOrderTime: null,
@@ -29,7 +31,14 @@ let TokenPublish = injectIntl(React.createClass({
             preOrderPrice: null,
             orderPrice: null,
             addressOfTokenUsed: null,
-            limitedToken: null
+            limitedToken: null,
+
+            // Token for doing ICO
+            nameOfTokenICO: null,
+            decimals: null,
+            symbol: null,
+            totalSupply: null
+            // currentAccount: null
         };
     },
 
@@ -39,7 +48,18 @@ let TokenPublish = injectIntl(React.createClass({
     },
 
     componentDidMount() {
-
+        // window.addEventListener('load', this.handleLoad);
+        // Check if Web3 has been injected by the browser (MetaMask).
+        // (since 'web3' is global, we need to use 'window')
+        if (window.web3 && window.web3.currentProvider.isMetaMask) {
+            window.web3.eth.getAccounts((error, accounts) => {
+            currentAccount = accounts[0];
+            // Do whatever you need to.
+            // this.setState({currentAccount: accounts[0]});
+            });
+        } else {
+            console.log('MetaMask account not detected :(');
+        }
     },
 
     returnDatesFromconvertTimeOrderToInt() {
@@ -184,12 +204,44 @@ let TokenPublish = injectIntl(React.createClass({
        })
     },
 
+    deployTokenICO() {
+        var name = this.state.nameOfTokenICO;
+        var decimals = this.state.decimals;
+        var symbol = this.state.symbol;
+        var totalSupply = this.state.totalSupply;
+        console.log('====================================')
+        console.log(currentAccount)
+        console.log('====================================')
+        tokenICOInstance.new(
+            name, 
+            decimals,
+            symbol,
+            totalSupply,
+            {
+                data: `0x${tokenICOBytecode}`,
+                from: currentAccount,
+                gas: 4800000
+            }, async (err, res) => {
+                if (res.address) {
+                    console.log('====================================')
+                    console.log(res.address)
+                    console.log('====================================')
+                    // Firebase things
+
+                }
+                else{
+                    console.log(err)
+                }
+            }
+        );
+    },
+
     deployContractICO() {
         var amountForSell = [this.state.preOrderAmount, this.state.orderAmount];
         var _timeLine = this.returnDatesFromconvertTimeOrderToInt();
         var _price = [this.state.preOrderPrice, this.state.orderPrice];
         console.log('====================================')
-        console.log(contractICOInstance)
+        console.log(currentAccount,_price)
         console.log('====================================')
         contractICOInstance.new(
             amountForSell,
@@ -199,7 +251,8 @@ let TokenPublish = injectIntl(React.createClass({
             this.state.limitedToken,
             {
                 data: `0x${contractICOBytecode}`,
-                from: currentAccount,
+                from: "0x17f9b86c150c3ad709bea111b5ba1168f424655a",
+                // from: currentAccount,
                 gas: 4800000
             }, async (err, res) => {
                 if (res.address) {
@@ -207,7 +260,7 @@ let TokenPublish = injectIntl(React.createClass({
                     console.log(res.address)
                     console.log('====================================')
                     // Firebase things
-                    
+
                 }
                 else{
                     console.log(err)
@@ -263,7 +316,7 @@ let TokenPublish = injectIntl(React.createClass({
                                         </div>
                                         <div className="col-sm-4">
                                             <input 
-                                                type="text" 
+                                                type="number" 
                                                 placeholder="Decimals" 
                                                 name="decimals" 
                                                 className="form-request-input" 
@@ -277,9 +330,9 @@ let TokenPublish = injectIntl(React.createClass({
                                         </div>
                                         <div className="col-sm-4">
                                             <input 
-                                                type="text" 
+                                                type="number" 
                                                 placeholder="Total supply" 
-                                                name="totalsupply" 
+                                                name="totalSupply" 
                                                 className="form-request-input" 
                                                 onChange={e => this.handleChange(e)} 
                                                 value={this.state.totalsupply} /> <br /> <br />
@@ -294,7 +347,7 @@ let TokenPublish = injectIntl(React.createClass({
                                         <div className="col-sm-2">
                                         </div>
                                         <div className="col-sm-4">
-                                            <button type="submit" className="button-request" onClick={this.publishToken}>Publish</button>
+                                            <button type="submit" className="button-request" onClick={this.deployTokenICO}>Deploy token ICO</button>
                                         </div>
                                     </div>
                                 </div>
