@@ -1,9 +1,10 @@
 import React from 'react';
-import {injectIntl, FormattedMessage} from 'react-intl';
+import { injectIntl, FormattedMessage } from 'react-intl';
 import firebase from 'firebase';
 import web3 from '../../clients/web3';
 
 let currentAccount;
+
 import readTokenByteCode from './readbytecode.js';
 
 // import submitContractICO from './submitContractICO';
@@ -53,13 +54,16 @@ let TokenPublish = injectIntl(React.createClass({
         // (since 'web3' is global, we need to use 'window')
         if (window.web3 && window.web3.currentProvider.isMetaMask) {
             window.web3.eth.getAccounts((error, accounts) => {
-            currentAccount = accounts[0];
-            // Do whatever you need to.
-            // this.setState({currentAccount: accounts[0]});
+                currentAccount = accounts[0];
+                console.log(currentAccount);
+                // Do whatever you need to.
+                //this.setState({currentAccount: accounts[0]});
             });
         } else {
             console.log('MetaMask account not detected :(');
         }
+        //------------------------------------   
+        
     },
 
     returnDatesFromconvertTimeOrderToInt() {
@@ -68,66 +72,32 @@ let TokenPublish = injectIntl(React.createClass({
 
         var startOrderTime = this.state.startOrderTime;
         var endOrderTime = this.state.endOrderTime;
-        
-        var myStartPreOrderTime = new Date(startPreOrderTime).getTime()/1000.0;
-        var myEndPreOrderTime = new Date(endPreOrderTime).getTime()/1000.0;
-        var myStartOrderTime = new Date(startOrderTime).getTime()/1000.0;
-        var myEndOrderTime = new Date(endOrderTime).getTime()/1000.0;
+
+        var myStartPreOrderTime = new Date(startPreOrderTime).getTime() / 1000.0;
+        var myEndPreOrderTime = new Date(endPreOrderTime).getTime() / 1000.0;
+        var myStartOrderTime = new Date(startOrderTime).getTime() / 1000.0;
+        var myEndOrderTime = new Date(endOrderTime).getTime() / 1000.0;
 
         var start = [];
         start.push(myStartPreOrderTime, myEndPreOrderTime, myStartOrderTime, myEndOrderTime);
 
         return start;
-        
+
     },
 
-    publishToken() {
-        var id = firebase.database().ref().child('token').push().key;
-        //let fb = new connectFB();
-
-        var name = document.getElementById('name').value;
-        var symbol = document.getElementById('symbol').value;
-        var decimals = document.getElementById('decimals').value;
-        var totalsupply = document.getElementById('totalsupply').value;
-
-        if (name == '' || symbol == '' || decimals == '' || totalsupply == '') {
-            alert('NULL');
-        }
-        else {
-            var data = {
-                name: name,
-                symbol: symbol,
-                decimals: decimals,
-                totalsupply: totalsupply,
-                owner: '0x0',
-                approve: false
-            }
-
-            var updates = {};
-            updates['/tokens_ico/' + id] = data;
-            firebase.database().ref().update(updates);
-            alert('Token is requested');
-            // console.log(data);
-            this.refs.name.value = "";
-            this.refs.symbol.value = "";
-            this.refs.decimals.value = "";
-            this.refs.totalsupply.value = "";
-        }
-    },
-
-    openModal: function() {
+    openModal: function () {
         this.setState({ showModal: true });
     },
-    
-    closeModal: function() {
+
+    closeModal: function () {
         this.setState({ showModal: false });
-      },
-    
-    
-    handleValidation: function(e) {
+    },
+
+
+    handleValidation: function (e) {
         e.preventDefault();
         if (this.validate(e, true))
-          this.openModal();
+            this.openModal();
     },
 
     handleChange(e) {
@@ -138,52 +108,52 @@ let TokenPublish = injectIntl(React.createClass({
     },
 
     //  validate for form 
-    validate: function(e, showAlerts) {
+    validate: function (e, showAlerts) {
         e.preventDefault();
-    
+
         var amount = this.refs.amount.getValue().trim();
-    
+
         this.setState({
-          amount: amount
+            amount: amount
         });
         if (amount < 0) {
-          this.props.setAlert('warning', this.props.intl.formatMessage({id: 'form.smaller'}));
+            this.props.setAlert('warning', this.props.intl.formatMessage({ id: 'form.smaller' }));
         }
         else if (!amount) {
-          this.props.setAlert('warning', this.props.intl.formatMessage({id: 'form.empty'}));
+            this.props.setAlert('warning', this.props.intl.formatMessage({ id: 'form.empty' }));
         }
         else if (parseFloat(amount) > this.props.balance) {
-          this.props.setAlert('warning',
-            this.props.intl.formatMessage({id: 'deposit.not_enough'}, {
-              currency: this.props.symbol,
-              balance: this.props.balance,
-              amount: amount
-            })
-          );
+            this.props.setAlert('warning',
+                this.props.intl.formatMessage({ id: 'deposit.not_enough' }, {
+                    currency: this.props.symbol,
+                    balance: this.props.balance,
+                    amount: amount
+                })
+            );
         }
         else {
-          this.setState({
-            newDeposit: true,
-            confirmMessage:
-              <FormattedMessage id='deposit.confirm' values={{
-                  amount: amount,
-                  currency: this.props.contractName
-                }}
-              />
-          });
-    
-          this.props.showAlert(false);
-    
-          return true;
+            this.setState({
+                newDeposit: true,
+                confirmMessage:
+                    <FormattedMessage id='deposit.confirm' values={{
+                        amount: amount,
+                        currency: this.props.contractName
+                    }}
+                    />
+            });
+
+            this.props.showAlert(false);
+
+            return true;
         }
-    
+
         this.setState({
-          newDeposit: false
+            newDeposit: false
         });
-    
+
         if (showAlerts)
-          this.props.showAlert(true);
-    
+            this.props.showAlert(true);
+
         e.stopPropagation();
     },
 
@@ -201,19 +171,34 @@ let TokenPublish = injectIntl(React.createClass({
             orderPrice: '',
             address: '',
             limitedToken: ''
-       })
+        })
     },
 
     deployTokenICO() {
+        var id = firebase.database().ref().child('token').push().key;
         var name = this.state.nameOfTokenICO;
         var decimals = this.state.decimals;
         var symbol = this.state.symbol;
         var totalSupply = this.state.totalSupply;
+        
         console.log('====================================')
         console.log(currentAccount)
         console.log('====================================')
+
+        var data = {
+            name: name,
+            symbol: symbol,
+            decimals: decimals,
+            totalsupply: totalSupply
+            //owner: ''
+        }
+
+        var updates = {};
+        updates['/tokens_ico/' + id] = data;
+        firebase.database().ref().update(updates);
+
         tokenICOInstance.new(
-            name, 
+            name,
             decimals,
             symbol,
             totalSupply,
@@ -229,11 +214,13 @@ let TokenPublish = injectIntl(React.createClass({
                     // Firebase things
 
                 }
-                else{
+                else {
                     console.log(err)
                 }
             }
         );
+        alert('Token is requested');
+
     },
 
     deployContractICO() {
@@ -241,7 +228,7 @@ let TokenPublish = injectIntl(React.createClass({
         var _timeLine = this.returnDatesFromconvertTimeOrderToInt();
         var _price = [this.state.preOrderPrice, this.state.orderPrice];
         console.log('====================================')
-        console.log(currentAccount,_price)
+        console.log(currentAccount, _price, _timeLine)
         console.log('====================================')
         contractICOInstance.new(
             amountForSell,
@@ -262,7 +249,7 @@ let TokenPublish = injectIntl(React.createClass({
                     // Firebase things
 
                 }
-                else{
+                else {
                     console.log(err)
                 }
             });
@@ -287,12 +274,12 @@ let TokenPublish = injectIntl(React.createClass({
                                             <label><b>Name of Token</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input 
+                                            <input
                                                 type="text"
-                                                placeholder="Name of token ICO" 
-                                                name="nameOfTokenICO" 
-                                                className="form-request-input" 
-                                                onChange={e => this.handleChange(e)} 
+                                                placeholder="Name of token ICO"
+                                                name="nameOfTokenICO"
+                                                className="form-request-input"
+                                                onChange={e => this.handleChange(e)}
                                                 value={this.state.nameOfTokenICO} /> <br /> <br />
                                         </div>
                                     </div>
@@ -301,12 +288,12 @@ let TokenPublish = injectIntl(React.createClass({
                                             <label><b>Symbol</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input 
-                                                type="text" 
-                                                placeholder="Symbol" 
-                                                name="symbol" 
-                                                className="form-request-input" 
-                                                onChange={e => this.handleChange(e)} 
+                                            <input
+                                                type="text"
+                                                placeholder="Symbol"
+                                                name="symbol"
+                                                className="form-request-input"
+                                                onChange={e => this.handleChange(e)}
                                                 value={this.state.symbol} /> <br /> <br />
                                         </div>
                                     </div>
@@ -315,12 +302,12 @@ let TokenPublish = injectIntl(React.createClass({
                                             <label><b>Decimals</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input 
-                                                type="number" 
-                                                placeholder="Decimals" 
-                                                name="decimals" 
-                                                className="form-request-input" 
-                                                onChange={e => this.handleChange(e)} 
+                                            <input
+                                                type="number"
+                                                placeholder="Decimals"
+                                                name="decimals"
+                                                className="form-request-input"
+                                                onChange={e => this.handleChange(e)}
                                                 value={this.state.decimals} /> <br /> <br />
                                         </div>
                                     </div>
@@ -329,12 +316,12 @@ let TokenPublish = injectIntl(React.createClass({
                                             <label><b>Total Supply</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input 
-                                                type="number" 
-                                                placeholder="Total supply" 
-                                                name="totalSupply" 
-                                                className="form-request-input" 
-                                                onChange={e => this.handleChange(e)} 
+                                            <input
+                                                type="number"
+                                                placeholder="Total supply"
+                                                name="totalSupply"
+                                                className="form-request-input"
+                                                onChange={e => this.handleChange(e)}
                                                 value={this.state.totalsupply} /> <br /> <br />
                                         </div>
                                     </div>
@@ -387,12 +374,12 @@ let TokenPublish = injectIntl(React.createClass({
                                             <label><b>Start pre-order</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input 
-                                                type="datetime-local" 
-                                                placeholder="start pre-order" 
-                                                name="startPreOrderTime" 
-                                                onChange={e => this.handleChange(e)} 
-                                                className="form-request-input" 
+                                            <input
+                                                type="datetime-local"
+                                                placeholder="start pre-order"
+                                                name="startPreOrderTime"
+                                                onChange={e => this.handleChange(e)}
+                                                className="form-request-input"
                                                 value={this.state.startPreOrderTime} /> <br /> <br />
                                         </div>
                                     </div>
@@ -401,13 +388,13 @@ let TokenPublish = injectIntl(React.createClass({
                                             <label><b>End pre-order</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input 
-                                                type="datetime-local" 
-                                                placeholder="end pre-order" 
-                                                className="form-request-input"  
-                                                value={this.state.endPreOrderTime} 
+                                            <input
+                                                type="datetime-local"
+                                                placeholder="end pre-order"
+                                                className="form-request-input"
+                                                value={this.state.endPreOrderTime}
                                                 name="endPreOrderTime"
-                                                onChange={e => this.handleChange(e)}  /> <br /> <br />
+                                                onChange={e => this.handleChange(e)} /> <br /> <br />
                                         </div>
                                     </div>
                                     <div className="row">
@@ -415,13 +402,13 @@ let TokenPublish = injectIntl(React.createClass({
                                             <label><b>Start order</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input 
-                                                type="datetime-local" 
-                                                placeholder="start order" 
-                                                className="form-request-input" 
-                                                value={this.state.startOrderTime} 
-                                                name="startOrderTime" 
-                                                onChange={e => this.handleChange(e)}/> <br /> <br />
+                                            <input
+                                                type="datetime-local"
+                                                placeholder="start order"
+                                                className="form-request-input"
+                                                value={this.state.startOrderTime}
+                                                name="startOrderTime"
+                                                onChange={e => this.handleChange(e)} /> <br /> <br />
                                         </div>
                                     </div>
                                     <div className="row">
@@ -429,12 +416,12 @@ let TokenPublish = injectIntl(React.createClass({
                                             <label><b>End order</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input 
-                                                type="datetime-local" 
-                                                placeholder="end order" 
-                                                className="form-request-input" 
-                                                value={this.state.endOrderTime} 
-                                                name="endOrderTime" 
+                                            <input
+                                                type="datetime-local"
+                                                placeholder="end order"
+                                                className="form-request-input"
+                                                value={this.state.endOrderTime}
+                                                name="endOrderTime"
                                                 onChange={e => this.handleChange(e)} /> <br /> <br />
                                         </div>
                                     </div>
@@ -443,12 +430,12 @@ let TokenPublish = injectIntl(React.createClass({
                                             <label><b>Pre-order amount</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input 
-                                                type="number" 
-                                                placeholder="Pre-order amount" 
-                                                value={this.state.preOrderAmount} 
-                                                className="form-request-input" 
-                                                name="preOrderAmount" 
+                                            <input
+                                                type="number"
+                                                placeholder="Pre-order amount"
+                                                value={this.state.preOrderAmount}
+                                                className="form-request-input"
+                                                name="preOrderAmount"
                                                 onChange={e => this.handleChange(e)} /> <br /> <br />
                                         </div>
                                     </div>
@@ -457,12 +444,12 @@ let TokenPublish = injectIntl(React.createClass({
                                             <label><b>Order amount</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input 
-                                                type="number" 
-                                                placeholder="Order amount" 
-                                                name="orderAmount" 
-                                                onChange={e => this.handleChange(e)} 
-                                                className="form-request-input" 
+                                            <input
+                                                type="number"
+                                                placeholder="Order amount"
+                                                name="orderAmount"
+                                                onChange={e => this.handleChange(e)}
+                                                className="form-request-input"
                                                 value={this.state.orderAmount} /> <br /> <br />
                                         </div>
                                     </div>
@@ -471,12 +458,12 @@ let TokenPublish = injectIntl(React.createClass({
                                             <label><b>Pre-order price</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input 
-                                                type="number" 
-                                                placeholder="Pre order price" 
-                                                className="form-request-input" 
-                                                value={this.state.preOrderPrice} 
-                                                name="preOrderPrice" 
+                                            <input
+                                                type="number"
+                                                placeholder="Pre order price"
+                                                className="form-request-input"
+                                                value={this.state.preOrderPrice}
+                                                name="preOrderPrice"
                                                 onChange={e => this.handleChange(e)} /> <br /> <br />
                                         </div>
                                     </div>
@@ -485,12 +472,12 @@ let TokenPublish = injectIntl(React.createClass({
                                             <label><b>Order price</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input 
-                                                type="number" 
-                                                placeholder="Order price" 
-                                                className="form-request-input" 
-                                                value={this.state.orderPrice} 
-                                                name="orderPrice" 
+                                            <input
+                                                type="number"
+                                                placeholder="Order price"
+                                                className="form-request-input"
+                                                value={this.state.orderPrice}
+                                                name="orderPrice"
                                                 onChange={e => this.handleChange(e)} /> <br /> <br />
                                         </div>
                                     </div>
@@ -499,12 +486,12 @@ let TokenPublish = injectIntl(React.createClass({
                                             <label><b>Address</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input 
-                                                type="text" 
-                                                placeholder="Address" 
-                                                className="form-request-input" 
-                                                value={this.state.addressOfTokenUsed} 
-                                                name="addressOfTokenUsed" 
+                                            <input
+                                                type="text"
+                                                placeholder="Address"
+                                                className="form-request-input"
+                                                value={this.state.addressOfTokenUsed}
+                                                name="addressOfTokenUsed"
                                                 onChange={e => this.handleChange(e)} /> <br /> <br />
                                         </div>
                                     </div>
@@ -513,12 +500,12 @@ let TokenPublish = injectIntl(React.createClass({
                                             <label><b>Limited</b></label>
                                         </div>
                                         <div className="col-sm-4">
-                                            <input 
-                                                type="number" 
-                                                placeholder="Limited" 
-                                                className="form-request-input" 
-                                                value={this.state.limitedToken}  
-                                                name="limitedToken"  
+                                            <input
+                                                type="number"
+                                                placeholder="Limited"
+                                                className="form-request-input"
+                                                value={this.state.limitedToken}
+                                                name="limitedToken"
                                                 onChange={e => this.handleChange(e)} /> <br /> <br />
                                         </div>
                                     </div>
