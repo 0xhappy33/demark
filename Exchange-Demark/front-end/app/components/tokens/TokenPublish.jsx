@@ -175,7 +175,6 @@ let TokenPublish = injectIntl(React.createClass({
     },
 
     deployTokenICO() {
-        var id = firebase.database().ref().child('token').push().key;
         var name = this.state.nameOfTokenICO;
         var decimals = this.state.decimals;
         var symbol = this.state.symbol;
@@ -184,13 +183,13 @@ let TokenPublish = injectIntl(React.createClass({
         console.log('====================================')
         console.log(currentAccount)
         console.log('====================================')
-
+        var id = firebase.database().ref().child('token').push().key;
         var data = {
             name: name,
             symbol: symbol,
             decimals: decimals,
-            totalsupply: totalSupply
-            //owner: ''
+            totalsupply: totalSupply,
+            owner: currentAccount
         }
 
         var updates = {};
@@ -210,9 +209,10 @@ let TokenPublish = injectIntl(React.createClass({
                 if (res.address) {
                     console.log('====================================')
                     console.log(res.address)
+
                     console.log('====================================')
                     // Firebase things
-
+                   
                 }
                 else {
                     console.log(err)
@@ -230,6 +230,37 @@ let TokenPublish = injectIntl(React.createClass({
         console.log('====================================')
         console.log(currentAccount, _price, _timeLine)
         console.log('====================================')
+        //------------------FIREBASE-------------------
+        var id = firebase.database().ref().child('token').push().key;
+        var startPreOrderTime = this.state.startPreOrderTime;
+        var endPreOrderTime = this.state.endPreOrderTime;
+        var startOrderTime = this.state.startOrderTime;
+        var endOrderTime = this.state.endOrderTime;
+        var preOrderAmount= this.state.preOrderAmount;
+        var orderAmount = this.state.orderAmount;
+        var preOrderPrice = this.state.preOrderPrice;
+        var orderPrice = this.state.orderPrice;
+        var addressOfTokenUsed = this.state.addressOfTokenUsed;
+        var limitedToken = this.state.limitedToken;
+
+        var data = {
+            startPreOrderTime : startPreOrderTime,
+            endPreOrderTime: endPreOrderTime,
+            startOrderTime: startOrderTime,
+            endOrderTime: endOrderTime,
+            preOrderAmount: preOrderAmount,
+            orderAmount: orderAmount,
+            preOrderPrice: preOrderPrice,
+            orderPrice: orderPrice,
+            addressOfTokenUsed: addressOfTokenUsed,
+            limitedToken: limitedToken,
+            owner: currentAccount
+        }
+        
+        var updates ={};
+        updates['/contract_ico/' + id] = data;
+        firebase.database().ref().update(updates);
+        //----------------------------------------
         contractICOInstance.new(
             amountForSell,
             _timeLine,
