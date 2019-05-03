@@ -50,7 +50,7 @@ let TokenDetail = injectIntl(React.createClass({
 
     async componentDidMount() {
         this.props.flux.actions.config.updateAlertCount(null);
-
+        console.log(this.props.match.params.id);
         try {
             let accounts = await DTU.getAccount();
             let name = await DTU.getName();
