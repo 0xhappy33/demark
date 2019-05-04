@@ -108,6 +108,8 @@ let routes = (
       <Route path="markets/xchain" component={Markets} />
       <Route path="markets/assets" component={Markets} />
       <Route path="markets/currencies" component={Markets} />
+      <Route path="/tokendetail/:id" component={TokenDetail}/>
+      
       <Route path="/tokendetail" component={TokenDetail}/>
       <Route path="/tokenicodetail" component={ICODetail}/>
       <Route path="tokenico/:tokenicoId" component={ICODetail} />   

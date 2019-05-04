@@ -70,11 +70,12 @@ class Market extends React.Component {
                                     {this.state.tokens.map(item => {
                                         return (
                                             <tr key={item.key} value={item}>
-                                                {/* <td className="style-row">
-                                                {item.key}
-                                            </td> */}
+                                                <td className="style-row" hidden>
+                                                    {item.key}
+                                                </td>
                                                 <td className="style-row color-token-name">
-                                                    <Link to="/tokendetail">
+                                                    <Link to={`/tokendetail/${item.key}`}>
+                                                    {/* <Link to={`/tokendetail/${item.key}`}> */}
                                                         {item.name}
                                                     </Link>
                                                 </td>
