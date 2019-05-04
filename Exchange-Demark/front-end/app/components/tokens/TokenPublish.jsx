@@ -7,15 +7,16 @@ let currentAccount;
 
 import readTokenByteCode from './readbytecode.js';
 
-// import submitContractICO from './submitContractICO';
-import submitContractICO from './submitContractICO';
 
+let addressDemark = "0xA75B2d7b277919c224B198743C88EfE608BA8c1e";
 
 let contractICOInstance = web3.eth.contract(readTokenByteCode.getAbiContractICO());
 let tokenICOInstance = web3.eth.contract(readTokenByteCode.getAbiTokenICO());
 
 let contractICOBytecode = readTokenByteCode.getBytecodeContractICO();
 let tokenICOBytecode = readTokenByteCode.getBytecodeTokenICO();
+
+let deployFee = 2000000000000000000;
 
 
 let TokenPublish = injectIntl(React.createClass({
@@ -38,8 +39,10 @@ let TokenPublish = injectIntl(React.createClass({
             nameOfTokenICO: null,
             decimals: null,
             symbol: null,
-            totalSupply: null
+            totalSupply: null,
             // currentAccount: null
+
+            deployFee : 2000000000000000000
         };
     },
 
@@ -49,9 +52,6 @@ let TokenPublish = injectIntl(React.createClass({
     },
 
     componentDidMount() {
-        // window.addEventListener('load', this.handleLoad);
-        // Check if Web3 has been injected by the browser (MetaMask).
-        // (since 'web3' is global, we need to use 'window')
         if (window.web3 && window.web3.currentProvider.isMetaMask) {
             window.web3.eth.getAccounts((error, accounts) => {
                 currentAccount = accounts[0];
@@ -92,9 +92,9 @@ let TokenPublish = injectIntl(React.createClass({
     closeModal: function () {
         this.setState({ showModal: false });
     },
-
-
-    handleValidation: function (e) {
+    
+    
+    handleValidation: function(e) {
         e.preventDefault();
         if (this.validate(e, true))
             this.openModal();
@@ -111,40 +111,36 @@ let TokenPublish = injectIntl(React.createClass({
     validate: function (e, showAlerts) {
         e.preventDefault();
 
-        var amount = this.refs.amount.getValue().trim();
+        if (this.state.amount < 0) {
+          this.props.setAlert('warning', this.props.intl.formatMessage({id: 'form.smaller'}));
+        }
+        else if (!this.state.amount) {
+          this.props.setAlert('warning', this.props.intl.formatMessage({id: 'form.empty'}));
+        }
 
-        this.setState({
-            amount: amount
-        });
-        if (amount < 0) {
-            this.props.setAlert('warning', this.props.intl.formatMessage({ id: 'form.smaller' }));
-        }
-        else if (!amount) {
-            this.props.setAlert('warning', this.props.intl.formatMessage({ id: 'form.empty' }));
-        }
-        else if (parseFloat(amount) > this.props.balance) {
-            this.props.setAlert('warning',
-                this.props.intl.formatMessage({ id: 'deposit.not_enough' }, {
-                    currency: this.props.symbol,
-                    balance: this.props.balance,
-                    amount: amount
-                })
-            );
+        else if (parseFloat(this.state.amount) > this.props.balance) {
+          this.props.setAlert('warning',
+            this.props.intl.formatMessage({id: 'deposit.not_enough'}, {
+              currency: this.props.symbol,
+              balance: this.props.balance,
+              amount: this.state.amount
+            })
+          );
         }
         else {
-            this.setState({
-                newDeposit: true,
-                confirmMessage:
-                    <FormattedMessage id='deposit.confirm' values={{
-                        amount: amount,
-                        currency: this.props.contractName
-                    }}
-                    />
-            });
-
-            this.props.showAlert(false);
-
-            return true;
+          this.setState({
+            newDeposit: true,
+            confirmMessage:
+              <FormattedMessage id='deposit.confirm' values={{
+                  amount: this.state.amount,
+                  currency: this.props.contractName
+                }}
+              />
+          });
+    
+          this.props.showAlert(false);
+    
+          return true;
         }
 
         this.setState({
@@ -196,34 +192,89 @@ let TokenPublish = injectIntl(React.createClass({
         updates['/tokens_ico/' + id] = data;
         firebase.database().ref().update(updates);
 
-        tokenICOInstance.new(
-            name,
-            decimals,
-            symbol,
-            totalSupply,
-            {
-                data: `0x${tokenICOBytecode}`,
-                from: currentAccount,
-                gas: 4800000
-            }, async (err, res) => {
-                if (res.address) {
-                    console.log('====================================')
-                    console.log(res.address)
-
-                    console.log('====================================')
-                    // Firebase things
-                   
-                }
-                else {
-                    console.log(err)
-                }
+        // tokenICOInstance.new(
+        //     name,
+        //     decimals,
+        //     symbol,
+        //     totalSupply,
+        web3.eth.getTransactionCount(currentAccount, (error, txCount) => {
+            if (error) {
+                console.log('====================================')
+                console.log(error)
+                console.log('====================================')
             }
-        );
+            web3.eth.sendTransaction({
+              nonce: txCount,
+              from: currentAccount,
+              to: addressDemark,
+              value: this.state.deployFee
+            }, (err, transactionId) => {
+              if (err) {
+                console.log('====================================')
+                console.log(err)
+                console.log('====================================')
+              } else {
+                    console.log();
+                }
+              }
+            )});
+
+        // tokenICOInstance.new(
+        //     this.state.nameOfTokenICO, 
+        //     this.state.decimals,
+        //     this.state.symbol,
+        //     this.state.totalSupply,
+        //     {
+        //         data: `0x${tokenICOBytecode}`,
+        //         from: currentAccount,
+        //         gas: 4800000
+        //     }, async (err, res) => {
+        //         if (res.address) {
+        //             // Firebase things
+        //             console.log('====================================')
+        //             console.log(res.address)
+
+        //             console.log('====================================')
+        //         }
+        //         else {
+        //             console.log(err)
+        //         }
+        //     }
+        //);
         alert('Token is requested');
 
+
+        this.setState({
+            nameOfTokenICO: '',
+            symbol: '',
+            decimals: '',
+            totalSupply: ''
+        });
     },
 
     deployContractICO() {
+        web3.eth.getTransactionCount(currentAccount, (error, txCount) => {
+            if (error) {
+                console.log('====================================')
+                console.log(error)
+                console.log('====================================')
+            }
+            web3.eth.sendTransaction({
+              nonce: txCount,
+              from: currentAccount,
+              to: addressDemark,
+              value: this.state.deployFee
+            }, (err, transactionId) => {
+              if (err) {
+                console.log('====================================')
+                console.log(err)
+                console.log('====================================')
+              } else {
+                    console.log();
+                }
+              }
+            )});
+            
         var amountForSell = [this.state.preOrderAmount, this.state.orderAmount];
         var _timeLine = this.returnDatesFromconvertTimeOrderToInt();
         var _price = [this.state.preOrderPrice, this.state.orderPrice];
@@ -269,16 +320,13 @@ let TokenPublish = injectIntl(React.createClass({
             this.state.limitedToken,
             {
                 data: `0x${contractICOBytecode}`,
-                from: "0x17f9b86c150c3ad709bea111b5ba1168f424655a",
-                // from: currentAccount,
-                gas: 4800000
+                // from: "0x17f9b86c150c3ad709bea111b5ba1168f424655a",
+                from: currentAccount,
+                gas: 48000
             }, async (err, res) => {
                 if (res.address) {
-                    console.log('====================================')
-                    console.log(res.address)
-                    console.log('====================================')
                     // Firebase things
-
+                    
                 }
                 else {
                     console.log(err)
@@ -377,12 +425,13 @@ let TokenPublish = injectIntl(React.createClass({
                                 </div>
                                 <div className="panel-body">
                                     <b>Step 1: Fill all information of your token</b>
-                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                        Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
-                                        , when an unknown printer took
-                                    a galley of type and scrambled it to make a type specimen book.</p>
-                                    <b>Step 2: Publish it</b>
-                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                                        <p>Name of token - make it clearly</p>
+                                        <p>Symbol - Choose unique one</p>
+                                        <p>Decimals - number</p>
+                                        <p>Total Supply - number</p>
+                                    <b>Step 2: Publish it</b> <p></p>
+                                    <b>Step 3: Waiting for verify</b>
+                                    <p>We will let you know when it is deployed to Blockchain.</p>
                                 </div>
                             </div>
                         </div>

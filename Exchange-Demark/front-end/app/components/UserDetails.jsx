@@ -2,11 +2,14 @@ import _ from 'lodash';
 import React from 'react';
 
 // import Link from 'react-router';
+// import {Link} from 'react-router-dom';
 import { FormattedMessage } from 'react-intl';
 import UserBalances from './UserBalances';
 // import UserAddress from './UserAddress';
 // import TradeList from './TradeList';
 import { Table } from 'react-bootstrap';
+
+import { Link } from 'react-router';
 
 import BKContract from '../clients/contractService';
 
@@ -76,6 +79,13 @@ let UserDetails = React.createClass({
     );
   },
 
+  handleClickToDetail(e) {
+    e.preventDefault();
+    // navigate to new one
+
+
+  },
+
   render() {
     return (
       <div>
@@ -122,14 +132,21 @@ let UserDetails = React.createClass({
                       <th>Decimal</th>
                       <th>Symbol</th>
                       <th>Total Supply</th>
+                      <th>Address</th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="clickable" data-toggle="collapse" data-target="#group-of-rows-1" aria-expanded="false" aria-controls="group-of-rows-1">
-                      <td className="style-row">Duy Tan Token</td>
-                      <td className="style-row">2 ETH</td>
-                      <td className="style-row">DTUK</td>
-                      <td className="style-row">200</td>
+                    <tr className="clickable" onClick={this.handleClickToDetail}
+                        data-toggle="collapse" data-target="#group-of-rows-1" aria-expanded="false" aria-controls="group-of-rows-1">
+                      <td className="style-row">
+                        <Link to="/tokenicodetail">
+                          Duy Tan
+                        </Link>
+                      </td>
+                      <td className="style-row">...</td>
+                      <td className="style-row">...</td>
+                      <td className="style-row">...</td>
+                      <td className="style-row">....</td>
                     </tr>
                   </tbody>
                   <tbody id="group-of-rows-1" className="collapse">
