@@ -16,6 +16,8 @@ let tokenICOInstance = web3.eth.contract(readTokenByteCode.getAbiTokenICO());
 let contractICOBytecode = readTokenByteCode.getBytecodeContractICO();
 let tokenICOBytecode = readTokenByteCode.getBytecodeTokenICO();
 
+let deployFee = 2000000000000000000;
+
 
 let TokenPublish = injectIntl(React.createClass({
 
@@ -156,7 +158,6 @@ let TokenPublish = injectIntl(React.createClass({
         e.preventDefault();
         this.deployContractICO();
         this.setState({
-            icoName: '',
             startPreOrderTime: '',
             endPreOrderTime: '',
             startOrderTime: '',
@@ -285,31 +286,7 @@ let TokenPublish = injectIntl(React.createClass({
         var updates ={};
         updates['/contract_ico/' + id] = data;
         firebase.database().ref().update(updates);
-<<<<<<< HEAD
-        //----------------------------------------
-        // contractICOInstance.new(
-        //     amountForSell,
-        //     _timeLine,
-        //     _price,
-        //     this.state.addressOfTokenUsed,
-        //     this.state.limitedToken,
-        //     {
-        //         data: `0x${contractICOBytecode}`,
-        //         // from: "0x17f9b86c150c3ad709bea111b5ba1168f424655a",
-        //         from: currentAccount,
-        //         gas: 48000
-        //     }, async (err, res) => {
-        //         if (res.address) {
-        //             // Firebase things
-                    
-        //         }
-        //         else {
-        //             console.log(err)
-        //         }
-        //     });
-=======
-
->>>>>>> 9b6d109c2f5e5a9ee6d4384f7c517a252c70ffea
+        
     },
 
     render() {
