@@ -125,6 +125,7 @@
                 </div>
             </div>
             <div class="container-fluid">
+                <!-- List tokens -->
                 <div class="row">
                     <!-- column -->
                     <div class="col-12">
@@ -147,8 +148,64 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-
+                                        
                                     </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- List of contracts ICO -->
+                <div class="row">
+                    <!-- column -->
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">List contract ICO</h4>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="tbl_tokens" class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th class="border-top-0">Amount For Sell</th>
+                                            <th class="border-top-0">Timeline</th>
+                                            <th class="border-top-0">Price</th>
+                                            <th class="border-top-0">Address Of Token Used</th>
+                                            <th class="border-top-0">Limited</th>
+                                        </tr>
+                                    </thead>
+                                    <!-- <tbody>
+                                        
+                                    </tbody> -->
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- List of tokens for ICO -->
+                <div class="row">
+                    <!-- column -->
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">List of token for ICO</h4>
+                            </div>
+                            <div class="table-responsive">
+                                <table id="tbl_tokens" class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <!-- <th class="border-top-0">ID TOKEN</th> -->
+                                            <th class="border-top-0">Name</th>
+                                            <th class="border-top-0">Decimals</th>
+                                            <th class="border-top-0">Symbol</th>
+                                            <th class="border-top-0">Total Supply</th>
+                                        </tr>
+                                    </thead>
+                                    <!-- <tbody>
+                                        
+                                    </tbody> -->
                                 </table>
                             </div>
                         </div>
@@ -186,7 +243,6 @@
                                 var childData = childSnapshot.val();
                                 if (childData.approve == false) {
                                     $('#tbl_tokens tbody').append(`<tr><td class="font-medium">${childData.name}</td><td><span class="label label-success label-rounded">${childData.symbol}</span> </td><td class="txt-oflo">${childData.rating}</td><td class="txt-oflo">${childData.decimals}</td><td class="txt-oflo">${childData.cashier}</td><td><span class="txt-oflo">${childData.description}</span></td><td><input type="button" id="deployID" class="btn btn-success btnDeploy" name=${childKey} value="Deploy" /></td></tr>`);
-
                                 }
                             });
                             $(".btnDeploy").click(function () {

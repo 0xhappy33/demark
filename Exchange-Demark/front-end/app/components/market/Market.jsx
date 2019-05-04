@@ -49,7 +49,7 @@ class Market extends React.Component {
     render() {
         return (
             <div>
-
+                {/* List of Token ICO */}
                 <div className="market-table panel panel-default">
                     <div className="container-fluid">
                         <div className="row panel-heading">
@@ -91,7 +91,7 @@ class Market extends React.Component {
                     </div>
                 </div>
 
-                
+                {/* List contract ICO */}
                 <div className="market-table panel panel-default">
                     <div className="container-fluid">
                         <div className="row panel-heading">
@@ -117,7 +117,7 @@ class Market extends React.Component {
                                                 {item.key}
                                             </td> */}
                                                 <td className="style-row color-token-name">
-                                                    <Link to="/tokendetail">
+                                                    <Link to="/contractico">
                                                         {item.name}
                                                     </Link>
                                                 </td>
@@ -141,16 +141,44 @@ class Market extends React.Component {
                             <h1 className="panel-title">Trends of ICO Blockchain</h1>
                             <hr />
                             <div className="col-sm-3">
-                                blog one
+                                <div className="card">
+                                    <img clclassName="card-img-top" src="https://blog.blockchain.com/content/images/2019/04/xlmprimer_blog-2.png" style={{width: '150px'}} alt="Card image cap"/>
+                                    <div className="card-body">
+                                        <h5 className="card-title">What is Stellar?</h5>
+                                        <p className="card-text">A Primer on Our Wallet’s Newest Cryptoasset</p>
+                                        <a href="https://blog.blockchain.com/2019/04/29/what-is-stellar-a-primer-on-our-wallets-newest-crypto-asset/" className="btn btn-primary">More</a>
+                                    </div>
+                                </div>
                             </div>
                             <div className="col-sm-3">
-                                blog two
+                                <div className="card">
+                                    <img clclassName="card-img-top" src="https://blog.blockchain.com/content/images/2019/02/givingweek_blog-1.png" style={{width: '150px'}} alt="Card image cap"/>
+                                    <div className="card-body">
+                                        <h5 className="card-title">Giving Crypto</h5>
+                                        <p className="card-text">The Airdrop That Keeps On Giving</p>
+                                        <a href="https://blog.blockchain.com/2019/02/26/givecrypto/" className="btn btn-primary">More</a>
+                                    </div>
+                                </div>
                             </div>
                             <div className="col-sm-3">
-                                blog three
+                                <div className="card">
+                                    <img clclassName="card-img-top" src="https://fs.bitcoinmagazine.com/img/images/whatisETH.original.jpg" style={{width: '150px'}} alt="Card image cap"/>
+                                    <div className="card-body">
+                                        <h5 className="card-title">What Is Ether?</h5>
+                                        <p className="card-text">Ether is the underlying token powering the Ethereum blockchain</p>
+                                        <a href="https://www.coinschedule.com/blog/quantum-resistant-ilcoin-returns-to-bitker/" className="btn btn-primary">More</a>
+                                    </div>
+                                </div>
                             </div>
                             <div className="col-sm-3">
-                                blog four
+                                <div className="card">
+                                    <img clclassName="card-img-top" src="https://fs.bitcoinmagazine.com/img/images/What_is_an_ICO.original.jpg" style={{width: '150px'}} alt="What Is an ICO?"/>
+                                    <div className="card-body">
+                                        <h5 className="card-title">What Is an ICO?</h5>
+                                        <p className="card-text">An Initial Coin Offering, also commonly referred to as an ICO</p>
+                                        <a href="https://blog.blockchain.com/2019/04/29/what-is-stellar-a-primer-on-our-wallets-newest-crypto-asset/" className="btn btn-primary">More</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

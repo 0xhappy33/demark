@@ -10,7 +10,7 @@ import Markets from './components/Markets';
 import Trades from './components/Trades';
 import UserDetails from './components/UserDetails';
 
-// import ICOTokenDetail from './components/ICOTokenDetail';
+import ICOTokenDetail from './components/ICOTokenDetail';
 
 // import Wallet from './components/Wallet';
 import TokenRequest from './components/tokens/TokenRequest';
@@ -22,6 +22,8 @@ import TokenDetail from './components/tokens/TokenDetail';
 import MarketTest from './components/market/MarketTest';
 
 import ICODetail from './components/tokens/ICODetail';
+import ContractICODetail from './components/tokens/ContractICODetail';
+
 
 import ConfigStore from './stores/ConfigStore';
 import NetworkStore from './stores/NetworkStore';
@@ -36,6 +38,13 @@ import UserActions from './actions/UserActions';
 import TradeActions from './actions/TradeActions';
 import MarketActions from './actions/MarketActions';
 import TicketActions from './actions/btcswap/TicketActions';
+
+// import ReserveTicket from './components/btcswap/ReserveTicket';
+// import CreateTicket from './components/btcswap/CreateTicket';
+// import Tickets from './components/btcswap/Tickets';
+// import ClaimTicket from './components/btcswap/ClaimTicket';
+// import BtcHelp from './components/btcswap/Help';
+
 
 import firebase from 'firebase';
 
@@ -100,15 +109,19 @@ let routes = (
       <Route path="markets/assets" component={Markets} />
       <Route path="markets/currencies" component={Markets} />
       <Route path="/tokendetail" component={TokenDetail}/>
-      <Route path="/ico-detail" component={ICODetail}/>
-      
+      <Route path="/tokenicodetail" component={ICODetail}/>
+      <Route path="tokenico/:tokenicoId" component={ICODetail} />   
+      <Route path="contractico/:contracticoId" component={ContractICODetail} />    
+      <Route path="/contractico" component={ContractICODetail} />      
+
+
       {/* <Route path="btc/buy" component={Tickets} />
       <Route path="btc/sell" component={CreateTicket} />
       <Route path="btc/reserve" component={ReserveTicket} />
       <Route path="btc/claim" component={ClaimTicket} />
       <Route path="btc/help" component={BtcHelp} />
-      <Route path="btc/tickets/:ticketId" component={Tickets} /> */}
-      {/* <Route path="wallet" component={Wallet} /> */}
+      <Route path="btc/tickets/:ticketId" component={Tickets} /> 
+      <Route path="wallet" component={Wallet} /> */}
       {/* test data from api ethereum */}
       <Route path="tokens" component={MarketTest} />
       {/* test data from api ethereum */}
@@ -117,7 +130,7 @@ let routes = (
       <Route path="tools" component={Tools} />
       <Route path="help" component={Help} />
       <Route path="user" component={UserDetails} />
-      {/* <Route path="icotokendetail" component={ICOTokenDetail} /> */}
+      <Route path="contracticodetail" component={ICOTokenDetail} />
       <Route path="*" component={Placeholder} />
     </Route>
   </Router>
