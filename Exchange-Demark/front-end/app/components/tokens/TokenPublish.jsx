@@ -185,7 +185,8 @@ let TokenPublish = injectIntl(React.createClass({
             symbol: symbol,
             decimals: decimals,
             totalsupply: totalSupply,
-            owner: currentAccount
+            owner: currentAccount,
+            approve: false
         }
 
         var updates = {};
@@ -305,33 +306,34 @@ let TokenPublish = injectIntl(React.createClass({
             orderPrice: orderPrice,
             addressOfTokenUsed: addressOfTokenUsed,
             limitedToken: limitedToken,
-            owner: currentAccount
+            owner: currentAccount,
+            approve: false
         }
         
         var updates ={};
         updates['/contract_ico/' + id] = data;
         firebase.database().ref().update(updates);
         //----------------------------------------
-        contractICOInstance.new(
-            amountForSell,
-            _timeLine,
-            _price,
-            this.state.addressOfTokenUsed,
-            this.state.limitedToken,
-            {
-                data: `0x${contractICOBytecode}`,
-                // from: "0x17f9b86c150c3ad709bea111b5ba1168f424655a",
-                from: currentAccount,
-                gas: 48000
-            }, async (err, res) => {
-                if (res.address) {
-                    // Firebase things
+        // contractICOInstance.new(
+        //     amountForSell,
+        //     _timeLine,
+        //     _price,
+        //     this.state.addressOfTokenUsed,
+        //     this.state.limitedToken,
+        //     {
+        //         data: `0x${contractICOBytecode}`,
+        //         // from: "0x17f9b86c150c3ad709bea111b5ba1168f424655a",
+        //         from: currentAccount,
+        //         gas: 48000
+        //     }, async (err, res) => {
+        //         if (res.address) {
+        //             // Firebase things
                     
-                }
-                else {
-                    console.log(err)
-                }
-            });
+        //         }
+        //         else {
+        //             console.log(err)
+        //         }
+        //     });
     },
 
     render() {
