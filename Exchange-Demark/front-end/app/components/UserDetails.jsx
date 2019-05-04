@@ -11,11 +11,11 @@ import { Table } from 'react-bootstrap';
 
 import { Link } from 'react-router';
 
-import BKContract from '../clients/contractService';
+import contractService from '../clients/contractService';
 
 const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
 
-let BK = new BKContract(contractAddress);
+let BK = new contractService.DTUContract(contractAddress);
 
 let UserDetails = React.createClass({
   getInitialState() {
