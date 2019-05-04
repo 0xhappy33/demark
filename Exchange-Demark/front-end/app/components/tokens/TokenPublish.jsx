@@ -15,8 +15,6 @@ let tokenICOInstance = web3.eth.contract(readTokenByteCode.getAbiTokenICO());
 let contractICOBytecode = readTokenByteCode.getBytecodeContractICO();
 let tokenICOBytecode = readTokenByteCode.getBytecodeTokenICO();
 
-let deployFee = 2000000000000000000;
-
 
 let TokenPublish = injectIntl(React.createClass({
 

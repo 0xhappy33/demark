@@ -107,11 +107,6 @@ let SubWithDrawToken = injectIntl(React.createClass({
   render() {
     return (
       <form className="form-horizontal" role="form" onSubmit={this.handleValidation} >
-        <Input type="number" ref="amount"
-          placeholder="10.0000"
-          label={<FormattedMessage id='form.amount' />} labelClassName="sr-only"
-          onChange={this.handleChange}
-          value={this.state.amount || ""} />
 
         <div className="form-group">
           <Button className={"btn-block" + (this.state.newWithdrawal ? " btn-primary" : "")} type="submit" key="withdraw">

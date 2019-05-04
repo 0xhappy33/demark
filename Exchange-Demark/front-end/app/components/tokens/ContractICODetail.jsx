@@ -94,7 +94,9 @@ let ContractICODetail = injectIntl(React.createClass({
                 </div>
                 <div className="panel-body">
                     <div className="container-fluid">
-                        <Button>Check Goal</Button>
+                        <Button className={"btn-block" + (this.state.newWithdrawal ? " btn-primary" : "")} type="submit" key="Check goal">
+                            <FormattedMessage id='form.withdraw' />
+                        </Button>
                     </div>
                 </div>
             </div>
@@ -150,7 +152,7 @@ let ContractICODetail = injectIntl(React.createClass({
                     <div className="container">
                         <div className="row">
                             <div className="col-md-8">
-                                <h1>Contract ICO</h1> 
+                                <h1>CONTRACT ICO</h1> 
                                 {/* <p>Tokens for tuition fees at Duy Tan university</p> */}
                                 <div className="row">
                                     <div className="col-md-12">
