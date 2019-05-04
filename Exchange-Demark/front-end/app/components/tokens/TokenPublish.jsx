@@ -22,6 +22,7 @@ let TokenPublish = injectIntl(React.createClass({
     getInitialState() {
         return {
             // contract ICO
+            icoName: null,
             startPreOrderTime: null,
             endPreOrderTime: null,
             startOrderTime: null,
@@ -155,6 +156,7 @@ let TokenPublish = injectIntl(React.createClass({
         e.preventDefault();
         this.deployContractICO();
         this.setState({
+            icoName: '',
             startPreOrderTime: '',
             endPreOrderTime: '',
             startOrderTime: '',
@@ -190,11 +192,6 @@ let TokenPublish = injectIntl(React.createClass({
         updates['/tokens_ico/' + id] = data;
         firebase.database().ref().update(updates);
 
-        // tokenICOInstance.new(
-        //     name,
-        //     decimals,
-        //     symbol,
-        //     totalSupply,
         web3.eth.getTransactionCount(currentAccount, (error, txCount) => {
             if (error) {
                 console.log('====================================')
@@ -216,31 +213,6 @@ let TokenPublish = injectIntl(React.createClass({
                 }
               }
             )});
-
-        // tokenICOInstance.new(
-        //     this.state.nameOfTokenICO, 
-        //     this.state.decimals,
-        //     this.state.symbol,
-        //     this.state.totalSupply,
-        //     {
-        //         data: `0x${tokenICOBytecode}`,
-        //         from: currentAccount,
-        //         gas: 4800000
-        //     }, async (err, res) => {
-        //         if (res.address) {
-        //             // Firebase things
-        //             console.log('====================================')
-        //             console.log(res.address)
-
-        //             console.log('====================================')
-        //         }
-        //         else {
-        //             console.log(err)
-        //         }
-        //     }
-        //);
-        alert('Token is requested');
-
 
         this.setState({
             nameOfTokenICO: '',
@@ -291,8 +263,10 @@ let TokenPublish = injectIntl(React.createClass({
         var orderPrice = this.state.orderPrice;
         var addressOfTokenUsed = this.state.addressOfTokenUsed;
         var limitedToken = this.state.limitedToken;
+        var icoName = this.state.icoName;
 
         var data = {
+            icoName: icoName,
             startPreOrderTime : startPreOrderTime,
             endPreOrderTime: endPreOrderTime,
             startOrderTime: startOrderTime,
@@ -309,27 +283,7 @@ let TokenPublish = injectIntl(React.createClass({
         var updates ={};
         updates['/contract_ico/' + id] = data;
         firebase.database().ref().update(updates);
-        //----------------------------------------
-        contractICOInstance.new(
-            amountForSell,
-            _timeLine,
-            _price,
-            this.state.addressOfTokenUsed,
-            this.state.limitedToken,
-            {
-                data: `0x${contractICOBytecode}`,
-                // from: "0x17f9b86c150c3ad709bea111b5ba1168f424655a",
-                from: currentAccount,
-                gas: 48000
-            }, async (err, res) => {
-                if (res.address) {
-                    // Firebase things
-                    
-                }
-                else {
-                    console.log(err)
-                }
-            });
+
     },
 
     render() {
@@ -447,6 +401,20 @@ let TokenPublish = injectIntl(React.createClass({
                                     </div>
                                 </div>
                                 <div className="panel-body">
+                                    <div className="row">
+                                        <div className="col-sm-2">
+                                            <label><b>ICO Name</b></label>
+                                        </div>
+                                        <div className="col-sm-4">
+                                            <input
+                                                type="text"
+                                                placeholder="ICO Name"
+                                                name="icoName"
+                                                onChange={e => this.handleChange(e)}
+                                                className="form-request-input"
+                                                value={this.state.icoName} /> <br /> <br />
+                                        </div>
+                                    </div>
                                     <div className="row">
                                         <div className="col-sm-2">
                                             <label><b>Start pre-order</b></label>

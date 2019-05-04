@@ -48,11 +48,11 @@ if (window.Intl) {
 let intlData = require('../js/intlData');
 let messages = flatten(intlData.messages);
 
-import DTUContract from '../clients/contractService';
+import contractService from '../clients/contractService';
 
 const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
 
-let DTU = new DTUContract(contractAddress);
+let DTU = new contractService.DTUContract(contractAddress);
 
 let DemarkApp = React.createClass({
   mixins: [StoreWatchMixin("config", "network", "UserStore", "MarketStore", "TradeStore", "TicketStore")],

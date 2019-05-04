@@ -104,9 +104,9 @@ class Market extends React.Component {
                                     <tr>
                                         {/* <th>#</th> */}
                                         <th>Name</th>
-                                        <th>Funding Goal</th>
-                                        <th>Base price</th>
+                                        <th>Amount</th>
                                         <th>Deadline</th>
+                                        {/* <th>Deadline</th> */}
                                         <th>Address</th>
                                     </tr>
                                 </thead>
@@ -122,8 +122,10 @@ class Market extends React.Component {
                                                         {item.name}
                                                     </Link>
                                                 </td>
-                                                <td className="style-row">23000 tokens</td>
-                                                <td className="style-row">2 ETH</td>
+                                                <td className="style-row">
+                                                    Amount 1 <br></br>
+                                                    Amount 2
+                                                </td>
                                                 <td className="style-row">May 5th, 2019</td>
                                                 <td className="style-row">{item.address}</td>
                                             </tr>
