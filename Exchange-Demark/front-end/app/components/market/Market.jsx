@@ -10,9 +10,11 @@ class Market extends React.Component {
         super(props);
 
         this.readFromDtbsToTable = this.readFromDtbsToTable.bind(this);
+        this.readIcoFromDtbs = this.readIcoFromDtbs.bind(this);
 
         this.state = {
-            tokens: []
+            tokens: [],
+            ico: []
         }
     }
 
@@ -24,10 +26,11 @@ class Market extends React.Component {
 
     componentDidMount() {
         this.readFromDtbsToTable();
+        this.readIcoFromDtbs();
     }
 
     readFromDtbsToTable() {
-        var index = 1;
+        //var index = 1;
         var databaseRef = firebase.database().ref("/tokens");
         var tokenData = [];
         databaseRef.once('value', function (snapshot) {
@@ -36,13 +39,33 @@ class Market extends React.Component {
                 item.key = childSnapshot.key;
                 if (item.approve == true) {
                     tokenData.push(item);
-                    index++;
+                    //index++;
                 }
             });
         });
 
         this.setState({
             tokens: tokenData
+        });
+    }
+
+    readIcoFromDtbs() {
+        var index = 1;
+        var databaseRef = firebase.database().ref("/contract_ico");
+        var icoData = [];
+        databaseRef.once('value', function (snapshot) {
+            snapshot.forEach(function (childSnapshot) {
+                var item = childSnapshot.val();
+                item.key = childSnapshot.key;
+                if (item.approve == false) {
+                    icoData.push(item);
+                    index++;
+                }
+            });
+        });
+
+        this.setState({
+            ico: icoData
         });
     }
 
@@ -99,7 +122,7 @@ class Market extends React.Component {
                             <h1 className="panel-title">LIST ICO</h1>
                             {/* {!this.props.market.error && ( */}
                             <hr />
-                            <Table history id="tbl_tokens_list">
+                            <Table history id="tbl_ico_list">
                                 <thead>
                                     <tr>
                                         {/* <th>#</th> */}
@@ -111,23 +134,23 @@ class Market extends React.Component {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {this.state.tokens.map(item => {
+                                    {this.state.ico.map(item => {
                                         return (
                                             <tr key={item.key} value={item}>
                                                 {/* <td className="style-row">
                                                 {item.key}
                                             </td> */}
                                                 <td className="style-row color-token-name">
-                                                    <Link to="/contractico">
-                                                        {item.name}
+                                                    <Link to={`/contractico/${item.key}`}>
+                                                        {item.icoName}
                                                     </Link>
                                                 </td>
                                                 <td className="style-row">
-                                                    Amount 1 <br></br>
-                                                    Amount 2
+                                                    {item.preOrderAmount} <br></br>
+                                                    {item.orderAmount}
                                                 </td>
-                                                <td className="style-row">May 5th, 2019</td>
-                                                <td className="style-row">{item.address}</td>
+                                                <td className="style-row">{item.endOrderTime}</td>
+                                                <td className="style-row">{item.addressOfTokenUsed}</td>
                                             </tr>
                                         )
                                     })}
