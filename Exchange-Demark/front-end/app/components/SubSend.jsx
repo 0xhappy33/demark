@@ -6,11 +6,11 @@ import 'babel-polyfill';
 
 import ConfirmModal from './ConfirmModal';
 
-import DTUContract from '../clients/contractService';
+import contractService from '../clients/contractService';
 
 const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
 
-let DTU = new DTUContract(contractAddress);
+let DTU = new contractService.DTUContract(contractAddress);
 
 let SubSend = injectIntl(React.createClass({
 

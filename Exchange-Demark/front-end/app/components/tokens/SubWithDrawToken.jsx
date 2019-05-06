@@ -2,19 +2,20 @@ import React from 'react';
 import {injectIntl, FormattedMessage} from 'react-intl';
 import {Button, Input} from 'react-bootstrap';
 
-import ConfirmModal from './ConfirmModal';
+import ConfirmModal from '../ConfirmModal';
 
-import contractService from '../clients/contractService';
+// import DTUContract from '../clients/contractService';
 
-const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
+// const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
 
-let DTU = new contractService.DTUContract(contractAddress);
+// let DTU = new DTUContract(contractAddress);
 
-let SubDeposit = injectIntl(React.createClass({
+let SubWithDrawToken = injectIntl(React.createClass({
   getInitialState: function() {
     return {
-      amount: null,
-      newDeposit: false,
+      // amount: null,
+      recipient: null,
+      newWithdrawal: false,
       showModal: false,
       confirmMessage: null
     };
@@ -49,14 +50,14 @@ let SubDeposit = injectIntl(React.createClass({
     });
     if (amount < 0) {
       this.props.setAlert('warning', this.props.intl.formatMessage({id: 'form.smaller'}));
-    }
+    } 
     else if (!amount) {
-      this.props.setAlert('warning', this.props.intl.formatMessage({id: 'form.empty'}));
+      this.props.setAlert('warning', this.props.intl.formatMessage({id: 'withdraw.empty'}));
     }
-    else if (parseFloat(amount) > this.props.balance) {
+    else if (parseFloat(amount) > this.props.user.balanceSubAvailable) {
       this.props.setAlert('warning',
-        this.props.intl.formatMessage({id: 'deposit.not_enough'}, {
-          currency: this.props.symbol,
+        this.props.intl.formatMessage({id: 'withdraw.not_enough'}, {
+          currency: this.props.constractName,
           balance: this.props.balance,
           amount: amount
         })
@@ -64,9 +65,9 @@ let SubDeposit = injectIntl(React.createClass({
     }
     else {
       this.setState({
-        newDeposit: true,
+        newWithdrawal: true,
         confirmMessage:
-          <FormattedMessage id='deposit.confirm' values={{
+          <FormattedMessage id='withdraw.confirm' values={{
               amount: amount,
               currency: this.props.contractName
             }}
@@ -79,58 +80,50 @@ let SubDeposit = injectIntl(React.createClass({
     }
 
     this.setState({
-      newDeposit: false
+      newWithdrawal: false
     });
 
     if (showAlerts)
       this.props.showAlert(true);
 
-    e.stopPropagation();
+    return false;
   },
 
-  async onSubmitDeposit(e) {
+  async onSubmitWithdraw(e) {
     e.preventDefault();
 
-    try {
-      // const accounts = await DTU.getAccount();
+    // try {
+    // //   await DTU.burn(this.props.accounts, this.state.amount);
+    // } catch (err) {
+    //     this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
+    // }
 
-      await DTU.deposit(this.props.accounts, this.state.amount);
-
-    } catch (err) {
-        this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
-    }
-
-    this.setState({
-      amount: null
-    });
+    // this.setState({
+    //   amount: null
+    // });
 
   },
 
-  render: function() {
+  render() {
     return (
       <form className="form-horizontal" role="form" onSubmit={this.handleValidation} >
-        <Input type="number" className="form-control" ref="amount"
-          label={<FormattedMessage id='form.amount' />} labelClassName="sr-only"
-          // min={this.props.market.amountPrecision}
-          // step={this.props.market.amountPrecision}
-          placeholder="10.0000"
-          onChange={this.handleChange}
-          value={this.state.amount || ""} />
+
         <div className="form-group">
-          <Button className={"btn-block" + (this.state.newDeposit ? " btn-primary" : "")} type="submit">
-            <FormattedMessage id='form.deposit' />
+          <Button className={"btn-block" + (this.state.newWithdrawal ? " btn-primary" : "")} type="submit" key="withdraw">
+            <FormattedMessage id='form.withdraw' />
           </Button>
         </div>
+
         <ConfirmModal
           show={this.state.showModal}
           onHide={this.closeModal}
           message={this.state.confirmMessage}
           flux={this.props.flux}
-          onSubmit={this.onSubmitDeposit}
+          onSubmit={this.onSubmitWithdraw}
         />
       </form>
     );
   }
 }));
 
-module.exports = SubDeposit;
+module.exports = SubWithDrawToken;

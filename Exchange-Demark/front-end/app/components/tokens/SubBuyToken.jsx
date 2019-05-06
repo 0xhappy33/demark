@@ -4,15 +4,9 @@ import {injectIntl, FormattedMessage} from 'react-intl';
 import {Button, Input} from 'react-bootstrap';
 import bigRat from 'big-rational';
 
-import ConfirmModal from './ConfirmModal';
+import ConfirmModal from '../ConfirmModal';
 
-let fixtures = require("../js/fixtures");
-
-import contractService from '../clients/contractService';
-
-const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
-
-let DTU = new contractService.DTUContract(contractAddress);
+let fixtures = require("../../js/fixtures");
 
 
 let SubBuyToken = injectIntl(React.createClass({
@@ -125,14 +119,14 @@ let SubBuyToken = injectIntl(React.createClass({
     e.preventDefault();
 
     try {
-      let accounts = await DTU.getAccount();
-      let rating = await DTU.getRating();
+    //   let accounts = await DTU.getAccount();
+    //   let rating = await DTU.getRating();
       // let symbol = await DTU.getSymbol();
 
       // console.log("NAME ****** ", symbol);
 
       this.setState({
-        rating: rating        
+        rating: ''        
       })
       
       let value = this.state.amount / this.state.rating;
@@ -141,7 +135,7 @@ let SubBuyToken = injectIntl(React.createClass({
         value: value
       });
       
-      await DTU.buyToken(accounts, this.state.amount, this.state.value);
+    //   await DTU.buyToken(accounts, this.state.amount, this.state.value);
 
     } catch (err) {
         this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });

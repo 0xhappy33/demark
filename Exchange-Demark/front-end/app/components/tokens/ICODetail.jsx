@@ -4,20 +4,8 @@ import { Input, Button } from 'react-bootstrap';
 
 import Progress from "react-progress-2";
 
-// import AlertDismissable from '../AlertDismissable';
-import SubBuyToken from '../SubBuyToken';
-import SubReward from '../SubReward';
-import SubSend from '../SubSend';
-import SubDeposit from '../SubDeposit';
-import SubWithdraw from '../SubWithdraw';
-// import TxsList from '../TxsList';
-// import Wallet from '../Wallet';
-
-import DTUContract from '../../clients/contractService';
 
 const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
-
-let DTU = new DTUContract(contractAddress);
 
 
 let ICODetail = injectIntl(React.createClass({
@@ -49,35 +37,15 @@ let ICODetail = injectIntl(React.createClass({
     },
 
     async componentDidMount() {
-        this.props.flux.actions.config.updateAlertCount(null);
-
+        // TODO smooth / less hackish scroll to ticketId
+        // if (this.props.params.ticketId && this.refs["ticket-" + this.props.params.ticketId]) {
+        //     var ticketOffset = this.refs["ticket-" + this.props.params.ticketId].offsetTop;
+        //     window.scroll(0, ticketOffset);
+        // }
         try {
-            let accounts = await DTU.getAccount();
-            let name = await DTU.getName();
-            let symbol = await DTU.getSymbol();
-            let rating = await DTU.getRating();
-            let balance = await DTU.getBalance(accounts);
-            let cashier = await DTU.getCashier();
-            let totalSupply = await DTU.getTotalSupply();
-            let creator = await DTU.getCreator();
-            let currentBonus = await DTU.getYourBonus(accounts);
-            let currentState = await DTU.getState();
-            let walletBalance = await DTU.getWalletBalance(accounts);
-
-            this.setState({
-                accounts: accounts,
-                contractName: name,
-                symbol: symbol,
-                balance: balance,
-                rating: rating,
-                cashier: cashier,
-                totalSupply: totalSupply,
-                creator: creator,
-                currentBonus: currentBonus,
-                currentState: currentState,
-                walletBalance: walletBalance
-            });
-
+            console.log('====================================')
+            console.log("Test")
+            console.log('====================================')
         } catch (err) {
             this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
         }
@@ -92,125 +60,6 @@ let ICODetail = injectIntl(React.createClass({
 
     showAlert(show) {
         this.refs.alerts.setState({ alertVisible: show });
-    },
-
-    deposit() {
-        return (
-            <div className="panel panel-default">
-                <div className="panel-heading">
-                    <h3 className="panel-title">
-                        <FormattedMessage id='deposit.currency' values={{ currency: this.state.symbol }} />
-                    </h3>
-                </div>
-                <div className="panel-body">
-                    <div className="container-fluid">
-                        <SubDeposit
-                            balance={this.state.balance}
-                            contractName={this.state.contractName}
-                            accounts={this.state.accounts}
-                            user={this.props.user.user}
-                            setAlert={this.setAlert}
-                            showAlert={this.showAlert} />
-                    </div>
-                </div>
-            </div>
-        );
-    },
-    withdraw() {
-        if (this.state.currentState < 0) {
-            return (
-                <div className="panel panel-default">
-                    <div className="panel-heading">
-                        <h3 className="panel-title">
-                            Not able to withdraw at this moment!
-                    </h3>
-                    </div>
-                </div>)
-        }
-        return (
-            <div className="panel panel-default">
-                <div className="panel-heading">
-                    <h3 className="panel-title">
-                        {/* Withdraw {this.state.Deposit } */}
-                        <FormattedMessage id='withdraw.currency' values={{ currency: this.state.symbol }} />
-                    </h3>
-                </div>
-                <div className="panel-body">
-                    <div className="container-fluid">
-                        <SubWithdraw
-                            balance={this.state.balance}
-                            contractName={this.state.contractName}
-                            accounts={this.state.accounts}
-                            user={this.props.user.user}
-                            setAlert={this.setAlert} showAlert={this.showAlert} />
-                    </div>
-                </div>
-            </div>
-        );
-    },
-    transfer() {
-        return (
-            <div className="panel panel-default">
-                <div className="panel-heading">
-                    <h3 className="panel-title">
-                        <FormattedMessage id='send.currency' values={{ currency: this.state.symbol }} />
-                    </h3>
-                </div>
-                <div className="panel-body">
-                    <div className="container-fluid">
-                        <SubSend
-                            balance={this.state.balance}
-                            contractName={this.state.contractName}
-                            accounts={this.state.accounts}
-                            user={this.props.user.user}
-                            setAlert={this.setAlert} showAlert={this.showAlert} />
-                    </div>
-                </div>
-            </div>
-        );
-    },
-    send() {
-        return (
-            <div className="panel panel-default">
-                <div className="panel-heading">
-                    <h3 className="panel-title">
-                        <FormattedMessage id='send.fund' values={{ currency: "ETH" }} />
-                    </h3>
-                </div>
-                <div className="panel-body">
-                    <div className="container-fluid">
-                        <SubBuyToken
-                            balance={this.state.balance}
-                            contractName={this.state.contractName}
-                            accounts={this.state.accounts}
-                            amount={this.state.amount}
-                            rating={this.state.rating}
-                            symbol={this.state.symbol}
-                            walletBalance={this.state.walletBalance}
-                            user={this.props.user.user}
-                            setAlert={this.setAlert}
-                            showAlert={this.showAlert} />
-                    </div>
-                </div>
-            </div>
-        );
-    },
-    reward() {
-        return (
-            <div className="panel panel-default">
-                <div className="panel-heading">
-                    <h3 className="panel-title">
-                        <FormattedMessage id='send.reward' values={{ currency: "ETH" }} />
-                    </h3>
-                </div>
-                <div className="panel-body">
-                    <div className="container-fluid">
-                        <SubReward symbol={this.state.symbol} accounts={this.state.accounts} user={this.props.user.user}
-                            setAlert={this.setAlert} showAlert={this.showAlert} />
-                    </div>
-                </div>
-            </div>
-        );
     },
 
     notification(currState) {
@@ -236,7 +85,7 @@ let ICODetail = injectIntl(React.createClass({
                         <div className="row">
                             {/* ----------- ICO TOKEN DETAIL ----------- */}
                             <div className="col-md-6">
-                                <h1>{this.state.contractName}</h1>
+                                <h1>TOKEN ICO</h1>
                                 <div className="row">
                                     <div className="col-md-12">
                                         <div className="panel panel-default">
@@ -245,7 +94,7 @@ let ICODetail = injectIntl(React.createClass({
                                             </div>
                                             <div className="panel-body">
                                                 <div className="container-fluid">
-                                                    <span style={{ color: 'blue' }}>{this.state.cashier}</span>
+                                                    <span style={{ color: 'blue' }}>...</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -255,11 +104,11 @@ let ICODetail = injectIntl(React.createClass({
                                     <div className="col-md-3">
                                         <div className="panel panel-default">
                                             <div className="panel-heading">
-                                                <h3 className="panel-title" style={{ fontSize: '12px', textAlign: 'center' }}>Funding Goal</h3>
+                                                <h3 className="panel-title" style={{ fontSize: '12px', textAlign: 'center' }}>Name</h3>
                                             </div>
                                             <div className="panel-body">
                                                 <div className="container-fluid">
-                                                    <span style={{ color: 'blue' }}>{this.state.balance}</span>
+                                                    <span style={{ color: 'blue' }}>...</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -267,11 +116,11 @@ let ICODetail = injectIntl(React.createClass({
                                     <div className="col-md-3">
                                         <div className="panel panel-default">
                                             <div className="panel-heading">
-                                                <h3 className="panel-title" style={{ fontSize: '12px', textAlign: 'center' }}>Base price</h3>
+                                                <h3 className="panel-title" style={{ fontSize: '12px', textAlign: 'center' }}>Decimals</h3>
                                             </div>
                                             <div className="panel-body">
                                                 <div className="container-fluid">
-                                                    <span style={{ color: 'blue' }}>2 ETH</span>
+                                                    <span style={{ color: 'blue' }}>...</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -279,11 +128,11 @@ let ICODetail = injectIntl(React.createClass({
                                     <div className="col-md-5">
                                         <div className="panel panel-default">
                                             <div className="panel-heading">
-                                                <h3 className="panel-title" style={{ fontSize: '12px', textAlign: 'center' }}>Deadline</h3>
+                                                <h3 className="panel-title" style={{ fontSize: '12px', textAlign: 'center' }}>Total Supply</h3>
                                             </div>
                                             <div className="panel-body">
                                                 <div className="container-fluid">
-                                                    <span style={{ color: 'blue' }}>May 15th, 2019</span>
+                                                    <span style={{ color: 'blue' }}>...</span>
                                                 </div>
                                             </div>
                                         </div>
