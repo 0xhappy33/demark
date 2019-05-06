@@ -15,7 +15,7 @@ import TxsList from '../TxsList';
 
 import DTUContract from '../../clients/contractService';
 
-let contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
+let contractAddress;
 
 let DTU = new DTUContract(contractAddress);
 
