@@ -17,8 +17,6 @@ import contractService from '../../clients/contractService';
 
 let contractAddress;
 
-let DTU = new contractService.DTUContract(contractAddress);
-
 
 let TokenDetail = injectIntl(React.createClass({
 
@@ -49,12 +47,9 @@ let TokenDetail = injectIntl(React.createClass({
     },
 
     async componentDidMount() {
+        contractAddress = await this.props.params.id;
+        let DTU = new contractService.DTUContract(contractAddress);
         this.props.flux.actions.config.updateAlertCount(null);
-<<<<<<< HEAD
-        contractAddress = this.props.params.id;
-=======
-        //console.log(this.props.match.params.id);
->>>>>>> a6ab83fa480aac42bc593dfa07e95abe147f2be9
         try {
             let accounts = await DTU.getAccount();
             let name = await DTU.getName();
