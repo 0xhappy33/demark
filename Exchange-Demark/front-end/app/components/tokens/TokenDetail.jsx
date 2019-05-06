@@ -15,7 +15,7 @@ import TxsList from '../TxsList';
 
 import DTUContract from '../../clients/contractService';
 
-const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
+let contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
 
 let DTU = new DTUContract(contractAddress);
 
@@ -50,7 +50,7 @@ let TokenDetail = injectIntl(React.createClass({
 
     async componentDidMount() {
         this.props.flux.actions.config.updateAlertCount(null);
-        console.log(this.props.match.params.id);
+        contractAddress = this.props.params.id;
         try {
             let accounts = await DTU.getAccount();
             let name = await DTU.getName();
