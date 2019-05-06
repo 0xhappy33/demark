@@ -6,6 +6,7 @@ import web3 from '../../clients/web3'
 let currentAccount
 
 import readTokenByteCode from './readbytecode.js'
+import { Alert } from 'react-bootstrap';
 
 let addressDemark = '0xA75B2d7b277919c224B198743C88EfE608BA8c1e'
 
@@ -217,7 +218,8 @@ let TokenPublish = injectIntl(
                 totalsupply: totalSupply,
                 owner: currentAccount,
                 approve: false,
-                transactionId: transactionId
+                transactionId: transactionId,
+                address: ''
               }
 
               var updates = {}
@@ -232,10 +234,14 @@ let TokenPublish = injectIntl(
       })
 
       this.setState({
-        nameOfTokenICO: '',
+        name: '',
         symbol: '',
         decimals: '',
-        totalSupply: ''
+        totalsupply: '',
+        owner: '',
+        approve: '',
+        transactionId: '',
+        address: ''
       })
     },
 
@@ -298,7 +304,10 @@ let TokenPublish = injectIntl(
                 .database()
                 .ref()
                 .update(updates)
+
+              alert('success');
             }
+
           }
         )
       })

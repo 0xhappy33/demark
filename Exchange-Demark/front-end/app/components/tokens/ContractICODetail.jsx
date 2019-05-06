@@ -8,7 +8,7 @@ import AlertDismissable from '../AlertDismissable';
 import SubBuyToken from './SubBuyToken';
 import SubWithDrawToken from './SubWithDrawToken';
 
-import firebase from 'firebase'
+import firebase from 'firebase';
 
 let contractAddress;
 

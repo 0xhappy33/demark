@@ -89,7 +89,7 @@
     "keymirror": "^0.1.1",
     "lodash": "^4.9.0",
     "numeral": "^1.5.3",
-    "react": "^15.0.1",
+    "react": "^15.6.2",
     "react-addons-perf": "^15.0.1",
     "react-addons-transition-group": "^15.0.1",
     "react-bootstrap": "^0.28.5",

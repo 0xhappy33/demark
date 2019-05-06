@@ -11,6 +11,8 @@ import { Table } from 'react-bootstrap';
 
 import { Link } from 'react-router';
 
+import firebase from 'firebase';
+
 import contractService from '../clients/contractService';
 
 const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
@@ -25,13 +27,14 @@ let UserDetails = React.createClass({
       contractName: '',
       symbol: '',
       balance: '',
-      rating: ''
+      rating: '',
+      icoToken: []
     };
   },
 
   async componentDidMount() {
     this.componentWillReceiveProps(this.props);
-
+    this.readFromDtbsIcoToken();
     try {
       let accounts = await BK.getAccount();
       let name = await BK.getName();
@@ -82,8 +85,24 @@ let UserDetails = React.createClass({
   handleClickToDetail(e) {
     e.preventDefault();
     // navigate to new one
+  },
 
-
+  readFromDtbsIcoToken() {
+    var databaseRef = firebase.database().ref("/tokens_ico/");
+    var icoTokenData = [];
+    databaseRef.once('value', function (snapshot) {
+      snapshot.forEach(function (childSnapshot) {
+        var item = childSnapshot.val();
+        item.key = childSnapshot.key;
+        if (item.approve == true && item.owner == '0xd124eFF3237a021c4a7C7421E88Fdd6bA2324219') {
+         icoTokenData.push(item);
+        }
+      });
+    });
+    //console.log(icoTokenData);
+    this.setState({
+      icoToken: icoTokenData
+    });
   },
 
   render() {
@@ -136,18 +155,23 @@ let UserDetails = React.createClass({
                     </tr>
                   </thead>
                   <tbody>
-                    <tr className="clickable" onClick={this.handleClickToDetail}
-                        data-toggle="collapse" data-target="#group-of-rows-1" aria-expanded="false" aria-controls="group-of-rows-1">
+                    {this.state.icoToken.map(item => {
+                      return (
+                        <tr className="clickable" onClick={this.handleClickToDetail} key={item.key} value={item}
+                          data-toggle="collapse" data-target="#group-of-rows-1" aria-expanded="false" aria-controls="group-of-rows-1">
                       <td className="style-row">
-                        <Link to="/tokenicodetail">
-                          Duy Tan
+                            <Link to={`/tokenicodetail/${item.key}`}>
+                              {item.name}
                         </Link>
-                      </td>
-                      <td className="style-row">...</td>
-                      <td className="style-row">...</td>
-                      <td className="style-row">...</td>
-                      <td className="style-row">....</td>
-                    </tr>
+                          </td>
+                          <td className="style-row">{item.decimals}</td>
+                          <td className="style-row">{item.symbol}</td>
+                          <td className="style-row">{item.totalsupply}</td>
+                          <td className="style-row">{item.address}</td>
+                        </tr>
+                      )
+                    })
+                    }
                   </tbody>
                   <tbody id="group-of-rows-1" className="collapse">
                     <tr>

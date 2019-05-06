@@ -112,6 +112,7 @@ let routes = (
       
       <Route path="/tokendetail" component={TokenDetail}/>
       <Route path="/tokenicodetail" component={ICODetail}/>
+      <Route path="/tokenicodetail/:tokenicoId" component={ICODetail}/>
       <Route path="tokenico/:tokenicoId" component={ICODetail} />   
       <Route path="contractico/:contracticoId" component={ContractICODetail} />    
       <Route path="/contractico" component={ContractICODetail} />      
