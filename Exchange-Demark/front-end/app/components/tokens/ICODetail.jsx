@@ -4,6 +4,7 @@ import { Input, Button } from 'react-bootstrap';
 
 import Progress from "react-progress-2";
 
+import firebase from 'firebase'
 
 const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
 
@@ -42,6 +43,7 @@ let ICODetail = injectIntl(React.createClass({
         //     var ticketOffset = this.refs["ticket-" + this.props.params.ticketId].offsetTop;
         //     window.scroll(0, ticketOffset);
         // }
+        await this.readTokenIcoFromDtbs();
         try {
             console.log('====================================')
             console.log("Test")
@@ -74,6 +76,19 @@ let ICODetail = injectIntl(React.createClass({
         }
     },
 
+    async readTokenIcoFromDtbs() {
+        console.log(this.props.params.tokenicoId);
+        var databaseRef = firebase.database().ref("/tokens_ico/" + this.props.params.tokenicoId);
+        var item;
+        await databaseRef.once('value', function (snapshot) {
+            item = snapshot.val();
+        });
+        this.setState({
+            tokenIco: item
+        });
+        console.log(item);
+    },
+
     render() {
         return (
             <div>
@@ -94,7 +109,7 @@ let ICODetail = injectIntl(React.createClass({
                                             </div>
                                             <div className="panel-body">
                                                 <div className="container-fluid">
-                                                    <span style={{ color: 'blue' }}>...</span>
+                                                    <span style={{ color: 'blue' }}>{this.state.tokenIco && this.state.tokenIco.address}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -108,7 +123,7 @@ let ICODetail = injectIntl(React.createClass({
                                             </div>
                                             <div className="panel-body">
                                                 <div className="container-fluid">
-                                                    <span style={{ color: 'blue' }}>...</span>
+                                                    <span style={{ color: 'blue' }}>{this.state.tokenIco && this.state.tokenIco.name}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -120,7 +135,7 @@ let ICODetail = injectIntl(React.createClass({
                                             </div>
                                             <div className="panel-body">
                                                 <div className="container-fluid">
-                                                    <span style={{ color: 'blue' }}>...</span>
+                                                    <span style={{ color: 'blue' }}>{this.state.tokenIco && this.state.tokenIco.decimals}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -132,7 +147,7 @@ let ICODetail = injectIntl(React.createClass({
                                             </div>
                                             <div className="panel-body">
                                                 <div className="container-fluid">
-                                                    <span style={{ color: 'blue' }}>...</span>
+                                                    <span style={{ color: 'blue' }}>{this.state.tokenIco && this.state.tokenIco.totalsupply}</span>
                                                 </div>
                                             </div>
                                         </div>

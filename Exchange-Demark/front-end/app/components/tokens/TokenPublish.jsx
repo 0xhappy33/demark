@@ -35,7 +35,7 @@ let TokenPublish = injectIntl(
         preOrderPrice: null,
         orderPrice: null,
         addressOfTokenUsed: null,
-        limitedToken: null,
+        minimumQuantity: null,
 
         // Token for doing ICO
         nameOfTokenICO: null,
@@ -177,7 +177,7 @@ let TokenPublish = injectIntl(
         preOrderPrice: '',
         orderPrice: '',
         address: '',
-        limitedToken: ''
+        minimumQuantity: ''
       })
     },
 
@@ -260,7 +260,7 @@ let TokenPublish = injectIntl(
       var preOrderPrice = this.state.preOrderPrice
       var orderPrice = this.state.orderPrice
       var addressOfTokenUsed = this.state.addressOfTokenUsed
-      var limitedToken = this.state.limitedToken
+      var minimumQuantity = this.state.minimumQuantity
       var icoName = this.state.icoName
       web3.eth.getTransactionCount(currentAccount, (error, txCount) => {
         if (error) {
@@ -293,7 +293,7 @@ let TokenPublish = injectIntl(
                 preOrderPrice: preOrderPrice,
                 orderPrice: orderPrice,
                 addressOfTokenUsed: addressOfTokenUsed,
-                limitedToken: limitedToken,
+                minimumQuantity: minimumQuantity,
                 owner: currentAccount,
                 approve: false
               }
@@ -650,16 +650,16 @@ let TokenPublish = injectIntl(
                     <div className="row">
                       <div className="col-sm-2">
                         <label>
-                          <b>Limited</b>
+                          <b>Minimum Quantity</b>
                         </label>
                       </div>
                       <div className="col-sm-4">
                         <input
                           type="number"
-                          placeholder="Limited"
+                          placeholder="Minimum Quantity"
                           className="form-request-input"
-                          value={this.state.limitedToken}
-                          name="limitedToken"
+                          value={this.state.minimumQuantity}
+                          name="minimumQuantity"
                           onChange={e => this.handleChange(e)}
                         />{' '}
                         <br /> <br />

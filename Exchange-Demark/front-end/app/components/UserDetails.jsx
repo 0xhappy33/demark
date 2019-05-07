@@ -34,7 +34,7 @@ let UserDetails = React.createClass({
 
   async componentDidMount() {
     this.componentWillReceiveProps(this.props);
-    this.readFromDtbsIcoToken();
+  
     try {
       let accounts = await BK.getAccount();
       let name = await BK.getName();
@@ -49,7 +49,8 @@ let UserDetails = React.createClass({
         balance: balance,
         rating: rating
       });
-
+      await this.readFromDtbsIcoToken();
+      
     } catch (err) {
       this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
     }
@@ -87,19 +88,21 @@ let UserDetails = React.createClass({
     // navigate to new one
   },
 
-  readFromDtbsIcoToken() {
+  async readFromDtbsIcoToken() {
     var databaseRef = firebase.database().ref("/tokens_ico/");
     var icoTokenData = [];
-    databaseRef.once('value', function (snapshot) {
+    let getAccount = await this.state.accounts;
+    await databaseRef.once('value', function (snapshot) {
       snapshot.forEach(function (childSnapshot) {
         var item = childSnapshot.val();
         item.key = childSnapshot.key;
-        if (item.approve == true && item.owner == '0xd124eFF3237a021c4a7C7421E88Fdd6bA2324219') {
+        if (item.approve == true && item.owner == getAccount) {
          icoTokenData.push(item);
+        //  console.log(item.owner);
         }
       });
     });
-    //console.log(icoTokenData);
+    console.log(this.state.accounts);
     this.setState({
       icoToken: icoTokenData
     });
