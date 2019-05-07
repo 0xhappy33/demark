@@ -156,6 +156,7 @@ module.exports = {
       "price": "Price",
       "toaddress": "To address",
       "mint": "Mint",
+      "checkgoal": "Check Goal",
       "total": "Total",
       "trade": "Place trade",
       "new": "New Trade",

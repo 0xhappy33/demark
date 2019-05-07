@@ -220,7 +220,6 @@ let TokenDetail = injectIntl(React.createClass({
                     <div className="panel-heading">
                         <p className="panel-title">Contract out of money</p>
                     </div>
-                    
                 </div>
             )
         }

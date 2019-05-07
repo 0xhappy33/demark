@@ -4,9 +4,11 @@ import { Input, Button } from 'react-bootstrap';
 
 import Progress from "react-progress-2";
 
+import contractService from '../../clients/contractService';
 
 const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
 
+let TokenICO = new contractService.TokenICOContract(contractAddress);
 
 let ICODetail = injectIntl(React.createClass({
 
@@ -17,18 +19,9 @@ let ICODetail = injectIntl(React.createClass({
             alertMessage: '',
             accounts: '',
             contractName: '',
-            addressContract: contractAddress,
-            amount: '',
-            rating: '',
-            symbol: '',
-            contractDescription: '',
-            balance: '',
-            cashier: '',
-            creator: '',
-            currentBonus: '',
-            totalSupply: '',
-            currentState: '',
-            walletBalance: ''
+            tokenAmount: '',
+            tokenAddress: ''
+            // tokenICOInstance: contractService.DTUContract(contractAddress)
         };
     },
 
@@ -36,20 +29,20 @@ let ICODetail = injectIntl(React.createClass({
         require("../../css/loader.less");
     },
 
-    async componentDidMount() {
-        // TODO smooth / less hackish scroll to ticketId
-        // if (this.props.params.ticketId && this.refs["ticket-" + this.props.params.ticketId]) {
-        //     var ticketOffset = this.refs["ticket-" + this.props.params.ticketId].offsetTop;
-        //     window.scroll(0, ticketOffset);
-        // }
-        try {
-            console.log('====================================')
-            console.log("Test")
-            console.log('====================================')
-        } catch (err) {
-            this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
-        }
-    },
+    // async componentDidMount() {
+    //     // TODO smooth / less hackish scroll to ticketId
+    //     // if (this.props.params.ticketId && this.refs["ticket-" + this.props.params.ticketId]) {
+    //     //     var ticketOffset = this.refs["ticket-" + this.props.params.ticketId].offsetTop;
+    //     //     window.scroll(0, ticketOffset);
+    //     // }
+    //     try {
+    //         console.log('====================================')
+    //         console.log("Test")
+    //         console.log('====================================')
+    //     } catch (err) {
+    //         this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
+    //     }
+    // },
 
     setAlert(alertLevel, alertMessage) {
         this.setState({
@@ -72,6 +65,20 @@ let ICODetail = injectIntl(React.createClass({
                 </div>
             )
         }
+    },
+
+    async onMintToken(e) {
+        e.preventDefault();
+        try {
+            const account = await TokenICO.getAccount();
+            await TokenICO.mint(account, this.state.tokenAddress, this.state.tokenAmount);
+          } catch (err) {
+              this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
+          }
+          this.setState({
+            tokenAmount: null,
+            tokenAddress: null
+          });
     },
 
     render() {
@@ -142,17 +149,19 @@ let ICODetail = injectIntl(React.createClass({
                         
                             {/* ----------- To mint token ----------- */}
                             <div className="col-md-6">
-                                <form className="form-horizontal" role="form" onSubmit={this.handleValidation} >
+                                <form className="form-horizontal" role="form" onSubmit={this.onMintToken} >
 
                                     <h2>TO MINT TOKEN</h2>
                                     <Input type="number" ref="amount"
                                         placeholder="10"
                                         label="Amount" labelClassName="sr-only"
+                                        value={this.state.amount}
                                         />
                                     
                                     <Input type="text" ref="address"
                                         placeholder="0xa75b2d7b277919c224b198743c88efe608ba8c1e"
                                         label="To Address" labelClassName="sr-only"
+                                        value={this.state.address}
                                         />
 
                                     <div className="form-group">
