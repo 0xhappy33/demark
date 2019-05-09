@@ -178,7 +178,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        
+
                                     </tbody>
                                 </table>
                             </div>
@@ -206,7 +206,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        
+
                                     </tbody>
                                 </table>
                             </div>
@@ -245,11 +245,11 @@
                                 var childData = childSnapshot.val();
                                 if (childData.approve == false) {
                                     $('#tbl_tokens tbody').append(
-                                        `<tr><td class="font-medium">${childData.name}</td><td><span class="label label-success label-rounded">${childData.symbol}</span> </td><td class="txt-oflo">${childData.rating}</td><td class="txt-oflo">${childData.decimals}</td><td class="txt-oflo">${childData.cashier}</td><td><span class="txt-oflo">${childData.description}</span></td><td><input type="button" id="deployID" class="btn btn-success btnDeploy" name=${childKey} value="Deploy" /></td></tr>`
-                                        );
+                                        `<tr><td class="font-medium">${childData.name}</td><td><span class="label label-success label-rounded">${childData.symbol}</span> </td><td class="txt-oflo">${childData.rating}</td><td class="txt-oflo">${childData.decimals}</td><td class="txt-oflo">${childData.cashier}</td><td><span class="txt-oflo">${childData.description}</span></td><td><input type="button" id="deployID" class="btn btn-success btnDeployToken" name=${childKey} value="Deploy" /></td></tr>`
+                                    );
                                 }
                             });
-                            $(".btnDeploy").click(function () {
+                            $(".btnDeployToken").click(function () {
                                 var $row = $(this).closest("tr"),
                                     $tds = $row.find("td");
                                 let dataRow = [];
@@ -257,15 +257,14 @@
                                     dataRow.push($(this).text())
                                 });
 
-
-                                myContract.new(
+                                dtuContract.new(
                                     dataRow[0],
                                     dataRow[3],
                                     dataRow[1],
                                     dataRow[2],
                                     dataRow[4],
                                     dataRow[5], {
-                                        data: `0x${byteCode}`,
+                                        data: `0x${dtuTokenByteCode}`,
                                         from: currentAccount,
                                         gas: 4800000
                                     }, async (err, res) => {
@@ -291,7 +290,6 @@
                                             dataRow = [];
                                         }
                                     });
-
 
                             });
 
@@ -335,25 +333,64 @@
                                                 ${childData.minimumQuantity}
                                             </td>
                                             <td>
-                                                <input type="button" id="deployID" class="btn btn-success btnDeploy" name=${childKey} value="Deploy" />
+                                                <input type="button" id="deployID" class="btn btn-success btnDeployICO" name=${childKey} value="Deploy" />
                                             </td>
                                         </tr>`
-                                        );
+                                    );
                                 }
                             });
-                            $(".btnDeploy").click(function () {
+                            $(".btnDeployICO").click(function () {
+                                var $row = $(this).closest("tr"),
+                                    $tds = $row.find("td");
+                                let dataRow = [];
+                                $.each($tds, function () {
+                                    dataRow.push($(this).text())
+                                });
+
+                                icoContract.new(
+                                    dataRow[0],
+                                    dataRow[3],
+                                    dataRow[1],
+                                    dataRow[2],
+                                    dataRow[4], {
+                                        data: `0x${tokenICOByteCode}`,
+                                        from: currentAccount,
+                                        gas: 4800000
+                                    }, async (err, res) => {
+
+                                        if (res.address) {
+                                            var uid = $(this).attr('name');
+                                            // alert(uid);
+                                            var data = {
+                                                name: dataRow[0],
+                                                symbol: dataRow[1],
+                                                rating: dataRow[2],
+                                                decimals: dataRow[3],
+                                                cashier: dataRow[4],
+                                                address: res.address,
+                                                approve: true
+                                            }
+                                            // alert(data);
+                                            var updates = {};
+                                            updates['/contract_ico/' + uid] = data;
+                                            firebase.database().ref().update(updates);
+                                            alert('Your ico have been deployed');
+                                            dataRow = [];
+                                        }
+                                    });
+
                             });
                         });
                     </script>
                     <script>
-                            var databaseRef = firebase.database().ref('tokens_ico/');
-                            databaseRef.once('value', function (snapshot) {
-                                snapshot.forEach(function (childSnapshot) {
-                                    var childKey = childSnapshot.key;
-                                    var childData = childSnapshot.val();
-                                    if (childData.approve == false) {
-                                        $('#tbl_tokens_ico tbody').append(
-                                            `<tr>
+                        var databaseRef = firebase.database().ref('tokens_ico/');
+                        databaseRef.once('value', function (snapshot) {
+                            snapshot.forEach(function (childSnapshot) {
+                                var childKey = childSnapshot.key;
+                                var childData = childSnapshot.val();
+                                if (childData.approve == false) {
+                                    $('#tbl_tokens_ico tbody').append(
+                                        `<tr>
                                                 <td class="font-medium">
                                                     ${childData.name}
                                                 </td>
@@ -369,16 +406,53 @@
                                                     ${childData.totalsupply}
                                                 </td>
                                                 <td>
-                                                    <input type="button" id="deployID" class="btn btn-success btnDeploy" name=${childKey} value="Deploy" />
+                                                    <input type="button" id="deployID" class="btn btn-success btnDeployTokenICO" name=${childKey} value="Deploy" />
                                                 </td>
                                             </tr>`
-                                            );
-                                    }
-                                });
-                                $(".btnDeploy").click(function () {
-                                });
+                                    );
+                                }
                             });
-                        </script>
+                            $(".btnDeployTokenICO").click(function () {
+                                var $row = $(this).closest("tr"),
+                                    $tds = $row.find("td");
+                                let dataRow = [];
+                                $.each($tds, function () {
+                                    dataRow.push($(this).text())
+                                });
+
+                                tokenICOContract.new(
+                                    dataRow[0],
+                                    dataRow[2],
+                                    dataRow[1],
+                                    dataRow[3],{
+                                        data: `0x${tokenICOByteCode}`,
+                                        from: currentAccount,
+                                        gas: 4800000
+                                    }, async (err, res) => {
+
+                                        if (res.address) {
+                                            var uid = $(this).attr('name');
+                                            // alert(uid);
+                                            var data = {
+                                                name: dataRow[0],
+                                                symbol: dataRow[1],
+                                                totalSupply: dataRow[3],
+                                                decimals: dataRow[2],
+                                                address: res.address,
+                                                approve: true
+                                            }
+                                            // alert(data);
+                                            var updates = {};
+                                            updates['/tokens_ico/' + uid] = data;
+                                            firebase.database().ref().update(updates);
+                                            alert('Your token ico have been deployed');
+                                            dataRow = [];
+                                        }
+                                    });
+
+                            });
+                        });
+                    </script>
                     <script src="../../js/submit-token.js"></script>
 </body>
 
