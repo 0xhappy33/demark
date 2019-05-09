@@ -115,7 +115,7 @@ let SubMint = injectIntl(React.createClass({
     });
   },
 
-  async onSubmitBuyToken(e) {
+  async onSubmitMintToken(e) {
     e.preventDefault();
 
     try {
@@ -153,7 +153,7 @@ let SubMint = injectIntl(React.createClass({
       <form className="form-horizontal" role="form" onSubmit={this.handleValidation} >
         <Input type="number" ref="amount"
           label={<FormattedMessage id='form.amount' />} labelClassName="sr-only"
-          placeholder="10.0000"
+          placeholder="100"
           min={1 / _.parseInt(fixtures.ether)} 
           step={1 / _.parseInt(fixtures.ether)}
           onChange={this.handleChange}

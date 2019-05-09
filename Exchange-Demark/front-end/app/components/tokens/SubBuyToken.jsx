@@ -9,6 +9,14 @@ import ConfirmModal from '../ConfirmModal';
 let fixtures = require("../../js/fixtures");
 
 
+import contractService from '../../clients/contractService';
+
+const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
+
+let ICO = new contractService.ICOContract(contractAddress);
+
+var now = new Date();
+
 let SubBuyToken = injectIntl(React.createClass({
   getInitialState: function() {
     return {
@@ -18,7 +26,16 @@ let SubBuyToken = injectIntl(React.createClass({
       value: null,
       newSend: false,
       showModal: false,
-      confirmMessage: null
+      confirmMessage: null,
+      now: null,
+      startPreOrder: this.props.startPreOrder,
+      endPreOrder: this.props.endPreOrder,
+      startOrder: this.props.startOrder,
+      endOrder: this.props.endOrder,
+      addressICO: this.props.addressICO,
+      preOrderPrice: this.props.preOrderPrice,
+      orderPrice: this.props.orderPrice,
+      minimumQuantity: this.props.minimumQuantity
     };
   },
 
@@ -117,29 +134,33 @@ let SubBuyToken = injectIntl(React.createClass({
 
   async onSubmitBuyToken(e) {
     e.preventDefault();
+    var nowInt = Date.parse(now);
+    var startPreOrder = Date.parse(this.props.startPreOrder);
+    var endPreOrder = Date.parse(this.props.endPreOrder);
 
-    try {
-    //   let accounts = await DTU.getAccount();
-    //   let rating = await DTU.getRating();
-      // let symbol = await DTU.getSymbol();
-
-      // console.log("NAME ****** ", symbol);
-
-      this.setState({
-        rating: ''        
-      })
-      
-      let value = this.state.amount / this.state.rating;
-
-      this.setState({
-        value: value
-      });
-      
-    //   await DTU.buyToken(accounts, this.state.amount, this.state.value);
-
-    } catch (err) {
-        this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
+    var startOrder = Date.parse(this.props.startOrder);
+    var endOrder = Date.parse(this.props.endOrder);
+    if(nowInt < startPreOrder || nowInt > endOrder || (nowInt>endPreOrder&&nowInt<startOrder)){
+      alert('yyyyyyy')
+    } else  {
+      try {
+        const accounts = await ICO.getAccount();
+        var value;
+        if((nowInt>=startPreOrder&&nowInt<=endPreOrder)){
+          value = this.props.preOrderPrice*this.state.amount;
+          await ICO.buyTokenForICO(accounts,this.state.amount,value);
+        }
+        else{
+          value = this.props.orderPrice*this.state.amount;
+          await ICO.buyTokenForICO(accounts,this.state.amount,value);
+        }
+        
+  
+      } catch (err) {
+          this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
+      }
     }
+    
 
     this.setState({
       amount: null
@@ -150,7 +171,7 @@ let SubBuyToken = injectIntl(React.createClass({
 
   render: function() {
     return (
-      <form className="form-horizontal" role="form" onSubmit={this.handleValidation} >
+      <form className="form-horizontal" role="form" onSubmit={this.onSubmitBuyToken} >
         <Input type="number" ref="amount"
           label={<FormattedMessage id='form.amount' />} labelClassName="sr-only"
           placeholder="10.0000"

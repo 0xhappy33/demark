@@ -424,6 +424,10 @@ class ICOContract{
         return _getEndOrder(this.instance);
     }
 
+    getAccount() {
+        return getMetaAccounts();
+    }
+
 }
 
 class TokenICOContract{
@@ -454,6 +458,10 @@ class TokenICOContract{
 
     getSymbol() {
         return _getSymbolTokenICO(this.instance);
+    }
+
+    getAccount() {
+        return getMetaAccounts();
     }
 
     mint(_currentAcc,_to, _amount) {

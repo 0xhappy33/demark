@@ -7,10 +7,19 @@ import Progress from "react-progress-2";
 import AlertDismissable from '../AlertDismissable';
 import SubBuyToken from './SubBuyToken';
 import SubWithDrawToken from './SubWithDrawToken';
+import SubCheckGoal from './SubCheckGoal';
 
 import firebase from 'firebase';
 
 let contractAddress;
+
+
+import contractService from '../../clients/contractService';
+import { log } from 'util';
+
+// const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
+
+let ICO;
 
 let ContractICODetail = injectIntl(React.createClass({
 
@@ -24,16 +33,19 @@ let ContractICODetail = injectIntl(React.createClass({
             amount: '',
             rating: '',
             symbol: '',
-            contractDescription: '',
-            balance: '',
-            cashier: '',
-            creator: '',
-            currentBonus: '',
             totalSupply: '',
             currentState: '',
             walletBalance: '',
-            contractAddress: contractAddress,
-            contractIco: null
+            contractIco: null,
+            startPreOrder: '',
+            endPreOrder: '',
+            startOrder: '',
+            endOrder: '',
+            addressICO: '',
+            preOrderPrice: '',
+            orderPrice: '',
+            minimumQuantity: '',
+            contractAddress: ''
         };
     },
 
@@ -43,21 +55,45 @@ let ContractICODetail = injectIntl(React.createClass({
 
     async componentDidMount() {
         this.props.flux.actions.config.updateAlertCount(null);
-        contractAddress = this.props.params.contracticoId;
+        // this.setState({
+            contractAddress = this.props.params.contracticoId
+        // });
+        // contractAddress = this.props.params.contracticoId;
+        this.setState({
+            contractAddress: contractAddress
+        });
+        ICO = new contractService.ICOContract(contractAddress);
         this.readFromDtbsToTable();
     },
 
     async readFromDtbsToTable() {
-        console.log("/contract_ico/" + contractAddress);
+        // console.log("/contract_ico/" + contractAddress);
         var databaseRef = firebase.database().ref("/contract_ico/" + contractAddress);
         var item;
         await databaseRef.once('value', function (snapshot) {
             item = snapshot.val();
         });
+
         this.setState({
             contractIco: item
         });
-        console.log(item);
+
+        this.setState({
+            startPreOrder: this.state.contractIco.startPreOrderTime,
+            endPreOrder: this.state.contractIco.endPreOrderTime,
+            startOrder: this.state.contractIco.startOrderTime,
+            endOrder: this.state.contractIco.endOrderTime,
+            addressICO: this.state.contractIco.addressICO,
+            preOrderPrice: this.state.contractIco.preOrderPrice,
+            orderPrice: this.state.contractIco.orderPrice,
+            minimumQuantity: this.state.contractIco.minimumQuantity,
+            contractAddress: this.state.contractIco.contractAddress 
+        })
+
+        // console.log('====================================')
+        // console.log(this.state.startPreOrder)
+        // console.log('====================================')
+        // console.log(item);
     },
 
     setAlert(alertLevel, alertMessage) {
@@ -93,11 +129,10 @@ let ContractICODetail = injectIntl(React.createClass({
                 <div className="panel-body">
                     <div className="container-fluid">
                         <SubWithDrawToken
-                            balance={this.state.balance}
-                            contractName={this.state.contractName}
-                            accounts={this.state.accounts}
-                            user={this.props.user.user}
-                            setAlert={this.setAlert} showAlert={this.showAlert} />
+                            contractAddress={this.state.contractAddress}
+                            endOrder={this.state.endOrder}
+                            setAlert={this.setAlert} 
+                            showAlert={this.showAlert} />
                     </div>
                 </div>
             </div>
@@ -109,18 +144,32 @@ let ContractICODetail = injectIntl(React.createClass({
             <div className="panel panel-default">
                 <div className="panel-heading">
                     <h3 className="panel-title">
-                        <FormattedMessage id='send.currency' values={{ currency: this.state.symbol }} />
+                        <FormattedMessage id='form.checkgoal'/>
                     </h3>
                 </div>
                 <div className="panel-body">
                     <div className="container-fluid">
-                        <Button className={"btn-block" + (this.state.newWithdrawal ? " btn-primary" : "")} type="submit" key="Check goal">
-                            <FormattedMessage id='form.withdraw' />
-                        </Button>
+                        <SubCheckGoal
+                            contractAddress={this.state.contractAddress}
+                            endOrder={this.state.endOrder}
+                            setAlert={this.setAlert} 
+                            showAlert={this.showAlert} />
                     </div>
                 </div>
             </div>
         );
+    },
+
+
+    async onCheckGoal(e) {
+        e.preventDefault();
+        ICO = new contractService.ICOContract(contractAddress);
+        try {
+            const account = await ICO.getAccount();
+            await ICO.checkGoalReached(account);
+          } catch (err) {
+              this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
+          }
     },
 
     buy() {
@@ -134,14 +183,15 @@ let ContractICODetail = injectIntl(React.createClass({
                 <div className="panel-body">
                     <div className="container-fluid">
                         <SubBuyToken
-                            balance={this.state.balance}
-                            contractName={this.state.contractName}
-                            accounts={this.state.accounts}
-                            amount={this.state.amount}
-                            rating={this.state.rating}
-                            symbol={this.state.symbol}
-                            walletBalance={this.state.walletBalance}
-                            user={this.props.user.user}
+                            startPreOrder={this.state.startPreOrder}
+                            endPreOrder={this.state.endPreOrder}
+                            startOrder={this.state.startOrder}
+                            endOrder={this.state.endOrder}
+                            addressICO= {this.state.addressICO}
+                            preOrderPrice= {this.state.preOrderPrice}
+                            orderPrice= {this.state.orderPrice}
+                            minimumQuantity={this.state.minimumQuantity}
+                            contractAddress={this.state.contractAddress}
                             setAlert={this.setAlert}
                             showAlert={this.showAlert} />
                     </div>
@@ -205,7 +255,7 @@ let ContractICODetail = injectIntl(React.createClass({
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-md-3">
+                                    <div className="col-md-5">
                                         <div className="panel panel-default">
                                             <div className="panel-heading">
                                                 <h3 className="panel-title" style={{ fontSize: '12px', textAlign: 'center' }}>Time line</h3>
@@ -220,7 +270,7 @@ let ContractICODetail = injectIntl(React.createClass({
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-md-3">
+                                    <div className="col-md-2">
                                         <div className="panel panel-default">
                                             <div className="panel-heading">
                                                 <h3 className="panel-title" style={{ fontSize: '12px', textAlign: 'center' }}>Price</h3>
@@ -233,7 +283,7 @@ let ContractICODetail = injectIntl(React.createClass({
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-md-3">
+                                    <div className="col-md-2">
                                         <div className="panel panel-default">
                                             <div className="panel-heading">
                                                 <h3 className="panel-title" style={{ fontSize: '12px', textAlign: 'center' }}>Minimum</h3>
@@ -260,7 +310,7 @@ let ContractICODetail = injectIntl(React.createClass({
                             </div>
                             <div className="col-md-4">
                                 <h2>Description</h2>
-                                <span style={{ color: 'blue' }}>{this.state.contractIco && this.state.contractIco.owner}</span>
+                                {/* <span style={{ color: 'blue' }}>{this.state.contractIco && this.state.contractIco.owner}</span> */}
                                 <br />
                                 <small>This contract is used for ICO
                                 </small>
@@ -273,7 +323,7 @@ let ContractICODetail = injectIntl(React.createClass({
 
                             <div className="hidden-xs hidden-sm">
                                 <Tabs defaultActiveKey={1} position='left' tabWidth={3}>
-                                    <Tab eventKey={1} title='With draw token'>
+                                    <Tab eventKey={1} title='With draw'>
                                         {this.withdraw()}
                                     </Tab>
                                     <Tab eventKey={2} title='Buy token'>

@@ -10,7 +10,7 @@ import contractService from '../../clients/contractService';
 var now = new Date();
 let ICO;
 
-let SubWithDrawToken = injectIntl(React.createClass({
+let SubCheckGoal = injectIntl(React.createClass({
   getInitialState: function() {
     return {
       // amount: null,
@@ -90,7 +90,7 @@ let SubWithDrawToken = injectIntl(React.createClass({
     return false;
   },
 
-  async onSubmitWithdraw(e) {
+  async onCheckGoal(e) {
     e.preventDefault();
     var nowInt = Date.parse(now);
     var endOrder = Date.parse(this.props.endOrder);
@@ -101,21 +101,20 @@ let SubWithDrawToken = injectIntl(React.createClass({
       ICO = new contractService.ICOContract(this.state.contractAddress);
       try {
         const accounts = await ICO.getAccount();
-        await ICO.safeWithdraw(accounts);
+        await ICO.checkGoalReached(accounts);
       } catch (err) {
           this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
       }
     }
-
   },
 
   render() {
     return (
-      <form className="form-horizontal" role="form" onSubmit={this.onSubmitWithdraw} >
+      <form className="form-horizontal" role="form" onSubmit={this.onCheckGoal} >
 
         <div className="form-group">
           <Button className={"btn-block" + (this.state.newWithdrawal ? " btn-primary" : "")} type="submit" key="withdraw">
-            <FormattedMessage id='form.withdraw' />
+            <FormattedMessage id='form.checkgoal' />
           </Button>
         </div>
 
@@ -124,11 +123,11 @@ let SubWithDrawToken = injectIntl(React.createClass({
           onHide={this.closeModal}
           message={this.state.confirmMessage}
           flux={this.props.flux}
-          onSubmit={this.onSubmitWithdraw}
+          onSubmit={this.onCheckGoal}
         />
       </form>
     );
   }
 }));
 
-module.exports = SubWithDrawToken;
+module.exports = SubCheckGoal;

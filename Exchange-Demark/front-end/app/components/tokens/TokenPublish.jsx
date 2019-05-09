@@ -18,7 +18,6 @@ let tokenICOInstance = web3.eth.contract(readTokenByteCode.getAbiTokenICO())
 let contractICOBytecode = readTokenByteCode.getBytecodeContractICO()
 let tokenICOBytecode = readTokenByteCode.getBytecodeTokenICO()
 
-let deployFee = 2000000000000000000
 
 let TokenPublish = injectIntl(
   React.createClass({
@@ -105,59 +104,68 @@ let TokenPublish = injectIntl(
 
     handleChange(e) {
       e.preventDefault()
-      this.setState({
-        [e.target.name]: e.target.value
-      })
+      this.validate(e)
+      // this.setState({
+      //   [e.target.name]: e.target.value
+      // })
     },
 
     //  validate for form
     validate: function (e, showAlerts) {
       e.preventDefault()
 
-      if (this.state.amount < 0) {
+      if (this.state.startPreOrderTime > this.state.endPreOrderTime) {
         this.props.setAlert(
           'warning',
           this.props.intl.formatMessage({ id: 'form.smaller' })
         )
-      } else if (!this.state.amount) {
+      } 
+      else if (this.state.startOrderTime > this.state.endOrderTime) {
         this.props.setAlert(
           'warning',
-          this.props.intl.formatMessage({ id: 'form.empty' })
+          this.props.intl.formatMessage({ id: 'form.smaller' })
         )
-      } else if (parseFloat(this.state.amount) > this.props.balance) {
-        this.props.setAlert(
-          'warning',
-          this.props.intl.formatMessage(
-            { id: 'deposit.not_enough' },
-            {
-              currency: this.props.symbol,
-              balance: this.props.balance,
-              amount: this.state.amount
-            }
-          )
-        )
-      } else {
-        this.setState({
-          newDeposit: true,
-          confirmMessage: (
-            <FormattedMessage
-              id="deposit.confirm"
-              values={{
-                amount: this.state.amount,
-                currency: this.props.contractName
-              }}
-            />
-          )
-        })
-
-        this.props.showAlert(false)
-
-        return true
       }
 
-      this.setState({
-        newDeposit: false
-      })
+      // else if (!this.state.amount) {
+      //   this.props.setAlert(
+      //     'warning',
+      //     this.props.intl.formatMessage({ id: 'form.empty' })
+      //   )
+      // } else if (parseFloat(this.state.amount) > this.props.balance) {
+      //   this.props.setAlert(
+      //     'warning',
+      //     this.props.intl.formatMessage(
+      //       { id: 'deposit.not_enough' },
+      //       {
+      //         currency: this.props.symbol,
+      //         balance: this.props.balance,
+      //         amount: this.state.amount
+      //       }
+      //     )
+      //   )
+      // } else {
+      //   this.setState({
+      //     newDeposit: true,
+      //     confirmMessage: (
+      //       <FormattedMessage
+      //         id="deposit.confirm"
+      //         values={{
+      //           amount: this.state.amount,
+      //           currency: this.props.contractName
+      //         }}
+      //       />
+      //     )
+      //   })
+
+      //   this.props.showAlert(false)
+
+      //   return true
+      // }
+
+      // this.setState({
+      //   newDeposit: false
+      // })
 
       if (showAlerts) this.props.showAlert(true)
 
@@ -650,13 +658,13 @@ let TokenPublish = injectIntl(
                     <div className="row">
                       <div className="col-sm-2">
                         <label>
-                          <b>Minimum Quantity</b>
+                          <b>Minimum quantity</b>
                         </label>
                       </div>
                       <div className="col-sm-4">
                         <input
                           type="number"
-                          placeholder="Minimum Quantity"
+                          placeholder="Minimum quantity"
                           className="form-request-input"
                           value={this.state.minimumQuantity}
                           name="minimumQuantity"
