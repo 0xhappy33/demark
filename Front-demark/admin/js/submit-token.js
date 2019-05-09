@@ -46,9 +46,26 @@ window.onload = async function () {
     currentAccount = await getAccounts();
     let fileContract = await getData('../../contracts/DTUToken.sol');
     let contractCompile = await dataInstance(fileContract);
-    abi = contractCompile.contracts[':DTUToken'].interface;
-    byteCode = contractCompile.contracts[':DTUToken'].bytecode;
-    myContract = web3.eth.contract(JSON.parse(abi));
+
+    //==== token
+
+    dtuTokenAbi = contractCompile.contracts[':DTUToken'].interface;
+    dtuTokenByteCode = contractCompile.contracts[':DTUToken'].bytecode;
+    dtuContract = web3.eth.contract(JSON.parse(DTUTokenAbi));
+
+    ///===== token ico
+
+    tokenICOAbi = contractCompile.contracts[':TokenICO'].interface;
+    tokenICOByteCode = contractCompile.contracts[':TokenICO'].bytecode;
+    tokenICOContract = web3.eth.contract(JSON.parse(tokenICOAbi));
+
+    //======= contract ico
+
+    icoAbi = contractCompile.contracts[':ICO'].interface;
+    icoByteCode = contractCompile.contracts[':ICO'].bytecode;
+    icoContract = web3.eth.contract(JSON.parse(icoAbi));
+
+    //===========
 
     var refDB = await firebase.database().ref('/users/');
     refDB.once('value').then(function (snapshot) {
