@@ -6,9 +6,8 @@ import ConfirmModal from './ConfirmModal';
 
 import contractService from '../clients/contractService';
 
-const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
+// const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
 
-let DTU = new contractService.DTUContract(contractAddress);
 
 let SubDeposit = injectIntl(React.createClass({
   getInitialState: function() {
@@ -90,11 +89,12 @@ let SubDeposit = injectIntl(React.createClass({
 
   async onSubmitDeposit(e) {
     e.preventDefault();
+    // let DTU = new contractService.DTUContract(this.props.contractAddress);
 
     try {
-      // const accounts = await DTU.getAccount();
+      let accounts = await this.props.dtuInstance.getAccount();
 
-      await DTU.deposit(this.props.accounts, this.state.amount);
+      await this.props.dtuInstance.deposit(accounts, this.state.amount);
 
     } catch (err) {
         this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });

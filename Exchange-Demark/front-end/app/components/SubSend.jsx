@@ -8,10 +8,6 @@ import ConfirmModal from './ConfirmModal';
 
 import contractService from '../clients/contractService';
 
-const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
-
-let DTU = new contractService.DTUContract(contractAddress);
-
 let SubSend = injectIntl(React.createClass({
 
   getInitialState() {
@@ -114,12 +110,9 @@ let SubSend = injectIntl(React.createClass({
     this.setState({ loading: true, errorMessage: "" });
 
     try {
-      const accounts = await DTU.getAccount();
+      let accounts = await this.props.dtuInstance.getAccount();
 
-      console.log("my acc ", accounts);
-      // console.log("re",this.state.recipient,"am", this.state.amount);
-
-      await DTU.sendToken(accounts, this.state.recipient, this.state.amount);
+      await this.props.dtuInstance.sendToken(accounts, this.state.recipient, this.state.amount);
 
       this.setState({
         loading: false,

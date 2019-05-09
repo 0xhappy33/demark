@@ -10,16 +10,11 @@ let fixtures = require("../js/fixtures");
 
 import contractService from '../clients/contractService';
 
-const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
-
-let DTU = new contractService.DTUContract(contractAddress);
-
-
 let SubBuyToken = injectIntl(React.createClass({
   getInitialState: function() {
     return {
       amount: null,
-      rating: null,
+      // rating: null,
       symbol: null,
       value: null,
       newSend: false,
@@ -125,34 +120,20 @@ let SubBuyToken = injectIntl(React.createClass({
     e.preventDefault();
 
     try {
-      let accounts = await DTU.getAccount();
-      let rating = await DTU.getRating();
-      // let symbol = await DTU.getSymbol();
-
-      // console.log("NAME ****** ", symbol);
-
-      this.setState({
-        rating: rating        
-      })
-      
-      let value = this.state.amount / this.state.rating;
-
+      let accounts = await this.props.dtuInstance.getAccount();
+      let value = this.state.amount / this.props.rating;
       this.setState({
         value: value
       });
-      
-      await DTU.buyToken(accounts, this.state.amount, this.state.value);
-
+      await this.props.dtuInstance.buyToken(accounts, this.state.amount, this.state.value);
     } catch (err) {
         this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
     }
-
     this.setState({
       amount: null
     });
 
   },
-
 
   render: function() {
     return (

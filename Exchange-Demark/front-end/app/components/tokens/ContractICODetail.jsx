@@ -7,7 +7,7 @@ import Progress from "react-progress-2";
 import AlertDismissable from '../AlertDismissable';
 import SubBuyToken from './SubBuyToken';
 import SubWithDrawToken from './SubWithDrawToken';
-import SubCheckGoal from './SubCheckGoal';
+// import SubCheckGoal from './SubCheckGoal';
 
 import firebase from 'firebase';
 
@@ -17,9 +17,7 @@ let contractAddress;
 import contractService from '../../clients/contractService';
 import { log } from 'util';
 
-// const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
-
-let ICO;
+let icoAddress;
 
 let ContractICODetail = injectIntl(React.createClass({
 
@@ -41,11 +39,12 @@ let ContractICODetail = injectIntl(React.createClass({
             endPreOrder: '',
             startOrder: '',
             endOrder: '',
-            addressICO: '',
             preOrderPrice: '',
             orderPrice: '',
             minimumQuantity: '',
-            contractAddress: ''
+            tokenAddressLink: '',
+            icoAddress: icoAddress,
+            icoInstance: ''
         };
     },
 
@@ -54,46 +53,45 @@ let ContractICODetail = injectIntl(React.createClass({
     },
 
     async componentDidMount() {
+        await this.readFromDtbsToTable();
         this.props.flux.actions.config.updateAlertCount(null);
-        // this.setState({
-            contractAddress = this.props.params.contracticoId
-        // });
-        // contractAddress = this.props.params.contracticoId;
-        this.setState({
-            contractAddress: contractAddress
-        });
-        ICO = new contractService.ICOContract(contractAddress);
-        this.readFromDtbsToTable();
+        let icoInstance = new contractService.ICOContract(icoAddress);
+        try {
+            this.setState({
+                icoInstance: icoInstance
+            });
+        } catch (err) {
+            this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
+        }
+
     },
 
     async readFromDtbsToTable() {
-        // console.log("/contract_ico/" + contractAddress);
         var databaseRef = firebase.database().ref("/contract_ico/" + contractAddress);
         var item;
         await databaseRef.once('value', function (snapshot) {
             item = snapshot.val();
         });
+        icoAddress = await item.address;
+        try {
+            this.setState({
+                startPreOrder: this.state.contractIco.startPreOrderTime,
+                endPreOrder: this.state.contractIco.endPreOrderTime,
+                startOrder: this.state.contractIco.startOrderTime,
+                endOrder: this.state.contractIco.endOrderTime,
+                addressICO: this.state.contractIco.addressICO,
+                preOrderPrice: this.state.contractIco.preOrderPrice,
+                orderPrice: this.state.contractIco.orderPrice,
+                minimumQuantity: this.state.contractIco.minimumQuantity,
+                contractAddress: this.state.contractIco.contractAddress,
+                contractIco: item,
+                icoAddress: icoAddress
+            })
+        } catch (err) {
+            this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
+        }
 
-        this.setState({
-            contractIco: item
-        });
 
-        this.setState({
-            startPreOrder: this.state.contractIco.startPreOrderTime,
-            endPreOrder: this.state.contractIco.endPreOrderTime,
-            startOrder: this.state.contractIco.startOrderTime,
-            endOrder: this.state.contractIco.endOrderTime,
-            addressICO: this.state.contractIco.addressICO,
-            preOrderPrice: this.state.contractIco.preOrderPrice,
-            orderPrice: this.state.contractIco.orderPrice,
-            minimumQuantity: this.state.contractIco.minimumQuantity,
-            contractAddress: this.state.contractIco.contractAddress 
-        })
-
-        // console.log('====================================')
-        // console.log(this.state.startPreOrder)
-        // console.log('====================================')
-        // console.log(item);
     },
 
     setAlert(alertLevel, alertMessage) {
@@ -129,9 +127,10 @@ let ContractICODetail = injectIntl(React.createClass({
                 <div className="panel-body">
                     <div className="container-fluid">
                         <SubWithDrawToken
-                            contractAddress={this.state.contractAddress}
+                            icoInstance={this.state.icoInstance}
+                            // contractAddress={this.state.contractAddress}
                             endOrder={this.state.endOrder}
-                            setAlert={this.setAlert} 
+                            setAlert={this.setAlert}
                             showAlert={this.showAlert} />
                     </div>
                 </div>
@@ -139,37 +138,35 @@ let ContractICODetail = injectIntl(React.createClass({
         );
     },
 
-    checkGoal() {
-        return (
-            <div className="panel panel-default">
-                <div className="panel-heading">
-                    <h3 className="panel-title">
-                        <FormattedMessage id='form.checkgoal'/>
-                    </h3>
-                </div>
-                <div className="panel-body">
-                    <div className="container-fluid">
-                        <SubCheckGoal
-                            contractAddress={this.state.contractAddress}
-                            endOrder={this.state.endOrder}
-                            setAlert={this.setAlert} 
-                            showAlert={this.showAlert} />
-                    </div>
-                </div>
-            </div>
-        );
-    },
-
+    // checkGoal() {
+    //     return (
+    //         <div className="panel panel-default">
+    //             <div className="panel-heading">
+    //                 <h3 className="panel-title">
+    //                     <FormattedMessage id='form.checkgoal' />
+    //                 </h3>
+    //             </div>
+    //             <div className="panel-body">
+    //                 <div className="container-fluid">
+    //                     <SubCheckGoal
+    //                         icoInstance={this.state.icoInstance}
+    //                         endOrder={this.state.endOrder}
+    //                         setAlert={this.setAlert}
+    //                         showAlert={this.showAlert} />
+    //                 </div>
+    //             </div>
+    //         </div>
+    //     );
+    // },
 
     async onCheckGoal(e) {
         e.preventDefault();
-        ICO = new contractService.ICOContract(contractAddress);
         try {
-            const account = await ICO.getAccount();
-            await ICO.checkGoalReached(account);
-          } catch (err) {
-              this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
-          }
+            let account = await this.state.icoInstance.getAccount();
+            await this.state.icoInstance.checkGoalReached(account);
+        } catch (err) {
+            this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
+        }
     },
 
     buy() {
@@ -187,9 +184,9 @@ let ContractICODetail = injectIntl(React.createClass({
                             endPreOrder={this.state.endPreOrder}
                             startOrder={this.state.startOrder}
                             endOrder={this.state.endOrder}
-                            addressICO= {this.state.addressICO}
-                            preOrderPrice= {this.state.preOrderPrice}
-                            orderPrice= {this.state.orderPrice}
+                            addressICO={this.state.addressICO}
+                            preOrderPrice={this.state.preOrderPrice}
+                            orderPrice={this.state.orderPrice}
                             minimumQuantity={this.state.minimumQuantity}
                             contractAddress={this.state.contractAddress}
                             setAlert={this.setAlert}

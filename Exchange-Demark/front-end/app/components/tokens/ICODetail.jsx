@@ -7,9 +7,10 @@ import Progress from "react-progress-2";
 import firebase from 'firebase'
 import contractService from '../../clients/contractService';
 
-const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
+// const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
 
-let TokenICO = new contractService.TokenICOContract(contractAddress);
+// let TokenICO = new contractService.TokenICOContract(contractAddress);
+let tokenAddress;
 
 let ICODetail = injectIntl(React.createClass({
 
@@ -21,8 +22,8 @@ let ICODetail = injectIntl(React.createClass({
             accounts: '',
             contractName: '',
             tokenAmount: '',
-            tokenAddress: ''
-            // tokenICOInstance: contractService.DTUContract(contractAddress)
+            tokenAddress: tokenAddress,
+            tokenIcoInstance: ''
         };
     },
 
@@ -31,19 +32,16 @@ let ICODetail = injectIntl(React.createClass({
     },
 
     async componentDidMount() {
-        // TODO smooth / less hackish scroll to ticketId
-        // if (this.props.params.ticketId && this.refs["ticket-" + this.props.params.ticketId]) {
-        //     var ticketOffset = this.refs["ticket-" + this.props.params.ticketId].offsetTop;
-        //     window.scroll(0, ticketOffset);
-        // }
         await this.readTokenIcoFromDtbs();
-        // try {
-        //     console.log('====================================')
-        //     console.log("Test")
-        //     console.log('====================================')
-        // } catch (err) {
-        //     this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
-        // }
+        this.props.flux.actions.config.updateAlertCount(null);
+        let tokenIcoInstance = new contractService.TokenICOContract(tokenAddress);
+        try {
+            this.setState({
+                tokenIcoInstance: tokenIcoInstance
+            });
+        } catch (err) {
+            this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
+        }
     },
 
     setAlert(alertLevel, alertMessage) {
@@ -76,24 +74,27 @@ let ICODetail = injectIntl(React.createClass({
         await databaseRef.once('value', function (snapshot) {
             item = snapshot.val();
         });
+
+        tokenAddress = await item.address;
+
         this.setState({
-            tokenIco: item
+            tokenIco: item,
+            tokenAddress: tokenAddress
         });
-        console.log(item);
     },
-    
+
     async onMintToken(e) {
         e.preventDefault();
         try {
-            const account = await TokenICO.getAccount();
-            await TokenICO.mint(account, this.state.tokenAddress, this.state.tokenAmount);
-          } catch (err) {
-              this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
-          }
-          this.setState({
+            let account = await this.state.tokenIcoInstance.getAccount();
+            await this.state.tokenIcoInstance.mint(account, this.state.tokenAddress, this.state.tokenAmount);
+        } catch (err) {
+            this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
+        }
+        this.setState({
             tokenAmount: null,
             tokenAddress: null
-          });
+        });
     },
 
     render() {
@@ -161,7 +162,7 @@ let ICODetail = injectIntl(React.createClass({
                                     </div>
                                 </div>
                             </div>
-                        
+
                             {/* ----------- To mint token ----------- */}
                             <div className="col-md-6">
                                 <form className="form-horizontal" role="form" onSubmit={this.onMintToken} >
@@ -171,13 +172,13 @@ let ICODetail = injectIntl(React.createClass({
                                         placeholder="10"
                                         label="Amount" labelClassName="sr-only"
                                         value={this.state.amount}
-                                        />
-                                    
+                                    />
+
                                     <Input type="text" ref="address"
                                         placeholder="0xa75b2d7b277919c224b198743c88efe608ba8c1e"
                                         label="To Address" labelClassName="sr-only"
                                         value={this.state.address}
-                                        />
+                                    />
 
                                     <div className="form-group">
                                         <Button className={"btn-block" + (this.state.newWithdrawal ? " btn-primary" : "")} type="submit" key="toaddress">

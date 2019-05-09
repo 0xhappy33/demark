@@ -17,7 +17,6 @@ import contractService from '../../clients/contractService';
 
 let contractAddress;
 
-
 let TokenDetail = injectIntl(React.createClass({
 
     getInitialState() {
@@ -38,7 +37,8 @@ let TokenDetail = injectIntl(React.createClass({
             currentBonus: '',
             totalSupply: '',
             currentState: '',
-            walletBalance: ''
+            walletBalance: '',
+            tokens: ''
         };
     },
 
@@ -47,16 +47,12 @@ let TokenDetail = injectIntl(React.createClass({
     },
 
     async componentDidMount() {
-        contractAddress = await this.props.params.id;
+        await this.readFromDtbs();
         let DTU = new contractService.DTUContract(contractAddress);
         this.props.flux.actions.config.updateAlertCount(null);
         try {
             let accounts = await DTU.getAccount();
-            let name = await DTU.getName();
-            let symbol = await DTU.getSymbol();
-            let rating = await DTU.getRating();
             let balance = await DTU.getBalance(accounts);
-            let cashier = await DTU.getCashier();
             let totalSupply = await DTU.getTotalSupply();
             let creator = await DTU.getCreator();
             let currentBonus = await DTU.getYourBonus(accounts);
@@ -65,21 +61,42 @@ let TokenDetail = injectIntl(React.createClass({
 
             this.setState({
                 accounts: accounts,
-                contractName: name,
-                symbol: symbol,
                 balance: balance,
-                rating: rating,
-                cashier: cashier,
                 totalSupply: totalSupply,
-                creator: creator,
                 currentBonus: currentBonus,
                 currentState: currentState,
-                walletBalance: walletBalance
+                walletBalance: walletBalance,
+                creator: creator,
+                dtuInstance: DTU
             });
 
         } catch (err) {
             this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
         }
+    },
+
+    async readFromDtbs() {
+        var databaseRef = firebase.database().ref("/tokens/" + this.props.params.id);
+        var item;
+        await databaseRef.once('value', function (snapshot) {
+            item = snapshot.val();
+        });
+        contractAddress = await item.address;
+        let contractDescription = await item.description;
+        let name = await item.name;
+        let symbol = await item.symbol;
+        let rating = await item.rating;
+        let cashier = await item.cashier;
+
+        this.setState({
+            tokens: item,
+            contractDescription: contractDescription,
+            contractName: name,
+            symbol: symbol,
+            rating: rating,
+            cashier: cashier,
+            addressContract:contractAddress
+        });
     },
 
     setAlert(alertLevel, alertMessage) {
@@ -103,29 +120,30 @@ let TokenDetail = injectIntl(React.createClass({
                 </div>
                 <div className="panel-body">
                     <div className="container-fluid">
-                        <SubDeposit 
+                        <SubDeposit
+                            dtuInstance={this.state.dtuInstance}
                             balance={this.state.balance}
                             contractName={this.state.contractName}
-                            accounts={this.state.accounts}
+                            // accounts={this.state.accounts}
                             user={this.props.user.user}
-                            setAlert={this.setAlert} 
+                            setAlert={this.setAlert}
                             showAlert={this.showAlert} />
+
                     </div>
                 </div>
             </div>
         );
     },
-    
     withdraw() {
-        if(this.state.currentState < 0) {
-            return(
-            <div className="panel panel-default">
-                <div className="panel-heading">
-                    <h3 className="panel-title">
-                        Not able to withdraw at this moment!
+        if (this.state.currentState < 0) {
+            return (
+                <div className="panel panel-default">
+                    <div className="panel-heading">
+                        <h3 className="panel-title">
+                            Not able to withdraw at this moment!
                     </h3>
-                </div>
-            </div>)
+                    </div>
+                </div>)
         }
         return (
             <div className="panel panel-default">
@@ -137,10 +155,12 @@ let TokenDetail = injectIntl(React.createClass({
                 </div>
                 <div className="panel-body">
                     <div className="container-fluid">
-                        <SubWithdraw 
+                        <SubWithdraw
+                            dtuInstance={this.state.dtuInstance}
+                            contractAddress={contractAddress}
                             balance={this.state.balance}
                             contractName={this.state.contractName}
-                            accounts={this.state.accounts}
+                            // accounts={this.state.accounts}
                             user={this.props.user.user}
                             setAlert={this.setAlert} showAlert={this.showAlert} />
                     </div>
@@ -158,10 +178,11 @@ let TokenDetail = injectIntl(React.createClass({
                 </div>
                 <div className="panel-body">
                     <div className="container-fluid">
-                        <SubSend 
+                        <SubSend
+                            dtuInstance={this.state.dtuInstance}
                             balance={this.state.balance}
                             contractName={this.state.contractName}
-                            accounts={this.state.accounts}
+                            // accounts={this.state.accounts}
                             user={this.props.user.user}
                             setAlert={this.setAlert} showAlert={this.showAlert} />
                     </div>
@@ -179,16 +200,17 @@ let TokenDetail = injectIntl(React.createClass({
                 </div>
                 <div className="panel-body">
                     <div className="container-fluid">
-                        <SubBuyToken 
+                        <SubBuyToken
+                            dtuInstance={this.state.dtuInstance}
                             balance={this.state.balance}
                             contractName={this.state.contractName}
-                            accounts={this.state.accounts} 
+                            // accounts={this.state.accounts}
                             amount={this.state.amount}
                             rating={this.state.rating}
                             symbol={this.state.symbol}
                             walletBalance={this.state.walletBalance}
                             user={this.props.user.user}
-                            setAlert={this.setAlert} 
+                            setAlert={this.setAlert}
                             showAlert={this.showAlert} />
                     </div>
                 </div>
@@ -205,8 +227,13 @@ let TokenDetail = injectIntl(React.createClass({
                 </div>
                 <div className="panel-body">
                     <div className="container-fluid">
-                        <SubReward symbol={this.state.symbol} accounts={this.state.accounts} user={this.props.user.user}
-                            setAlert={this.setAlert} showAlert={this.showAlert} />
+                        <SubReward
+                            dtuInstance={this.state.dtuInstance}
+                            symbol={this.state.symbol}
+                            // accounts={this.state.accounts}
+                            user={this.props.user.user}
+                            setAlert={this.setAlert}
+                            showAlert={this.showAlert} />
                     </div>
                 </div>
             </div>
@@ -214,8 +241,8 @@ let TokenDetail = injectIntl(React.createClass({
     },
 
     notification(currState) {
-        if(currState < 0) {
-            return(
+        if (currState < 0) {
+            return (
                 <div className="panel panel-default">
                     <div className="panel-heading">
                         <p className="panel-title">Contract out of money</p>
@@ -244,7 +271,9 @@ let TokenDetail = injectIntl(React.createClass({
                                             </div>
                                             <div className="panel-body">
                                                 <div className="container-fluid">
-                                                    <span style={{color: 'blue'}}>{this.state.cashier}</span>
+                                                    {/* <span style={{ color: 'blue' }}>{this.state.cashier}</span> */}
+                                                    <span>{this.state.cashier}</span>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -253,64 +282,69 @@ let TokenDetail = injectIntl(React.createClass({
                                 <div className="row">
                                     <div className="col-md-3">
                                         <div className="panel panel-default">
-                                                <div className="panel-heading">
-                                                    <h3 className="panel-title" style={{fontSize: '12px', textAlign: 'center'}}>Balance</h3>
-                                                </div>
-                                                <div className="panel-body">
-                                                    <div className="container-fluid">
-                                                        <span style={{color: 'blue'}}>{this.state.balance}</span>
-                                                    </div>
+                                            <div className="panel-heading">
+                                                <h3 className="panel-title" style={{ fontSize: '12px', textAlign: 'center' }}>Balance</h3>
+                                            </div>
+                                            <div className="panel-body">
+                                                <div className="container-fluid">
+                                                    <span style={{ color: 'blue' }}>{this.state.balance}</span>
                                                 </div>
                                             </div>
+                                        </div>
                                     </div>
                                     <div className="col-md-3">
-                                            <div className="panel panel-default">
-                                                <div className="panel-heading">
-                                                    <h3 className="panel-title" style={{fontSize: '12px', textAlign: 'center'}}>Total supply</h3>
-                                                </div>
-                                                <div className="panel-body">
-                                                    <div className="container-fluid">
-                                                    <span style={{color: 'blue'}}>{this.state.totalSupply}</span>
-                                                    </div>
+                                        <div className="panel panel-default">
+                                            <div className="panel-heading">
+                                                <h3 className="panel-title" style={{ fontSize: '12px', textAlign: 'center' }}>Award</h3>
+                                            </div>
+                                            <div className="panel-body">
+                                                <div className="container-fluid">
+                                                    <span style={{ color: 'blue' }}>{this.state.currentBonus}</span>
                                                 </div>
                                             </div>
+                                        </div>
                                     </div>
                                     <div className="col-md-3">
-                                            <div className="panel panel-default">
-                                                <div className="panel-heading">
-                                                    <h3 className="panel-title" style={{fontSize: '12px', textAlign: 'center'}}>Rating</h3>
-                                                </div>
-                                                <div className="panel-body">
-                                                    <div className="container-fluid">
-                                                    <span style={{color: 'blue'}}>{this.state.rating}</span>
-                                                    </div>
+                                        <div className="panel panel-default">
+                                            <div className="panel-heading">
+                                                <h3 className="panel-title" style={{ fontSize: '12px', textAlign: 'center' }}>Total supply</h3>
+                                            </div>
+                                            <div className="panel-body">
+                                                <div className="container-fluid">
+                                                    {/* <span style={{ color: 'blue' }}>{this.state.totalSupply}</span> */}
+                                                    <span>{this.state.totalSupply}</span>
+
                                                 </div>
                                             </div>
+                                        </div>
                                     </div>
                                     <div className="col-md-3">
-                                            <div className="panel panel-default">
-                                                <div className="panel-heading">
-                                                    <h3 className="panel-title" style={{fontSize: '12px', textAlign: 'center'}}>Award</h3>
-                                                </div>
-                                                <div className="panel-body">
-                                                    <div className="container-fluid">
-                                                        <span style={{color: 'blue'}}>{this.state.currentBonus}</span>
-                                                    </div>
+                                        <div className="panel panel-default">
+                                            <div className="panel-heading">
+                                                <h3 className="panel-title" style={{ fontSize: '12px', textAlign: 'center' }}>Rating</h3>
+                                            </div>
+                                            <div className="panel-body">
+                                                <div className="container-fluid">
+                                                    {/* <span style={{ color: 'blue' }}>{this.state.rating}</span> */}
+                                                    <span >{this.state.rating}</span>
+
                                                 </div>
                                             </div>
+                                        </div>
                                     </div>
+                                    
                                 </div>
                             </div>
                             <div className="col-md-6">
                                 <h2>About {this.state.contractName}</h2>
                                 <h5>Creator</h5>
-                                <span style={{color: 'blue'}}>{this.state.creator}</span>
-                                <br/>
-                                <small>Tokens for tuition fees at Duy Tan university
-                                </small>
-                                
+                                {/* <span style={{ color: 'blue' }}>{this.state.creator}</span> */}
+                                <span>{this.state.creator}</span>
+                                <br />
+                                <small>{this.state.contractDescription}</small>
+
                                 {this.notification(this.state.currentState)}
-                                
+
                             </div>
                         </div>
                         <hr />
@@ -323,8 +357,8 @@ let TokenDetail = injectIntl(React.createClass({
                                         {this.deposit()}
                                     </Tab>
                                     <Tab eventKey={2} title={this.props.intl.formatMessage({ id: 'withdraw.currency' }, { currency: this.state.symbol })}>
-                                                {this.withdraw()
-                                                }
+                                        {this.withdraw()
+                                        }
                                     </Tab>
                                     <Tab eventKey={3} title={this.props.intl.formatMessage({ id: 'send.currency' }, { currency: this.state.symbol })}>
                                         {this.transfer()}
@@ -348,13 +382,13 @@ let TokenDetail = injectIntl(React.createClass({
                         <hr />
                         <div className="row">
                             {/* {(!this.props.market.market.txs.error) && */}
-                                <TxsList 
-                                    title="Transactions history" 
-                                    // flux={this.props.flux} 
-                                    market={this.props.market}
-                                    addressContract={this.state.addressContract}
-                                    // txs={this.props.market.market.txs} 
-                                    user={this.props.user} />
+                            <TxsList
+                                title="Transactions history"
+                                // flux={this.props.flux} 
+                                market={this.props.market}
+                                addressContract={this.state.addressContract}
+                                // txs={this.props.market.market.txs} 
+                                user={this.props.user} />
                         </div>
                     </div>
                 </div>
