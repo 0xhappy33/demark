@@ -15,6 +15,7 @@ import sha3 from '../clients/sha3';
 let TxsList = React.createClass({
 
   getInitialState() {
+    
     return {
         addressContract: this.props.addressContract,
         apiDeposit : `https://api-rinkeby.etherscan.io/api?module=logs&action=getLogs&fromBlock=0&toBlock=latest&address=${this.props.addressContract}&topic0=${sha3.topicDeposit()}&apikey=NQNPZCN9E9X3BX5WEGISP84158T55AMW21`,
@@ -25,7 +26,7 @@ let TxsList = React.createClass({
   },
 
   render: function() {
-    // console.log("API", this.state.apiDeposit);
+    // console.log("im here 18 txlist ",this.props.addressContract);
     return (
       <div>
         <div className="container-fluid row">

@@ -8,6 +8,8 @@ import TxsRowDeposit from '../txs/TxsRowDeposit';
 
 import axios from 'axios';
 
+import sha3 from '../../clients/sha3';
+
 let TxsDepositTable = React.createClass({
 
   getInitialState: function () {
@@ -17,8 +19,9 @@ let TxsDepositTable = React.createClass({
     return {
       market: market,
       addressContract: this.props.addressContract,
-      apiDeposit: this.props.apiDeposit,
-      result: []
+      // apiDeposit: this.props.apiDeposit,
+      result: [],
+      apiDeposit : `https://api-rinkeby.etherscan.io/api?module=logs&action=getLogs&fromBlock=0&toBlock=latest&address=${this.props.addressContract}&topic0=${sha3.topicDeposit()}&apikey=NQNPZCN9E9X3BX5WEGISP84158T55AMW21`,
     };
   },
 
@@ -43,6 +46,8 @@ let TxsDepositTable = React.createClass({
   },
 
   render: function () {
+    console.log("46 txDeposit table ",this.state.addressContract);
+    
     var txsRowDeposit = _.sortBy(this.state.result, 'blockNumber').map(function (result) {
       return (
         <TxsRowDeposit result={result} user={this.props.user} />

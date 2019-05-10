@@ -69,7 +69,8 @@ let TokenDetail = injectIntl(React.createClass({
                 creator: creator,
                 dtuInstance: DTU
             });
-
+            console.log("72 tokendetails ",contractAddress);
+            
         } catch (err) {
             this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
         }
@@ -384,10 +385,10 @@ let TokenDetail = injectIntl(React.createClass({
                             {/* {(!this.props.market.market.txs.error) && */}
                             <TxsList
                                 title="Transactions history"
-                                // flux={this.props.flux} 
+                                flux={this.props.flux} 
                                 market={this.props.market}
                                 addressContract={this.state.addressContract}
-                                // txs={this.props.market.market.txs} 
+                                txs={this.props.market.market.txs} 
                                 user={this.props.user} />
                         </div>
                     </div>

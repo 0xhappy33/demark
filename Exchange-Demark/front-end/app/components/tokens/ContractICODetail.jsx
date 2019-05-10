@@ -7,7 +7,7 @@ import Progress from "react-progress-2";
 import AlertDismissable from '../AlertDismissable';
 import SubBuyToken from './SubBuyToken';
 import SubWithDrawToken from './SubWithDrawToken';
-// import SubCheckGoal from './SubCheckGoal';
+import SubCheckGoal from './SubCheckGoal';
 
 import firebase from 'firebase';
 
@@ -56,6 +56,7 @@ let ContractICODetail = injectIntl(React.createClass({
         await this.readFromDtbsToTable();
         this.props.flux.actions.config.updateAlertCount(null);
         let icoInstance = new contractService.ICOContract(icoAddress);
+        // contractAddress = this.props.params.contracticoId
         try {
             this.setState({
                 icoInstance: icoInstance
@@ -67,12 +68,18 @@ let ContractICODetail = injectIntl(React.createClass({
     },
 
     async readFromDtbsToTable() {
-        var databaseRef = firebase.database().ref("/contract_ico/" + contractAddress);
+        console.log("71 cIDetail ",this.props.params.contracticoId);
+        
+        var databaseRef = firebase.database().ref("/contract_ico/" + this.props.params.contracticoId);
         var item;
         await databaseRef.once('value', function (snapshot) {
             item = snapshot.val();
         });
         icoAddress = await item.address;
+        this.setState({
+            contractIco:item
+        });
+
         try {
             this.setState({
                 startPreOrder: this.state.contractIco.startPreOrderTime,
@@ -138,36 +145,36 @@ let ContractICODetail = injectIntl(React.createClass({
         );
     },
 
-    // checkGoal() {
-    //     return (
-    //         <div className="panel panel-default">
-    //             <div className="panel-heading">
-    //                 <h3 className="panel-title">
-    //                     <FormattedMessage id='form.checkgoal' />
-    //                 </h3>
-    //             </div>
-    //             <div className="panel-body">
-    //                 <div className="container-fluid">
-    //                     <SubCheckGoal
-    //                         icoInstance={this.state.icoInstance}
-    //                         endOrder={this.state.endOrder}
-    //                         setAlert={this.setAlert}
-    //                         showAlert={this.showAlert} />
-    //                 </div>
-    //             </div>
-    //         </div>
-    //     );
-    // },
-
-    async onCheckGoal(e) {
-        e.preventDefault();
-        try {
-            let account = await this.state.icoInstance.getAccount();
-            await this.state.icoInstance.checkGoalReached(account);
-        } catch (err) {
-            this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
-        }
+    checkGoal() {
+        return (
+            <div className="panel panel-default">
+                <div className="panel-heading">
+                    <h3 className="panel-title">
+                        <FormattedMessage id='form.checkgoal' />
+                    </h3>
+                </div>
+                <div className="panel-body">
+                    <div className="container-fluid">
+                        <SubCheckGoal
+                            icoInstance={this.state.icoInstance}
+                            endOrder={this.state.endOrder}
+                            setAlert={this.setAlert}
+                            showAlert={this.showAlert} />
+                    </div>
+                </div>
+            </div>
+        );
     },
+
+    // async onCheckGoal(e) {
+    //     e.preventDefault();
+    //     try {
+    //         let account = await this.state.icoInstance.getAccount();
+    //         await this.state.icoInstance.checkGoalReached(account);
+    //     } catch (err) {
+    //         this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
+    //     }
+    // },
 
     buy() {
         return (

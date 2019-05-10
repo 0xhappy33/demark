@@ -42,6 +42,8 @@ let TxsBuyTable = React.createClass({
   },
 
   render: function() {
+    console.log("45 txbuytable ",this.state.addressContract);
+    
     var txsRowBuy = _.sortBy(this.state.result, 'blockNumber').map(function (result) {
       return (
         <TxsRowBuy result={result} user={this.props.user} />
