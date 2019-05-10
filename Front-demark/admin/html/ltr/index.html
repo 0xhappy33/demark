@@ -271,21 +271,8 @@
 
                                         if (res.address) {
                                             var uid = $(this).attr('name');
-                                            // alert(uid);
-                                            var data = {
-                                                name: dataRow[0],
-                                                symbol: dataRow[1],
-                                                rating: dataRow[2],
-                                                decimals: dataRow[3],
-                                                cashier: dataRow[4],
-                                                description: dataRow[5],
-                                                address: res.address,
-                                                approve: true
-                                            }
-                                            // alert(data);
-                                            var updates = {};
-                                            updates['/tokens/' + uid] = data;
-                                            firebase.database().ref().update(updates);
+                                            firebase.database().ref('/tokens/' + uid + '/address').set(res.address);
+                                            firebase.database().ref('/tokens/' + uid + '/approve').set(true);
                                             alert('Your token have been deployed');
                                             dataRow = [];
                                         }
@@ -375,14 +362,8 @@
 
                                         if (res.address) {
                                             var uid = $(this).attr('name');
-                                            // alert(uid);
-                                            var data = {
-                                                address: res.address,
-                                                approve: true
-                                            }
-                                            var updates = {};
-                                            updates['/contract_ico/' + uid] = data;
-                                            firebase.database().ref().update(updates);
+                                            firebase.database().ref('/contract_ico/' + uid + '/address').set(res.address);
+                                            firebase.database().ref('/contract_ico/' + uid + '/approve').set(true);
                                             alert('Your ico have been deployed');
                                             dataRow = [];
                                         }
@@ -423,20 +404,9 @@
 
                                         if (res.address) {
                                             var uid = $(this).attr('name');
-                                            // alert(uid);
-                                            var data = {
-                                                name: dataRow[0],
-                                                symbol: dataRow[1],
-                                                totalSupply: dataRow[3],
-                                                decimals: dataRow[2],
-                                                address: res.address,
-                                                // owner:currentAccount,
-                                                approve: true
-                                            }
-                                            // alert(data);
-                                            var updates = {};
-                                            updates['/tokens_ico/' + uid] = data;
-                                            firebase.database().ref().update(updates);
+                                            
+                                            firebase.database().ref('/tokens_ico/' + uid + '/address').set(res.address);
+                                            firebase.database().ref('/tokens_ico/' + uid + '/approve').set(true);
                                             alert('Your token ico have been deployed');
                                             dataRow = [];
                                         }

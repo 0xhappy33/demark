@@ -57,7 +57,7 @@ class Market extends React.Component {
             snapshot.forEach(function (childSnapshot) {
                 var item = childSnapshot.val();
                 item.key = childSnapshot.key;
-                if (item.approve == false) {
+                if (item.approve == true) {
                     icoData.push(item);
                     index++;
                 }
