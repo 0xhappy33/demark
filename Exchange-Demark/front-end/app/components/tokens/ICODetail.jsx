@@ -6,11 +6,12 @@ import Progress from "react-progress-2";
 
 import firebase from 'firebase'
 import contractService from '../../clients/contractService';
-
+import SubMintToken from ' ./SubMintToken'
 // const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
 
 // let TokenICO = new contractService.TokenICOContract(contractAddress);
 let tokenAddress;
+// let tokenIcoInstance;
 
 let ICODetail = injectIntl(React.createClass({
 
@@ -21,9 +22,10 @@ let ICODetail = injectIntl(React.createClass({
             alertMessage: '',
             accounts: '',
             contractName: '',
-            tokenAmount: '',
+            tokenAmount: null,
             tokenAddress: tokenAddress,
-            tokenIcoInstance: ''
+            tokenIcoInstance: '',
+            toICOAddress:null
         };
     },
 
@@ -35,8 +37,8 @@ let ICODetail = injectIntl(React.createClass({
         await this.readTokenIcoFromDtbs();
         this.props.flux.actions.config.updateAlertCount(null);
         let tokenIcoInstance = new contractService.TokenICOContract(tokenAddress);
-        console.log("38 ico details",tokenIcoInstance);
-        
+        console.log("38 ico details", tokenIcoInstance);
+
         try {
             this.setState({
                 tokenIcoInstance: tokenIcoInstance
@@ -44,6 +46,82 @@ let ICODetail = injectIntl(React.createClass({
         } catch (err) {
             this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
         }
+    },
+
+    openModal: function () {
+        this.setState({ showModal: true });
+    },
+
+    closeModal: function () {
+        this.setState({ showModal: false });
+    },
+
+    handleValidation: function (e) {
+        e.preventDefault();
+        if (this.validate(e, true))
+            this.openModal();
+    },
+
+    // validate: function (e, showAlerts) {
+    //     e.preventDefault();
+
+    //     // var address = this.refs.address.getValue().trim();
+    //     var amount = this.refs.amount.getValue().trim();
+
+    //     this.setState({
+    //         amount: amount
+    //     });
+
+    //     // if (!address || !amount) {
+    //     //   this.props.setAlert('warning', this.props.intl.formatMessage({id: 'form.empty'}));
+    //     // }
+    //     if (!amount) {
+    //         this.props.setAlert('warning', this.props.intl.formatMessage({ id: 'form.cheap' }));
+    //     }
+    //     else if (parseFloat(amount / this.props.rating) > this.props.walletBalance) {
+    //         this.props.setAlert('warning', this.props.intl.formatMessage({ id: 'sub.not_enough' }, {
+    //             currency: "ETH",
+    //             balance: this.props.walletBalance
+    //         })
+    //         );
+    //     }
+    //     else {
+    //         this.setState({
+    //             newSend: true,
+    //             confirmMessage:
+    //                 <FormattedMessage
+    //                     id='sub.buy'
+    //                     values={{
+    //                         amount: this.state.amount,
+    //                         symbol: this.props.symbol,
+    //                         rating: this.state.rating,
+    //                         currency: "ETH",
+    //                         value: this.state.amount / this.props.rating
+    //                     }}
+    //                 />
+    //         });
+
+    //         this.props.showAlert(false);
+
+    //         return true;
+    //     }
+
+    //     this.setState({
+    //         newSend: false
+    //     });
+
+    //     if (showAlerts)
+    //         this.props.showAlert(true);
+
+    //     return false;
+    // },
+
+    handleChange(e) {
+        e.preventDefault();
+        // this.validate(e);
+        this.setState({
+            [e.target.name]: e.target.value
+        })
     },
 
     setAlert(alertLevel, alertMessage) {
@@ -79,21 +157,43 @@ let ICODetail = injectIntl(React.createClass({
 
         tokenAddress = await item.address;
 
-        console.log("82 token ico ",tokenAddress);
-        
+        console.log("82 token ico ", tokenAddress);
+
         this.setState({
             tokenIco: item,
             tokenAddress: tokenAddress
         });
     },
 
+    mint() {
+        return (
+            <div className="panel panel-default">
+                <div className="panel-heading">
+                    <h3 className="panel-title">
+                        <FormattedMessage id='send.fund' values={{ currency: "ETH" }} />
+                    </h3>
+                </div>
+                <div className="panel-body">
+                    <div className="container-fluid">
+                        <SubMintToken
+                            tokenIcoInstance={this.state.tokenIcoInstance}
+                            // accounts={this.state.accounts}
+                            setAlert={this.setAlert}
+                            showAlert={this.showAlert} />
+                    </div>
+                </div>
+            </div>
+        );
+    },
+
     async onMintToken(e) {
         e.preventDefault();
+        let toICO = this.state.toICOAddress;
+        let toAmount = this.state.tokenAmount;
         try {
             let account = await this.state.tokenIcoInstance.getAccount();
-            console.log("90 token ico, ",this.state.tokenIcoInstance);
-            
-            await this.state.tokenIcoInstance.mint(account, this.state.tokenAddress, this.state.tokenAmount);
+            console.log(account, toICO, toAmount);
+            await this.state.tokenIcoInstance.mint(account, toICO, toAmount);
         } catch (err) {
             this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
         }
@@ -175,15 +275,19 @@ let ICODetail = injectIntl(React.createClass({
 
                                     <h2>TO MINT TOKEN</h2>
                                     <Input type="number" ref="amount"
-                                        placeholder="10"
+                                        placeholder="amount"
                                         label="Amount" labelClassName="sr-only"
-                                        value={this.state.amount}
+                                        name="tokenAmount"
+                                        onChange={e => this.handleChange(e)}
+                                        value={this.state.tokenAmount}
                                     />
 
                                     <Input type="text" ref="address"
-                                        placeholder="0xa75b2d7b277919c224b198743c88efe608ba8c1e"
+                                        placeholder="to address"
                                         label="To Address" labelClassName="sr-only"
-                                        value={this.state.address}
+                                        name="toICOAddress"
+                                        onChange={e => this.handleChange(e)}
+                                        value={this.state.toICOAddress || ""}
                                     />
 
                                     <div className="form-group">

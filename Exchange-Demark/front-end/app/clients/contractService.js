@@ -27,6 +27,19 @@ const _mint = async (_instance, _currentAcc, _to, _amount) => {
     });
 }
 
+
+//send token to a specific address
+const _sendToken = async (_instance, _currentAcc, _to, _amount) => {
+    return new Promise((resolve, reject) => {
+        _instance.transfer.sendTransaction(_to, _amount, {
+            from: _currentAcc
+        }, (err, data) => {
+            if (err) reject(err);
+            resolve(data);
+        });
+    });
+}
+
 const _buyTokenForICO = async (_instance, _currentAcc, _amount, _value) => {
     return new Promise((resolve, reject) => {
         _instance.buyCoin.sendTransaction(_amount, {
@@ -64,17 +77,6 @@ const _checkGoalReached = async (_instance, _currentAcc) => {
 
 
 
-//send token to a specific address
-const _sendToken = async (_instance, _currentAcc, _to, _amount) => {
-    return new Promise((resolve, reject) => {
-        _instance.transfer.sendTransaction(_to, _amount, {
-            from: _currentAcc
-        }, (err, data) => {
-            if (err) reject(err);
-            resolve(data);
-        });
-    });
-}
 //burn token , get eth back
 const _burn = async (_instance, _currentAcc, _amount) => {
     return new Promise((resolve, reject) => {
