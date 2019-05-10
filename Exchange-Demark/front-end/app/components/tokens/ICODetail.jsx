@@ -35,6 +35,8 @@ let ICODetail = injectIntl(React.createClass({
         await this.readTokenIcoFromDtbs();
         this.props.flux.actions.config.updateAlertCount(null);
         let tokenIcoInstance = new contractService.TokenICOContract(tokenAddress);
+        console.log("38 ico details",tokenIcoInstance);
+        
         try {
             this.setState({
                 tokenIcoInstance: tokenIcoInstance
@@ -77,6 +79,8 @@ let ICODetail = injectIntl(React.createClass({
 
         tokenAddress = await item.address;
 
+        console.log("82 token ico ",tokenAddress);
+        
         this.setState({
             tokenIco: item,
             tokenAddress: tokenAddress
@@ -87,6 +91,8 @@ let ICODetail = injectIntl(React.createClass({
         e.preventDefault();
         try {
             let account = await this.state.tokenIcoInstance.getAccount();
+            console.log("90 token ico, ",this.state.tokenIcoInstance);
+            
             await this.state.tokenIcoInstance.mint(account, this.state.tokenAddress, this.state.tokenAmount);
         } catch (err) {
             this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });

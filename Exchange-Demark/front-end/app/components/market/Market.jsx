@@ -150,7 +150,7 @@ class Market extends React.Component {
                                                     {item.orderAmount}
                                                 </td>
                                                 <td className="style-row">{item.endOrderTime}</td>
-                                                <td className="style-row">{item.addressOfTokenUsed}</td>
+                                                <td className="style-row">{item.address}</td>
                                             </tr>
                                         )
                                     })}

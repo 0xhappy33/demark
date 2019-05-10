@@ -312,8 +312,8 @@ let TokenDetail = injectIntl(React.createClass({
                                             </div>
                                             <div className="panel-body">
                                                 <div className="container-fluid">
-                                                    {/* <span style={{ color: 'blue' }}>{this.state.totalSupply}</span> */}
-                                                    <span>{this.state.totalSupply}</span>
+                                                    <span style={{ color: 'blue' }}>{this.state.totalSupply}</span>
+                                                    {/* <span>{this.state.totalSupply}</span> */}
 
                                                 </div>
                                             </div>
