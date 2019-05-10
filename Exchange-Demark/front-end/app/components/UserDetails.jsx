@@ -91,18 +91,21 @@ let UserDetails = React.createClass({
   async readFromDtbsIcoToken() {
     var databaseRef = firebase.database().ref("/tokens_ico/");
     var icoTokenData = [];
-    let getAccount = await this.state.accounts;
+    let getAccount = this.state.accounts;
+    
     await databaseRef.once('value', function (snapshot) {
       snapshot.forEach(function (childSnapshot) {
         var item = childSnapshot.val();
         item.key = childSnapshot.key;
         if (item.approve == true && item.owner == getAccount) {
          icoTokenData.push(item);
-        //  console.log(item.owner);
+        //  console.log("item owner",item.owner);
         }
+        // console.log("item owner",item);
+
       });
     });
-    console.log(this.state.accounts);
+    // console.log(this.state.accounts);
     this.setState({
       icoToken: icoTokenData
     });

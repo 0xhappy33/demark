@@ -105,9 +105,9 @@ let TokenPublish = injectIntl(
     handleChange(e) {
       e.preventDefault()
       this.validate(e)
-      // this.setState({
-      //   [e.target.name]: e.target.value
-      // })
+      this.setState({
+        [e.target.name]: e.target.value
+      })
     },
 
     //  validate for form
@@ -119,7 +119,7 @@ let TokenPublish = injectIntl(
           'warning',
           this.props.intl.formatMessage({ id: 'form.smaller' })
         )
-      } 
+      }
       else if (this.state.startOrderTime > this.state.endOrderTime) {
         this.props.setAlert(
           'warning',
@@ -194,6 +194,8 @@ let TokenPublish = injectIntl(
       var decimals = this.state.decimals
       var symbol = this.state.symbol
       var totalSupply = this.state.totalSupply
+
+      // console.log(name+"  "+decimals+"" +symbol+" "+totalSupply)
 
       web3.eth.getTransactionCount(currentAccount, (error, txCount) => {
         if (error) {
@@ -303,7 +305,8 @@ let TokenPublish = injectIntl(
                 addressOfTokenUsed: addressOfTokenUsed,
                 minimumQuantity: minimumQuantity,
                 owner: currentAccount,
-                approve: false
+                approve: false,
+                address:''
               }
 
               var updates = {}

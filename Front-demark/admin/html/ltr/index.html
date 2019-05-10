@@ -245,7 +245,7 @@
                                 var childData = childSnapshot.val();
                                 if (childData.approve == false) {
                                     $('#tbl_tokens tbody').append(
-                                        `<tr><td class="font-medium">${childData.name}</td><td><span class="label label-success label-rounded">${childData.symbol}</span> </td><td class="txt-oflo">${childData.rating}</td><td class="txt-oflo">${childData.decimals}</td><td class="txt-oflo">${childData.cashier}</td><td><span class="txt-oflo">${childData.description}</span></td><td><input type="button" id="deployID" class="btn btn-success btnDeployToken" name=${childKey} value="Deploy" /></td></tr>`
+                                        `<tr><td class="font-medium">${childData.name}</td><td><span class="label label-success label-rounded">${childData.symbol}</span></td><td class="txt-oflo">${childData.rating}</td><td class="txt-oflo">${childData.decimals}</td><td class="txt-oflo">${childData.cashier}</td><td><span class="txt-oflo">${childData.description}</span></td><td><input type="button" id="deployID" class="btn btn-success btnDeployToken" name=${childKey} value="Deploy" /></td></tr>`
                                     );
                                 }
                             });
@@ -305,26 +305,35 @@
                                     $('#tbl_contract_ico tbody').append(
                                         `<tr>
                                             <td class="font-medium">
-                                                ${childData.icoName}
+                                                <dd>${childData.icoName}</dd>
                                             </td>
                                             <td class="font-medium">
-                                                ${childData.preOrderAmount}
-                                                <br/>
-                                                ${childData.orderAmount}
+                                                <dl>
+                                                    <dt>preOrderAmount</dt>
+                                                        <dd>${childData.preOrderAmount}</dd>
+                                                    <dt>orderAmount</dt>
+                                                        <dd>${childData.orderAmount}</dd>
+                                                </dl>
                                             </td>
                                             <td>
-                                                ${childData.startPreOrderTime}
-                                                <br/>
-                                                ${childData.endPreOrderTime}
-                                                <br/>
-                                                ${childData.startOrderTime}
-                                                <br/>
-                                                ${childData.endOrderTime}
+                                                <dl>
+                                                    <dt>startPreOrderTime</dt>
+                                                        <dd>${childData.startPreOrderTime}</dd>
+                                                    <dt>endPreOrderTime</dt>
+                                                        <dd>${childData.endPreOrderTime}</dd>
+                                                    <dt>startOrderTime</dt>
+                                                        <dd>${childData.startOrderTime}</dd>
+                                                    <dt>endOrderTime</dt>
+                                                        <dd>${childData.endOrderTime}</dd>    
+                                                </dl>                                     
                                             </td>
                                             <td class="txt-oflo">
-                                                ${childData.preOrderPrice}
-                                                <br/>
-                                                ${childData.orderPrice}
+                                                <dl>
+                                                    <dt>preOrderPrice</dt>
+                                                        <dd>${childData.preOrderPrice}</dd>
+                                                    <dt>orderPrice</dt>
+                                                        <dd>${childData.orderPrice}</dd>
+                                                </dl>
                                             </td>
                                             <td class="txt-oflo">
                                                 ${childData.addressOfTokenUsed}
@@ -338,21 +347,27 @@
                                         </tr>`
                                     );
                                 }
+
                             });
                             $(".btnDeployICO").click(function () {
-                                var $row = $(this).closest("tr"),
-                                    $tds = $row.find("td");
+                                var row = $(this).closest("tr");
+                                var dds = row.find("dd");
                                 let dataRow = [];
-                                $.each($tds, function () {
+                                $.each(dds, function () {
                                     dataRow.push($(this).text())
                                 });
 
                                 icoContract.new(
-                                    dataRow[0],
-                                    dataRow[3],
                                     dataRow[1],
                                     dataRow[2],
-                                    dataRow[4], {
+                                    dataRow[3],
+                                    dataRow[4],
+                                    dataRow[5],
+                                    dataRow[6],
+                                    dataRow[7],
+                                    dataRow[8],
+                                    dataRow[9],
+                                    dataRow[10], {
                                         data: `0x${tokenICOByteCode}`,
                                         from: currentAccount,
                                         gas: 4800000
@@ -362,15 +377,9 @@
                                             var uid = $(this).attr('name');
                                             // alert(uid);
                                             var data = {
-                                                name: dataRow[0],
-                                                symbol: dataRow[1],
-                                                rating: dataRow[2],
-                                                decimals: dataRow[3],
-                                                cashier: dataRow[4],
                                                 address: res.address,
                                                 approve: true
                                             }
-                                            // alert(data);
                                             var updates = {};
                                             updates['/contract_ico/' + uid] = data;
                                             firebase.database().ref().update(updates);
@@ -380,6 +389,7 @@
                                     });
 
                             });
+
                         });
                     </script>
                     <script>
@@ -390,25 +400,7 @@
                                 var childData = childSnapshot.val();
                                 if (childData.approve == false) {
                                     $('#tbl_tokens_ico tbody').append(
-                                        `<tr>
-                                                <td class="font-medium">
-                                                    ${childData.name}
-                                                </td>
-                                                <td class="font-medium">
-                                                    <span class="label label-success label-rounded">
-                                                        ${childData.symbol}
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    ${childData.decimals}
-                                                </td>
-                                                <td class="txt-oflo">
-                                                    ${childData.totalsupply}
-                                                </td>
-                                                <td>
-                                                    <input type="button" id="deployID" class="btn btn-success btnDeployTokenICO" name=${childKey} value="Deploy" />
-                                                </td>
-                                            </tr>`
+                                        `<tr><td class="font-medium">${childData.name}</td><td class="font-medium"><span class="label label-success label-rounded">${childData.symbol}</span></td><td>${childData.decimals}</td><td class="txt-oflo">${childData.totalsupply}</td><td><input type="button" id="deployID" class="btn btn-success btnDeployTokenICO" name=${childKey} value="Deploy" /></td></tr>`
                                     );
                                 }
                             });
@@ -419,12 +411,11 @@
                                 $.each($tds, function () {
                                     dataRow.push($(this).text())
                                 });
-
                                 tokenICOContract.new(
                                     dataRow[0],
                                     dataRow[2],
                                     dataRow[1],
-                                    dataRow[3],{
+                                    dataRow[3], {
                                         data: `0x${tokenICOByteCode}`,
                                         from: currentAccount,
                                         gas: 4800000
@@ -439,6 +430,7 @@
                                                 totalSupply: dataRow[3],
                                                 decimals: dataRow[2],
                                                 address: res.address,
+                                                // owner:currentAccount,
                                                 approve: true
                                             }
                                             // alert(data);
