@@ -1,17 +1,14 @@
 import React from 'react';
 import { injectIntl, FormattedMessage } from 'react-intl';
 import { Input, Button } from 'react-bootstrap';
-
+import { Tabs, Tab } from 'react-bootstrap';
 import Progress from "react-progress-2";
 
 import firebase from 'firebase'
 import contractService from '../../clients/contractService';
-import SubMintToken from ' ./SubMintToken'
+import SubMintToken from './SubMintToken';
 // const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
-
-// let TokenICO = new contractService.TokenICOContract(contractAddress);
-let tokenAddress;
-// let tokenIcoInstance;
+import AlertDismissable from '../AlertDismissable';
 
 let ICODetail = injectIntl(React.createClass({
 
@@ -23,8 +20,8 @@ let ICODetail = injectIntl(React.createClass({
             accounts: '',
             contractName: '',
             tokenAmount: null,
-            tokenAddress: tokenAddress,
-            tokenIcoInstance: '',
+            addressTokenICO: null,
+            tokenIcoInstance: null,
             toICOAddress:null
         };
     },
@@ -36,9 +33,7 @@ let ICODetail = injectIntl(React.createClass({
     async componentDidMount() {
         await this.readTokenIcoFromDtbs();
         this.props.flux.actions.config.updateAlertCount(null);
-        let tokenIcoInstance = new contractService.TokenICOContract(tokenAddress);
-        console.log("38 ico details", tokenIcoInstance);
-
+        let tokenIcoInstance = new contractService.TokenICOContract(this.state.addressTokenICO);
         try {
             this.setState({
                 tokenIcoInstance: tokenIcoInstance
@@ -48,80 +43,20 @@ let ICODetail = injectIntl(React.createClass({
         }
     },
 
-    openModal: function () {
-        this.setState({ showModal: true });
-    },
+    async readTokenIcoFromDtbs() {
+        console.log(this.props.params.tokenicoId);
+        var databaseRef = firebase.database().ref("/tokens_ico/" + this.props.params.tokenicoId);
+        var item;
+        await databaseRef.once('value', function (snapshot) {
+            item = snapshot.val();
+        });
 
-    closeModal: function () {
-        this.setState({ showModal: false });
-    },
+        let addressFromDB = await item.address;
 
-    handleValidation: function (e) {
-        e.preventDefault();
-        if (this.validate(e, true))
-            this.openModal();
-    },
-
-    // validate: function (e, showAlerts) {
-    //     e.preventDefault();
-
-    //     // var address = this.refs.address.getValue().trim();
-    //     var amount = this.refs.amount.getValue().trim();
-
-    //     this.setState({
-    //         amount: amount
-    //     });
-
-    //     // if (!address || !amount) {
-    //     //   this.props.setAlert('warning', this.props.intl.formatMessage({id: 'form.empty'}));
-    //     // }
-    //     if (!amount) {
-    //         this.props.setAlert('warning', this.props.intl.formatMessage({ id: 'form.cheap' }));
-    //     }
-    //     else if (parseFloat(amount / this.props.rating) > this.props.walletBalance) {
-    //         this.props.setAlert('warning', this.props.intl.formatMessage({ id: 'sub.not_enough' }, {
-    //             currency: "ETH",
-    //             balance: this.props.walletBalance
-    //         })
-    //         );
-    //     }
-    //     else {
-    //         this.setState({
-    //             newSend: true,
-    //             confirmMessage:
-    //                 <FormattedMessage
-    //                     id='sub.buy'
-    //                     values={{
-    //                         amount: this.state.amount,
-    //                         symbol: this.props.symbol,
-    //                         rating: this.state.rating,
-    //                         currency: "ETH",
-    //                         value: this.state.amount / this.props.rating
-    //                     }}
-    //                 />
-    //         });
-
-    //         this.props.showAlert(false);
-
-    //         return true;
-    //     }
-
-    //     this.setState({
-    //         newSend: false
-    //     });
-
-    //     if (showAlerts)
-    //         this.props.showAlert(true);
-
-    //     return false;
-    // },
-
-    handleChange(e) {
-        e.preventDefault();
-        // this.validate(e);
         this.setState({
-            [e.target.name]: e.target.value
-        })
+            tokenIco: item,
+            addressTokenICO: addressFromDB
+        });
     },
 
     setAlert(alertLevel, alertMessage) {
@@ -135,42 +70,12 @@ let ICODetail = injectIntl(React.createClass({
         this.refs.alerts.setState({ alertVisible: show });
     },
 
-    notification(currState) {
-        if (currState < 0) {
-            return (
-                <div className="panel panel-default">
-                    <div className="panel-heading">
-                        <p className="panel-title">Contract out of money</p>
-                    </div>
-                </div>
-            )
-        }
-    },
-
-    async readTokenIcoFromDtbs() {
-        console.log(this.props.params.tokenicoId);
-        var databaseRef = firebase.database().ref("/tokens_ico/" + this.props.params.tokenicoId);
-        var item;
-        await databaseRef.once('value', function (snapshot) {
-            item = snapshot.val();
-        });
-
-        tokenAddress = await item.address;
-
-        console.log("82 token ico ", tokenAddress);
-
-        this.setState({
-            tokenIco: item,
-            tokenAddress: tokenAddress
-        });
-    },
-
     mint() {
         return (
             <div className="panel panel-default">
                 <div className="panel-heading">
                     <h3 className="panel-title">
-                        <FormattedMessage id='send.fund' values={{ currency: "ETH" }} />
+                        <FormattedMessage id='form.mint' values={{ currency: "ETH" }} />
                     </h3>
                 </div>
                 <div className="panel-body">
@@ -179,29 +84,30 @@ let ICODetail = injectIntl(React.createClass({
                             tokenIcoInstance={this.state.tokenIcoInstance}
                             // accounts={this.state.accounts}
                             setAlert={this.setAlert}
-                            showAlert={this.showAlert} />
+                            showAlert={this.showAlert} 
+                            />
                     </div>
                 </div>
             </div>
         );
     },
 
-    async onMintToken(e) {
-        e.preventDefault();
-        let toICO = this.state.toICOAddress;
-        let toAmount = this.state.tokenAmount;
-        try {
-            let account = await this.state.tokenIcoInstance.getAccount();
-            console.log(account, toICO, toAmount);
-            await this.state.tokenIcoInstance.mint(account, toICO, toAmount);
-        } catch (err) {
-            this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
-        }
-        this.setState({
-            tokenAmount: null,
-            tokenAddress: null
-        });
-    },
+    // async onMintToken(e) {
+    //     e.preventDefault();
+    //     let toICO = this.state.toICOAddress;
+    //     let toAmount = this.state.tokenAmount;
+    //     try {
+    //         let account = await this.state.tokenIcoInstance.getAccount();
+    //         console.log(account, toICO, toAmount);
+    //         await this.state.tokenIcoInstance.mint(account, toICO, toAmount);
+    //     } catch (err) {
+    //         this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
+    //     }
+    //     this.setState({
+    //         tokenAmount: null,
+    //         tokenAddress: null
+    //     });
+    // },
 
     render() {
         return (
@@ -212,6 +118,7 @@ let ICODetail = injectIntl(React.createClass({
                     <div className="container">
                         {/* For mint token */}
                         <div className="row">
+                        <AlertDismissable ref="alerts" level={this.state.alertLevel} message={this.state.alertMessage} />
                             {/* ----------- ICO TOKEN DETAIL ----------- */}
                             <div className="col-md-6">
                                 <h1>TOKEN ICO</h1>
@@ -271,33 +178,11 @@ let ICODetail = injectIntl(React.createClass({
 
                             {/* ----------- To mint token ----------- */}
                             <div className="col-md-6">
-                                <form className="form-horizontal" role="form" onSubmit={this.onMintToken} >
-
-                                    <h2>TO MINT TOKEN</h2>
-                                    <Input type="number" ref="amount"
-                                        placeholder="amount"
-                                        label="Amount" labelClassName="sr-only"
-                                        name="tokenAmount"
-                                        onChange={e => this.handleChange(e)}
-                                        value={this.state.tokenAmount}
-                                    />
-
-                                    <Input type="text" ref="address"
-                                        placeholder="to address"
-                                        label="To Address" labelClassName="sr-only"
-                                        name="toICOAddress"
-                                        onChange={e => this.handleChange(e)}
-                                        value={this.state.toICOAddress || ""}
-                                    />
-
-                                    <div className="form-group">
-                                        <Button className={"btn-block" + (this.state.newWithdrawal ? " btn-primary" : "")} type="submit" key="toaddress">
-                                            <FormattedMessage id='form.mint' />
-                                        </Button>
-                                    </div>
-                                </form>
-
+                                
+                                {this.mint()}
                             </div>
+                            {/* ----------- end mint token ----------- */}
+
                         </div>
                     </div>
                 </div>

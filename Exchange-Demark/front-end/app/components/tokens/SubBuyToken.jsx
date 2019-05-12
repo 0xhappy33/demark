@@ -141,7 +141,7 @@ let SubBuyToken = injectIntl(React.createClass({
     var startOrder = Date.parse(this.props.startOrder);
     var endOrder = Date.parse(this.props.endOrder);
     if(nowInt < startPreOrder || nowInt > endOrder || (nowInt>endPreOrder&&nowInt<startOrder)){
-      alert('yyyyyyy')
+      alert('Cant buy now')
     } else  {
       try {
         let accounts = await this.props.icoInstance.getAccount();
