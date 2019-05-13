@@ -61,14 +61,20 @@ window.onload = async function () {
     ///===== token ico
 
     tokenICOAbi = contractCompile.contracts[':TokenICO'].interface;
+    
     tokenICOByteCode = contractCompile.contracts[':TokenICO'].bytecode;
+
     tokenICOContract = web3.eth.contract(JSON.parse(tokenICOAbi));
 
     //======= contract ico
 
     icoAbi = contractCompile.contracts[':ICO'].interface;
     icoByteCode = contractCompile.contracts[':ICO'].bytecode;
+    // console.log("abi token ico 66 submit token ",icoAbi);
+
     icoContract = web3.eth.contract(JSON.parse(icoAbi));
+    // console.log("abi token ico 66 submit token ",icoContract);
+
 
     //===========
 
