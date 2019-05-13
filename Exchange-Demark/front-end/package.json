@@ -101,6 +101,7 @@
     "react-qr": "^0.0.2",
     "react-router": "^2.0.1",
     "react-router-dom": "^4.3.1",
+    "react-svg-piechart": "^2.4.0",
     "si-prefix": "^0.1.0",
     "techan": "caktux/techan.js",
     "ua-parser-js": "^0.7.10",
