@@ -139,7 +139,23 @@ const _getUserBalance = async (_instance,_account) => {
 }
 
 
+const _getTokenRemain = async (_instance) => {
+    return new Promise((resolve, reject) => {
+        _instance.tokenRemaining.call((err, data) => {
+            if (err) reject(err);
+            resolve(data.c[0]);
+        });
+    });
+}
 
+const _getTokenRemainInPre = async (_instance) => {
+    return new Promise((resolve, reject) => {
+        _instance.tokenRemainingInPre.call((err, data) => {
+            if (err) reject(err);
+            resolve(data.c[0]);
+        });
+    });
+}
 
 
 const _getTokenSoldInPre = async (_instance) => {
@@ -503,6 +519,13 @@ class ICOContract {
         return getMetaAccounts();
     }
 
+    getTokenRemain() {
+        return _getTokenRemain(this.instance);
+    }
+
+    getTokenRemainInPre() {
+        return _getTokenRemainInPre(this.instance);
+    }
 }
 
 class TokenICOContract {

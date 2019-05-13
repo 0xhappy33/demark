@@ -323,10 +323,10 @@
                                                 </dl>
                                             </td>
                                             <td class="txt-oflo">
-                                                ${childData.addressOfTokenUsed}
+                                                <dd>${childData.addressOfTokenUsed}</dd>
                                             </td>
                                             <td class="txt-oflo">
-                                                ${childData.minimumQuantity}
+                                                <dd>${childData.minimumQuantity}</dd>
                                             </td>
                                             <td>
                                                 <input type="button" id="deployID" class="btn btn-success btnDeployICO" name=${childKey} value="Deploy" />
@@ -344,18 +344,23 @@
                                     dataRow.push($(this).text())
                                 });
 
+                                let start_Pre = new Date(dataRow[3]).getTime()/1000;
+                                let end_Pre = new Date(dataRow[4]).getTime()/1000;
+                                let start_Or = new Date(dataRow[5]).getTime()/1000;
+                                let end_Or = new Date(dataRow[6]).getTime()/1000;
+
+                                let amoutSell = [dataRow[1],dataRow[2]]
+                                let timeLine = [start_Pre,end_Pre,start_Or,end_Or]
+                                let price = [dataRow[7],dataRow[8]]
+
+                                
                                 icoContract.new(
-                                    dataRow[1],
-                                    dataRow[2],
-                                    dataRow[3],
-                                    dataRow[4],
-                                    dataRow[5],
-                                    dataRow[6],
-                                    dataRow[7],
-                                    dataRow[8],
+                                    amoutSell,
+                                    timeLine,
+                                    price,
                                     dataRow[9],
                                     dataRow[10], {
-                                        data: `0x${tokenICOByteCode}`,
+                                        data: `0x${icoByteCode}`,
                                         from: currentAccount,
                                         gas: 4800000
                                     }, async (err, res) => {
@@ -392,6 +397,7 @@
                                 $.each($tds, function () {
                                     dataRow.push($(this).text())
                                 });
+
                                 tokenICOContract.new(
                                     dataRow[0],
                                     dataRow[2],
@@ -404,7 +410,7 @@
 
                                         if (res.address) {
                                             var uid = $(this).attr('name');
-                                            
+
                                             firebase.database().ref('/tokens_ico/' + uid + '/address').set(res.address);
                                             firebase.database().ref('/tokens_ico/' + uid + '/approve').set(true);
                                             alert('Your token ico have been deployed');

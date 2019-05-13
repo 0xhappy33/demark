@@ -268,67 +268,65 @@ let TokenDetail = injectIntl(React.createClass({
                                     <div className="col-md-12">
                                         <div className="panel panel-default">
                                             <div className="panel-heading">
-                                                <h3 className="panel-title">Cashier</h3>
+                                                <h3 className="panel-title" style={{textAlign: 'center' }}>Cashier</h3>
                                             </div>
                                             <div className="panel-body">
-                                                <div className="container-fluid">
-                                                    {/* <span style={{ color: 'blue' }}>{this.state.cashier}</span> */}
-                                                    <span>{this.state.cashier}</span>
-
+                                                <div className="container-fluid" style={{textAlign: 'center' }}>
+                                                    <span >{this.state.cashier}</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-md-3">
+                                    <div className="col-md-4">
                                         <div className="panel panel-default">
                                             <div className="panel-heading">
-                                                <h3 className="panel-title" style={{ fontSize: '12px', textAlign: 'center' }}>Balance</h3>
+                                                <h3 className="panel-title" style={{textAlign: 'center' }}>Balance</h3>
                                             </div>
                                             <div className="panel-body">
-                                                <div className="container-fluid">
+                                                <div className="container-fluid"style={{textAlign: 'center' }}>
                                                     <span style={{ color: 'blue' }}>{this.state.balance}</span>
+                                                    <span>&nbsp;{this.state.symbol}</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-md-3">
+                                    <div className="col-md-4">
                                         <div className="panel panel-default">
                                             <div className="panel-heading">
-                                                <h3 className="panel-title" style={{ fontSize: '12px', textAlign: 'center' }}>Award</h3>
+                                                <h3 className="panel-title" style={{textAlign: 'center' }}>Award</h3>
                                             </div>
                                             <div className="panel-body">
-                                                <div className="container-fluid">
+                                                <div className="container-fluid"style={{textAlign: 'center' }}>
                                                     <span style={{ color: 'blue' }}>{this.state.currentBonus}</span>
+                                                    <span>&nbsp;{this.state.symbol}</span>
+
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-md-3">
+                                    <div className="col-md-4">
                                         <div className="panel panel-default">
                                             <div className="panel-heading">
-                                                <h3 className="panel-title" style={{ fontSize: '12px', textAlign: 'center' }}>Total supply</h3>
+                                                <h3 className="panel-title" style={{textAlign: 'center' }}>Total supply</h3>
                                             </div>
-                                            <div className="panel-body">
-                                                <div className="container-fluid">
+                                            <div className="panel-body" >
+                                                <div className="container-fluid" style={{ textAlign: 'center' }}>
                                                     <span style={{ color: 'blue' }}>{this.state.totalSupply}</span>
-                                                    {/* <span>{this.state.totalSupply}</span> */}
-
+                                                    <span>&nbsp;{this.state.symbol}</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-md-3">
+                                    <div className="col-md-12">
                                         <div className="panel panel-default">
                                             <div className="panel-heading">
-                                                <h3 className="panel-title" style={{ fontSize: '12px', textAlign: 'center' }}>Rating</h3>
+                                                <h3 className="panel-title" style={{ textAlign: 'center' }}>Rating</h3>
                                             </div>
                                             <div className="panel-body">
-                                                <div className="container-fluid">
-                                                    {/* <span style={{ color: 'blue' }}>{this.state.rating}</span> */}
-                                                    <span >{this.state.rating}</span>
-
+                                                <div className="container-fluid"style={{textAlign: 'center' }}>
+                                                    <span >{this.state.rating}&nbsp;{this.state.symbol}/ETH</span>
                                                 </div>
                                             </div>
                                         </div>

@@ -118,7 +118,7 @@ module.exports = {
       "wallet": "Wallet",
       "account": "Account",
       "request": "Request Token",
-      "publish": "Publish Token",
+      "publish": "ICO Service",
       "tools": "Tool",
       "help": "Help"
     },
