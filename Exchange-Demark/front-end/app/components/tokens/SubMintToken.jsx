@@ -4,7 +4,7 @@ import { Button, Input } from 'react-bootstrap';
 
 import 'babel-polyfill';
 
-import ConfirmModal from './ConfirmModal';
+import ConfirmModal from '../ConfirmModal';
 
 import contractService from '../../clients/contractService';
 

@@ -6,7 +6,7 @@ import Progress from "react-progress-2";
 
 import firebase from 'firebase'
 import contractService from '../../clients/contractService';
-import SubMintToken from ' ./SubMintToken'
+import SubMintToken from './SubMintToken'
 // const contractAddress = "0x9541ee8a0d873055b1951037db437374c1999323";
 
 // let TokenICO = new contractService.TokenICOContract(contractAddress);
@@ -192,8 +192,8 @@ let ICODetail = injectIntl(React.createClass({
         let toAmount = this.state.tokenAmount;
         try {
             let account = await this.state.tokenIcoInstance.getAccount();
-            console.log(account, toICO, toAmount);
-            await this.state.tokenIcoInstance.mint(account, toICO, toAmount);
+            console.log("195,"+account, toICO, toAmount);
+            await this.state.tokenIcoInstance.mint(account,toICO,toAmount);
         } catch (err) {
             this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
         }
