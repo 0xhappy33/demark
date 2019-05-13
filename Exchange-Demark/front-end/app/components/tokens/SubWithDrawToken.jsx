@@ -94,7 +94,7 @@ let SubWithDrawToken = injectIntl(React.createClass({
     var nowInt = Date.parse(now);
     var endOrder = Date.parse(this.props.endOrder);
     if(nowInt<=endOrder){
-      alert('yyyyyyy')
+      alert('This ICO have not finished yet')
     }
     else{
       // ICO = new contractService.ICOContract(this.state.contractAddress);

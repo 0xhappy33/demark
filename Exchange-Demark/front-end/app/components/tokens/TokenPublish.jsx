@@ -2,6 +2,8 @@ import React from 'react'
 import { injectIntl, FormattedMessage } from 'react-intl'
 import firebase from 'firebase'
 import web3 from '../../clients/web3'
+import {Dropdown} from 'react-bootstrap';
+
 
 let currentAccount
 

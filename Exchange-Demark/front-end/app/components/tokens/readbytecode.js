@@ -1,10 +1,846 @@
 module.exports = {
     getAbiContractICO(){
-        return [ { constant: false, inputs: [ [Object] ], name: 'destroy', outputs: [], payable: false, stateMutability: 'nonpayable', type: 'function' }, { constant: true, inputs: [ [Object] ], name: 'amountOf', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: false, inputs: [], name: 'checkGoalReached', outputs: [], payable: false, stateMutability: 'nonpayable', type: 'function' }, { constant: true, inputs: [], name: 'amountPreOrder', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: true, inputs: [], name: 'preOrderBasePrice', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: true, inputs: [], name: 'tokenSoldInPreEther', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: true, inputs: [], name: 'startPreOrder', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: true, inputs: [], name: 'startOrder', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: true, inputs: [], name: 'tokenSold', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: true, inputs: [], name: 'isReachedGoal', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: true, inputs: [ [Object] ], name: 'amountInEtherOf', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: true, inputs: [], name: 'tokenRemaining', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: true, inputs: [], name: 'amountOrder', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: true, inputs: [], name: 'fundingGoal', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: true, inputs: [], name: 'endOrder', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: false, inputs: [ [Object] ], name: 'buyCoin', outputs: [], payable: true, stateMutability: 'payable', type: 'function' }, { constant: true, inputs: [], name: 'orderBasePrice', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: true, inputs: [], name: 'owner', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: true, inputs: [], name: 'tokenSoldAfterPre', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: true, inputs: [], name: 'tokenRemainingInPre', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: true, inputs: [], name: 'inst', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: true, inputs: [], name: 'isClosed', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: true, inputs: [], name: 'tokenConnected', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: true, inputs: [], name: 'tokenSoldAfterPreEther', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: true, inputs: [], name: 'tokenSoldInPre', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: true, inputs: [], name: 'endPreOrder', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: true, inputs: [], name: 'limitedPreOrderSize', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: false, inputs: [ [Object] ], name: 'transferOwnership', outputs: [], payable: false, stateMutability: 'nonpayable', type: 'function' }, { constant: false, inputs: [], name: 'safeWithdrawal', outputs: [], payable: false, stateMutability: 'nonpayable', type: 'function' }, { inputs: [ [Object], [Object], [Object], [Object], [Object] ], payable: false, stateMutability: 'nonpayable', type: 'constructor' }, { anonymous: false, inputs: [ [Object], [Object] ], name: 'GoalReached', type: 'event' }, { anonymous: false, inputs: [ [Object], [Object], [Object] ], name: 'FinalizeICO', type: 'event' }, { anonymous: false, inputs: [ [Object], [Object] ], name: 'OwnershipTransferred', type: 'event' } ]
+        return [
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "name": "to",
+                        "type": "address"
+                    }
+                ],
+                "name": "destroy",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [
+                    {
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "name": "amountOf",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [],
+                "name": "checkGoalReached",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "amountPreOrder",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "preOrderBasePrice",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "tokenSoldInPreEther",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "startPreOrder",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "startOrder",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "tokenSold",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "isReachedGoal",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "bool"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [
+                    {
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "name": "amountInEtherOf",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "tokenRemaining",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "amountOrder",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "fundingGoal",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "endOrder",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "name": "amountBuy",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "buyCoin",
+                "outputs": [],
+                "payable": true,
+                "stateMutability": "payable",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "orderBasePrice",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "owner",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "tokenSoldAfterPre",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "tokenRemainingInPre",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "inst",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "isClosed",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "bool"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "tokenConnected",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "tokenSoldAfterPreEther",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "tokenSoldInPre",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "endPreOrder",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "limitedPreOrderSize",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "name": "newOwner",
+                        "type": "address"
+                    }
+                ],
+                "name": "transferOwnership",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [],
+                "name": "safeWithdrawal",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "name": "amountForSell",
+                        "type": "uint256[]"
+                    },
+                    {
+                        "name": "_timeLine",
+                        "type": "uint256[]"
+                    },
+                    {
+                        "name": "_price",
+                        "type": "uint256[]"
+                    },
+                    {
+                        "name": "addressOfTokenUsed",
+                        "type": "address"
+                    },
+                    {
+                        "name": "limited",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "constructor"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "name": "owner",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": true,
+                        "name": "sold",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "GoalReached",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "name": "sender",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": true,
+                        "name": "amount",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": true,
+                        "name": "isContribution",
+                        "type": "bool"
+                    }
+                ],
+                "name": "FinalizeICO",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "name": "previousOwner",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": true,
+                        "name": "newOwner",
+                        "type": "address"
+                    }
+                ],
+                "name": "OwnershipTransferred",
+                "type": "event"
+            }
+        ]
     },
 
     getAbiTokenICO(){
-        return [ { constant: true, inputs: [], name: 'name', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: false, inputs: [ [Object], [Object] ], name: 'approve', outputs: [ [Object] ], payable: false, stateMutability: 'nonpayable', type: 'function' }, { constant: true, inputs: [], name: 'totalSupply', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: false, inputs: [ [Object], [Object], [Object] ], name: 'transferFrom', outputs: [ [Object] ], payable: false, stateMutability: 'nonpayable', type: 'function' }, { constant: true, inputs: [], name: 'decimals', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: false, inputs: [ [Object], [Object] ], name: 'mint', outputs: [], payable: false, stateMutability: 'nonpayable', type: 'function' }, { constant: true, inputs: [ [Object] ], name: 'balanceOf', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: true, inputs: [], name: 'owner', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: true, inputs: [], name: 'symbol', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: false, inputs: [ [Object], [Object] ], name: 'transfer', outputs: [ [Object] ], payable: false, stateMutability: 'nonpayable', type: 'function' }, { constant: true, inputs: [ [Object], [Object] ], name: 'allowance', outputs: [ [Object] ], payable: false, stateMutability: 'view', type: 'function' }, { constant: false, inputs: [ [Object] ], name: 'transferOwnership', outputs: [], payable: false, stateMutability: 'nonpayable', type: 'function' }, { inputs: [ [Object], [Object], [Object], [Object] ], payable: false, stateMutability: 'nonpayable', type: 'constructor' }, { anonymous: false, inputs: [ [Object], [Object] ], name: 'Mint', type: 'event' }, { anonymous: false, inputs: [ [Object], [Object], [Object], [Object] ], name: 'Created', type: 'event' }, { anonymous: false, inputs: [ [Object], [Object] ], name: 'OwnershipTransferred', type: 'event' }, { anonymous: false, inputs: [ [Object], [Object], [Object] ], name: 'Transfer', type: 'event' }, { anonymous: false, inputs: [ [Object], [Object], [Object] ], name: 'Approval', type: 'event' } ]
+        return [
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "name",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "name": "_spender",
+                        "type": "address"
+                    },
+                    {
+                        "name": "_value",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "approve",
+                "outputs": [
+                    {
+                        "name": "success",
+                        "type": "bool"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "totalSupply",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "name": "_from",
+                        "type": "address"
+                    },
+                    {
+                        "name": "_to",
+                        "type": "address"
+                    },
+                    {
+                        "name": "_value",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "transferFrom",
+                "outputs": [
+                    {
+                        "name": "success",
+                        "type": "bool"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "decimals",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "name": "to",
+                        "type": "address"
+                    },
+                    {
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "mint",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [
+                    {
+                        "name": "_owner",
+                        "type": "address"
+                    }
+                ],
+                "name": "balanceOf",
+                "outputs": [
+                    {
+                        "name": "balance",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "owner",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [],
+                "name": "symbol",
+                "outputs": [
+                    {
+                        "name": "",
+                        "type": "string"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "name": "_to",
+                        "type": "address"
+                    },
+                    {
+                        "name": "_value",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "transfer",
+                "outputs": [
+                    {
+                        "name": "success",
+                        "type": "bool"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "constant": true,
+                "inputs": [
+                    {
+                        "name": "_owner",
+                        "type": "address"
+                    },
+                    {
+                        "name": "_spender",
+                        "type": "address"
+                    }
+                ],
+                "name": "allowance",
+                "outputs": [
+                    {
+                        "name": "remaining",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "constant": false,
+                "inputs": [
+                    {
+                        "name": "newOwner",
+                        "type": "address"
+                    }
+                ],
+                "name": "transferOwnership",
+                "outputs": [],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "name": "_name",
+                        "type": "string"
+                    },
+                    {
+                        "name": "_decimals",
+                        "type": "uint256"
+                    },
+                    {
+                        "name": "_symbol",
+                        "type": "string"
+                    },
+                    {
+                        "name": "_totalSupply",
+                        "type": "uint256"
+                    }
+                ],
+                "payable": false,
+                "stateMutability": "nonpayable",
+                "type": "constructor"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "name": "to",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": true,
+                        "name": "amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "Mint",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": false,
+                        "name": "name",
+                        "type": "string"
+                    },
+                    {
+                        "indexed": false,
+                        "name": "decimals",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": false,
+                        "name": "symbol",
+                        "type": "string"
+                    },
+                    {
+                        "indexed": false,
+                        "name": "totalSupply",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "Created",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "name": "previousOwner",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": true,
+                        "name": "newOwner",
+                        "type": "address"
+                    }
+                ],
+                "name": "OwnershipTransferred",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "name": "",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": true,
+                        "name": "",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": true,
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "Transfer",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "name": "",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": true,
+                        "name": "",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": true,
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "Approval",
+                "type": "event"
+            }
+        ]
     },
 
     getBytecodeContractICO(){
