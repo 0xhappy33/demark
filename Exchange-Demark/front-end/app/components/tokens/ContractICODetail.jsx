@@ -13,6 +13,7 @@ import firebase from 'firebase';
 
 let contractAddress;
 
+let today = new Date().getTime()
 
 import contractService from '../../clients/contractService';
 import { log } from 'util';
@@ -73,7 +74,7 @@ let ContractICODetail = injectIntl(React.createClass({
         await databaseRef.once('value', function (snapshot) {
             item = snapshot.val();
         });
-        // console.log("item ne ",item);
+        console.log("now is ",today);
 
         icoAddress = await item.address;
         let icoInstance = new contractService.ICOContract(icoAddress);
@@ -108,7 +109,6 @@ let ContractICODetail = injectIntl(React.createClass({
             contractIco: item
         });
 
-        // try {
         this.setState({
             startPreOrder: this.state.contractIco.startPreOrderTime,
             endPreOrder: this.state.contractIco.endPreOrderTime,
@@ -129,15 +129,7 @@ let ContractICODetail = injectIntl(React.createClass({
             // isClosed: isClosed,
             userBalance: userBalance,
             isSuccess: isSuccess
-
         })
-        // } catch (err) {
-        //     this.setState({ errorMessage: "Oops! " + err.message.split("\n")[0] });
-        // }
-
-        // console.log(this.state.isClosed);
-
-
     },
 
     setAlert(alertLevel, alertMessage) {
@@ -281,7 +273,7 @@ let ContractICODetail = injectIntl(React.createClass({
                                         {/* ----------- End token link ----------- */}
                                     </div>
 
-                                    {/* ----------- Data static ----------- */}
+                                    {/* ----------- Data change ----------- */}
                                     <div className="row">
                                         <div className="col-md-4">
                                             <div className="panel panel-default">
@@ -326,9 +318,9 @@ let ContractICODetail = injectIntl(React.createClass({
                                             </div>
                                         </div>
                                     </div>
-                                    {/* ----------- End Data static ----------- */}
+                                    {/* ----------- End Data change ----------- */}
 
-                                   {/* ----------- Data change ----------- */}
+                                   {/* ----------- Data static ----------- */}
                                     <div className="row">
                                         <div className="col-md-6">
                                             <div className="panel panel-default">
@@ -357,7 +349,7 @@ let ContractICODetail = injectIntl(React.createClass({
                                             </div>
                                         </div>
                                     </div> 
-                                    {/* ----------- End data change ----------- */}
+                                    {/* ----------- End data static ----------- */}
 
                                 </div>
                                 {/* ----------- End Left side ----------- */}
@@ -378,6 +370,7 @@ let ContractICODetail = injectIntl(React.createClass({
                                                         <span style={{ color: 'blue' }}>Stage 2: {this.state.contractIco && this.state.contractIco.endPreOrderTime}</span><br></br>
                                                         <span style={{ color: 'blue' }}>Stage 3: {this.state.contractIco && this.state.contractIco.startOrderTime}</span><br></br>
                                                         <span style={{ color: 'blue' }}>Stage 4: {this.state.contractIco && this.state.contractIco.endOrderTime}</span><br></br>
+                                                        
                                                     </div>
                                                 </div>
                                             </div>
