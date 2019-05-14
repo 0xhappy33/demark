@@ -137,37 +137,37 @@ let ICODetail = injectIntl(React.createClass({
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-md-3">
+                                    <div className="col-md-4">
                                         <div className="panel panel-default">
                                             <div className="panel-heading">
                                                 <h3 className="panel-title" style={{ fontSize: '12px', textAlign: 'center' }}>Name</h3>
                                             </div>
                                             <div className="panel-body">
-                                                <div className="container-fluid">
+                                                <div className="container-fluid" style={{  textAlign: 'center' }}>
                                                     <span style={{ color: 'blue' }}>{this.state.tokenIco && this.state.tokenIco.name}</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-md-3">
+                                    <div className="col-md-4">
                                         <div className="panel panel-default">
                                             <div className="panel-heading">
                                                 <h3 className="panel-title" style={{ fontSize: '12px', textAlign: 'center' }}>Decimals</h3>
                                             </div>
                                             <div className="panel-body">
-                                                <div className="container-fluid">
+                                                <div className="container-fluid" style={{ textAlign: 'center' }}>
                                                     <span style={{ color: 'blue' }}>{this.state.tokenIco && this.state.tokenIco.decimals}</span>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="col-md-5">
+                                    <div className="col-md-4">
                                         <div className="panel panel-default">
                                             <div className="panel-heading">
                                                 <h3 className="panel-title" style={{ fontSize: '12px', textAlign: 'center' }}>Total Supply</h3>
                                             </div>
                                             <div className="panel-body">
-                                                <div className="container-fluid">
+                                                <div className="container-fluid" style={{ textAlign: 'center' }}>
                                                     <span style={{ color: 'blue' }}>{this.state.tokenIco && this.state.tokenIco.totalsupply}</span>
                                                 </div>
                                             </div>

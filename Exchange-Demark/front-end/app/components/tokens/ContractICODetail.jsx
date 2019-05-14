@@ -52,7 +52,8 @@ let ContractICODetail = injectIntl(React.createClass({
             isSuccess: '',
             userBalance: '',
             amountRemainInPre: '',
-            amountRemain: ''
+            amountRemain: '',
+            // isSuccess:''
         };
     },
 
@@ -84,15 +85,21 @@ let ContractICODetail = injectIntl(React.createClass({
         let currentAccount = await icoInstance.getAccount();
         let amountRemainInPre = await icoInstance.getTokenRemainInPre();
         let amountRemain = await icoInstance.getTokenRemain();
+
         let statusClose = await icoInstance.getClosed();
         let finalStatus;
+        let isSuccess;
         if (!statusClose) {
-            finalStatus = "In Process"
+            isSuccess = "In Process"
         }
         else {
             finalStatus = await icoInstance.getSuccessStatus()
         }
-        let isSuccess = finalStatus.toString();
+        // console.log("aaaa ",finalStatus);
+        
+        
+        if(finalStatus) isSuccess = "Success";
+        else isSuccess = "Fail";
         let userBalance = await icoInstance.getUserBalance(currentAccount);
 
         
@@ -361,7 +368,7 @@ let ContractICODetail = injectIntl(React.createClass({
                                                 <div className="panel-body" style={{ textAlign: 'center' }}>
                                                     <div className="container-fluid">
                                                         <h5 style={{ color: 'red' }}>Stage 1</h5>
-                                                        <Countdown date={`${this.state.contractIco && this.state.contractIco.startPreOrderTime}`} />
+                                                         <Countdown date={`${this.state.contractIco && this.state.contractIco.startPreOrderTime}`} />
                                                         <h5 style={{ color: 'red' }}>Close stage 1</h5>
                                                         <Countdown date={`${this.state.contractIco && this.state.contractIco.endPreOrderTime}`} /><hr/>
                                                         <h5 style={{ color: 'red' }}>Stage 2</h5>

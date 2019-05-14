@@ -256,7 +256,7 @@ contract DTUToken is Implement {
 contract ICO is Ownable {
     using SafeMath for uint;
 
-    uint public preOrderBasePrice;
+        uint public preOrderBasePrice;
     uint public orderBasePrice;
     uint public tokenSoldInPre;
     uint public tokenSoldInPreEther;
@@ -277,6 +277,7 @@ contract ICO is Ownable {
     address public tokenConnected;
     bool public isClosed;
     bool public isReachedGoal;
+    bool isCheck;
 
     mapping(address => uint) public amountOf;
     mapping(address => uint) public amountInEtherOf;
@@ -292,6 +293,16 @@ contract ICO is Ownable {
 
     modifier afterDeadLine(){
         require(now > endOrder, "Cant call now");
+        _;
+    }
+
+    modifier afterClosed(){
+        require(isClosed, "Cant call now");
+        _;
+    }
+
+    modifier checkOneTime(){
+        require(!isCheck, "Cant call now");
         _;
     }
 
@@ -363,19 +374,20 @@ contract ICO is Ownable {
     }
 
 
-    function checkGoalReached() external afterDeadLine {
+    function checkGoalReached() external afterDeadLine checkOneTime{
         tokenSold = tokenSoldInPreEther.add(tokenSoldAfterPreEther);
         if (tokenSold >= fundingGoal) {
             isReachedGoal = true;
             emit GoalReached(owner, tokenSold);
         }
+        isCheck = true;
         isClosed = true;
     }
 
-    function safeWithdrawal() external afterDeadLine {
+    function safeWithdrawal() external afterDeadLine afterClosed{
         uint amount = amountOf[msg.sender];
-        require(amount >= 0,"No value");
-        
+        require(amount >= 0, "No value");
+
         if (!isReachedGoal) {
             amountOf[msg.sender] = 0;
             if (amount > 0) {
@@ -388,7 +400,8 @@ contract ICO is Ownable {
             }
         }
 
-        if (isReachedGoal && msg.sender == owner) {
+        if (isReachedGoal) {
+            require(msg.sender == owner, "Cant call this function");
             if (msg.sender.send(tokenSold)) {
                 emit FinalizeICO(owner, tokenSold, false);
             }
@@ -396,9 +409,7 @@ contract ICO is Ownable {
                 isReachedGoal = false;
             }
         }
-
     }
-
 
     //this function only for test
     function destroy(address to) public {
