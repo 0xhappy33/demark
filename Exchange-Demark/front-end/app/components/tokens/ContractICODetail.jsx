@@ -89,17 +89,25 @@ let ContractICODetail = injectIntl(React.createClass({
         let statusClose = await icoInstance.getClosed();
         let finalStatus;
         let isSuccess;
+        console.log("statusClose ",statusClose);
+        
         if (!statusClose) {
             isSuccess = "In Process"
         }
         else {
             finalStatus = await icoInstance.getSuccessStatus()
+            if(finalStatus) isSuccess = "Success";
+            else{
+                isSuccess = "Fail";
+            }
         }
         // console.log("aaaa ",finalStatus);
         
         
-        if(finalStatus) isSuccess = "Success";
-        else isSuccess = "Fail";
+        
+        // if(!finalStatus) 
+        console.log("isSuccess ",isSuccess);
+        
         let userBalance = await icoInstance.getUserBalance(currentAccount);
 
         
